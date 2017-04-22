@@ -1,6 +1,21 @@
-Project Description, personnel
-Open-source license
-Travis Widget
-Link to Google Sheet
-Link to notes
-Stubs
+# Service Robot
+[![Build Status](https://travis-ci.org/StevieG47/Service-Robot.svg?branch=master)](https://travis-ci.org/StevieG47/ServiceRobot)
+
+## Overview
+
+
+## License
+MIT open-source license, see LICENSE.TXT
+
+## Link to AIP Sheet
+[Team Agile Iterative Process](https://docs.google.com/spreadsheets/d/1iFT3fMAvNtwBAL32Rg6VP-Avbg5zfWhtl9Rwo7dgiHw/edit#gid=1455614482)
+
+## Link to notes
+[Spring Planning Notes and Review](https://docs.google.com/document/d/1rKvWalXGmUbCn-tPqvxoK4kGyR2MJIU4lqQ_D-8Y_HA/edit)
+
+Stubs:
+
+Operation/run/test/demo steps,
+Dependencies,
+Known issues/bugs,
+API and other developer documentation (e.g. parameters and their definitions and default values)
