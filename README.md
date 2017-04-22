@@ -3,7 +3,6 @@
 
 ## Overview
 
-
 ## License
 MIT open-source license, see LICENSE.TXT
 
@@ -13,9 +12,10 @@ MIT open-source license, see LICENSE.TXT
 ## Link to notes
 [Spring Planning Notes and Review](https://docs.google.com/document/d/1rKvWalXGmUbCn-tPqvxoK4kGyR2MJIU4lqQ_D-8Y_HA/edit)
 
-Stubs:
+## Operation and Demo
 
-Operation/run/test/demo steps,
-Dependencies,
-Known issues/bugs,
-API and other developer documentation (e.g. parameters and their definitions and default values)
+## Dependencies
+
+## Known Issues
+
+## Developer Documentation
