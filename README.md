@@ -1,5 +1,5 @@
 # Service Robot
-[![Build Status](https://travis-ci.org/StevieG47/Service-Robot.svg?branch=master)](https://travis-ci.org/StevieG47/ServiceRobot)
+[![Build Status](https://travis-ci.org/StevieG47/Service-Robot.svg?branch=master)](https://travis-ci.org/StevieG47/Service-Robot)
 
 ## Overview
 
