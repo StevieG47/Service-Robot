@@ -15,6 +15,17 @@ MIT open-source license, see LICENSE.TXT
 ## Operation and Demo
 
 ## Dependencies
+- Ubuntu 14.04
+- ROS indigo
+- TurtleBot_Gazebo
+- Package Dependencies
+    - roscpp
+    - std_msgs
+    - message_generation
+    - geometry_msgs
+    - move_base_msgs
+    - pocketsphinx
+    - sound_play
 
 ## Known Issues
 
