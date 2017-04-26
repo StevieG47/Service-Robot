@@ -4,6 +4,10 @@
 ## Overview
 This is an indoor service robot project which can take simple voice commands from the end user, and navigate autonomously to perform a required task. This indoor service robot is implemented in ROS Gazebo simulation environment using the TurtleBot as the base platform.
 
+## Authors
+- Steven Gambino
+- Huei-Tzu (Jane) Tsai
+
 ## License
 MIT open-source license, see LICENSE.TXT
 
