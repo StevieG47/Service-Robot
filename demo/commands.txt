@@ -1,0 +1,19 @@
+time
+name
+go to living room
+go to dining room
+come back
+stop
+play music
+stop music
+how are you
+what time is it
+what is your name
+keep going
+where are you
+what day is today
+volume up
+volume down
+mute
+unmute
+silent
