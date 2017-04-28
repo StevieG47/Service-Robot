@@ -39,21 +39,23 @@
 #include <std_msgs/String.h>
 #include "servicebot/commandService.h"
 #include "servicebot.hpp"
+#include "action.hpp"
 
 void ServiceBot::initialize(ros::NodeHandle &n) {
-
     ROS_INFO_STREAM("ServiceBot::initialize");
 
+    nodeHandle = n;
+
     // Subscribe topic serviceCommand from master to receive messages published on this topic
-    commandSub = n.subscribe("/servicebot/command", 1000,
+    commandSub = nodeHandle.subscribe("/servicebot/command", 1000,
                                       &ServiceBot::commandCallback, this);
 
     // Register to publish topic 
-    commandPub = n.advertise<std_msgs::String>("/servicebot/command", 1000);
+    commandPub = nodeHandle.advertise<std_msgs::String>("/servicebot/command", 1000);
 
     // Register service with the master
     commandServer =
-        n.advertiseService("commandService", &ServiceBot::commandService, this);
+        nodeHandle.advertiseService("commandService", &ServiceBot::commandService, this);
 
     return;
 }
@@ -79,6 +81,17 @@ bool ServiceBot::commandService(
 
 void ServiceBot::commandCallback(const std_msgs::String::ConstPtr& msg) {
     ROS_INFO_STREAM("ServiceRobot::commandCallback: receive " << msg->data.c_str());
+
+    if (strcmp(msg->data.c_str(), "name") == 0) {
+        action.execute(nodeHandle, Action::ACT_NAME);
+    } else if (strcmp(msg->data.c_str(), "time") == 0) {
+        action.execute(nodeHandle, Action::ACT_TIME);
+    } else if (strcmp(msg->data.c_str(), "play music") == 0) {
+        action.execute(nodeHandle, Action::ACT_PLAYMUSIC);
+    } else if (strcmp(msg->data.c_str(), "stop music") == 0) {
+        action.execute(nodeHandle, Action::ACT_STOPMUSIC);
+    } else
+        ;
 
     return;
 }

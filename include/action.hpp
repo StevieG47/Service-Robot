@@ -22,40 +22,48 @@
  *  SOFTWARE.
  ********************************************************************/
 
-/** @file servicebot.hpp
- *  @brief Definition of class ServiceBot
+/** @file action.hpp
+ *  @brief Definition of class Action
  *
- *  This file contains definitions of class ServiceBot
+ *  This file contains definitions of class Action
  *
- *  @author Huei-Tzu Tsai
+ *  @author Huei Tzu Tsai
  *          Steven Gambino
  *  @date   04/27/2017
 */
 
-#ifndef INCLUDE_SERVICEBOT_HPP_
-#define INCLUDE_SERVICEBOT_HPP_
+#ifndef INCLUDE_ACTION_HPP_
+#define INCLUDE_ACTION_HPP_
 
 #include <ros/ros.h>
-#include <std_msgs/String.h>
-#include <servicebot/commandService.h>
-#include "action.hpp"
+#include <string>
+
 
 /**
- *  @brief Class definition of ServiceBot class
+ *  @brief Class definition of Action class
 */
-class ServiceBot {
+class Action {
  public:
-     void initialize(ros::NodeHandle &);
-     void commandCallback(const std_msgs::String::ConstPtr&);
-     bool commandService(servicebot::commandService::Request &,
-                         servicebot::commandService::Response &);
+    enum act {
+        ACT_NAME = 0,
+        ACT_TIME,
+        ACT_LOCATION,
+        ACT_PLAYMUSIC,
+        ACT_STOPMUSIC,
+        ACT_MUTE,
+        ACT_UNMUTE,
+        ACT_MOVE = 0x20,
+        ACT_STOPMOVE,
+        ACT_COMEBACK
+    };
+
+    int getStatus(void) { return status; }
+    int execute(ros::NodeHandle &, int, const std::string & args="");
+
 
  private:
-     ros::NodeHandle nodeHandle;
-     ros::Subscriber commandSub;
-     ros::Publisher commandPub;
-     ros::ServiceServer commandServer;
-     Action action;
+    int action;
+    int status;
 };
 
-#endif  // INCLUDE_SERVICEBOT_HPP_
+#endif  // INCLUDE_ACTION_HPP_

@@ -160,7 +160,7 @@ add_executable(servicebot
   src/main.cpp 
   src/soundcontrol.cpp
   src/servicebot.cpp
-
+  src/action.cpp
 )
 target_link_libraries(servicebot ${catkin_LIBRARIES})
 
