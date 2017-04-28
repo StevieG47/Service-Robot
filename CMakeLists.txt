@@ -58,11 +58,10 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
+add_service_files(
+  FILES
+  commandService.srv
+)
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -72,10 +71,10 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   geometry_msgs#   move_base_msgs#   std_msgs
-# )
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -160,6 +159,7 @@ include_directories(
 add_executable(servicebot
   src/main.cpp 
   src/soundcontrol.cpp
+  src/servicebot.cpp
 
 )
 target_link_libraries(servicebot ${catkin_LIBRARIES})

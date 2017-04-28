@@ -22,15 +22,13 @@
  *  SOFTWARE.
  ********************************************************************/
 
-/**
- *  @file main.cpp
- *  @brief Initial file of servicebot node
+/** @file servicebot.cpp
+ *  @brief Implementation of class ServiceBot methods
  *
- *  This file contains main entry point of a service robot
+ *  This file contains implemenation of callback function in ServiceBot
+ *  class.
  *
- *
- *
- *  @author Huei-Tzu Tsai
+ *  @author Huei Tzu Tsai
  *          Steven Gambino
  *  @date   04/27/2017
 */
@@ -39,34 +37,49 @@
 #include <stdlib.h>
 #include <ros/ros.h>
 #include <std_msgs/String.h>
-#include "soundcontrol.hpp"
+#include "servicebot/commandService.h"
 #include "servicebot.hpp"
 
-/*
- *   @brief  service robot entrypoint
- *  
- *   @param  number of arguments
- *   @param  argument character array
- *   @return integer 0 upon exit success
-*/
-int main(int argc, char **argv) {
-    ros::init(argc, argv, "servicerobot");
+void ServiceBot::initialize(ros::NodeHandle &n) {
 
-    ros::NodeHandle n;
-    ServiceBot serviceBot;
-    SoundControl soundCtl;
+    ROS_INFO_STREAM("ServiceBot::initialize");
 
-    serviceBot.initialize(n);
-    soundCtl.initialize(n);
+    // Subscribe topic serviceCommand from master to receive messages published on this topic
+    commandSub = n.subscribe("/servicebot/command", 1000,
+                                      &ServiceBot::commandCallback, this);
 
-    ros::Rate loop_rate(10);
+    // Register to publish topic 
+    commandPub = n.advertise<std_msgs::String>("/servicebot/command", 1000);
 
-    while (ros::ok()) {
-        ros::spinOnce();
+    // Register service with the master
+    commandServer =
+        n.advertiseService("commandService", &ServiceBot::commandService, this);
 
-        loop_rate.sleep();
-    }
+    return;
+}
 
-    return 0;
+
+bool ServiceBot::commandService(
+        servicebot::commandService::Request &req,
+        servicebot::commandService::Response &resp) {
+    std_msgs::String msg;
+
+    ROS_INFO_STREAM("ServiceBot::commandService: receive req = " << req.command << "," << req.action);
+
+    std::stringstream ss;
+    ss << req.command << " " << req.action;
+    msg.data = ss.str();
+
+    // send messages
+    commandPub.publish(msg);
+
+    return true;
+}
+
+
+void ServiceBot::commandCallback(const std_msgs::String::ConstPtr& msg) {
+    ROS_INFO_STREAM("ServiceRobot::commandCallback: receive " << msg->data.c_str());
+
+    return;
 }
 

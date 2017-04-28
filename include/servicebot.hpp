@@ -22,43 +22,37 @@
  *  SOFTWARE.
  ********************************************************************/
 
-/** @file soundcontrol.hpp
- *  @brief Definition of class SoundControl
+/** @file servicebot.hpp
+ *  @brief Definition of class ServiceBot
  *
- *  This file contains definitions of class SoundControl which subscribes to
- *  /recognizer/output topic and parses voice command from end user
+ *  This file contains definitions of class ServiceBot
  *
  *  @author Huei-Tzu Tsai
  *          Steven Gambino
- *  @date   04/25/2017
+ *  @date   04/27/2017
 */
 
-#ifndef INCLUDE_SOUNDCONTROL_HPP_
-#define INCLUDE_SOUNDCONTROL_HPP_
+#ifndef INCLUDE_SERVICEBOT_HPP_
+#define INCLUDE_SERVICEBOT_HPP_
 
-#include <string>
 #include <ros/ros.h>
 #include <std_msgs/String.h>
-#include <sound_play/sound_play.h>
+#include <servicebot/commandService.h>
 
 /**
- *  @brief Class definition of SoundControl class
+ *  @brief Class definition of ServiceBot class
 */
-class SoundControl {
+class ServiceBot {
  public:
      void initialize(ros::NodeHandle &);
-     void speechCallback(const std_msgs::String::ConstPtr&);
-     void say(std::string);
-     void stopSaying(std::string);
-     void play(std::string);
-     void stopPlaying(std::string);
-     void stopAll(void);
+     void commandCallback(const std_msgs::String::ConstPtr&);
+     bool commandService(servicebot::commandService::Request &,
+                         servicebot::commandService::Response &);
 
  private:
-
+     ros::Subscriber commandSub;
      ros::Publisher commandPub;
-     ros::Subscriber recognitionSub;
-     sound_play::SoundClient soundClient;
+     ros::ServiceServer commandServer;
 };
 
-#endif  // INCLUDE_SOUNDCONTROL_HPP_
+#endif  // INCLUDE_SERVICEBOT_HPP_

@@ -47,6 +47,10 @@ void SoundControl::initialize(ros::NodeHandle &n) {
     // Subscribe topic /recognizer/output to receive voice commands from user
     recognitionSub = n.subscribe<std_msgs::String>("/recognizer/output", 1000,
                                       &SoundControl::speechCallback, this);
+
+    // Register to publish topic on /servicerobot/command to send voice commands to 
+    // service robot
+    commandPub = n.advertise<std_msgs::String>("/servicebot/command", 1000);
     return;
 }
 
@@ -56,6 +60,10 @@ void SoundControl::speechCallback(const std_msgs::String::ConstPtr& msg) {
     // parse speech commands and publish on topic serviceCommand
 
     ROS_INFO_STREAM("SoundControl::speechCallback: publish " << msg->data.c_str());
+
+    // send messages
+    commandPub.publish(msg);
+
     return;
 }
 
