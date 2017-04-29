@@ -1,4 +1,4 @@
 string command
-string action
+string args
 ---
 string resp

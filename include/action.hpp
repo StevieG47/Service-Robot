@@ -36,7 +36,28 @@
 #define INCLUDE_ACTION_HPP_
 
 #include <ros/ros.h>
+#include <geometry_msgs/Pose.h>
 #include <string>
+#include "soundcontrol.hpp"
+#include "navigation.hpp"
+
+
+struct location {
+    std::string loc;
+    double pointX;
+    double pointY;
+    double pointZ;
+    double orientationX;
+    double orientationY;
+    double orientationZ;
+    double orientationW;
+
+    location(std::string s, double px, double py, double pz,
+             double ox, double oy, double oz, double ow) : 
+             loc(s), pointX(px), pointY(py), pointZ(pz),
+             orientationX(ox), orientationY(oy), orientationZ(oz),
+             orientationW(ow) {}
+};
 
 
 /**
@@ -44,26 +65,36 @@
 */
 class Action {
  public:
-    enum act {
-        ACT_NAME = 0,
-        ACT_TIME,
-        ACT_LOCATION,
-        ACT_PLAYMUSIC,
-        ACT_STOPMUSIC,
-        ACT_MUTE,
-        ACT_UNMUTE,
-        ACT_MOVE = 0x20,
-        ACT_STOPMOVE,
-        ACT_COMEBACK
-    };
+     enum act {
+         ACT_NAME = 0,
+         ACT_TIME,
+         ACT_LOCATION,
+         ACT_PLAYMUSIC,
+         ACT_STOPMUSIC,
+         ACT_MOVETO = 0x20,
+         ACT_STOPMOVETO,
+         ACT_COMEBACK,
+         ACT_FORWARD,
+         ACT_BACKWARD,
+         ACT_TURNLEFT,
+         ACT_TURNRIGHT,
+         ACT_STOPMOVE
+     };
 
-    int getStatus(void) { return status; }
-    int execute(ros::NodeHandle &, int, const std::string & args="");
+
+     void initialize(ros::NodeHandle &);
+     int getStatus(void) { return status; }
+     int execute(int, const std::string & args="");
 
 
  private:
-    int action;
-    int status;
+     int action;
+     int status;
+     ros::NodeHandle nodeHandle;
+     SoundControl soundCtl;
+     Navigation naviCtl;
+
+     int navigate(int, const std::string & args="");
 };
 
 #endif  // INCLUDE_ACTION_HPP_

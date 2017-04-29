@@ -1,19 +1,18 @@
 time
+what time is it
 name
-go to living room
-go to dining room
-come back
-stop
+what is your name
 play music
 stop music
-how are you
-what time is it
-what is your name
-keep going
 where are you
 what day is today
-volume up
-volume down
-mute
-unmute
-silent
+move forward
+move backward
+foward
+backward
+turn left
+turn right
+stop moving
+abort
+cancel
+stop
