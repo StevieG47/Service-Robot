@@ -37,6 +37,8 @@
 #include <ros/timer.h>
 #include <geometry_msgs/Twist.h>
 #include <geometry_msgs/Pose.h>
+#include <nav_msgs/Odometry.h>
+#include <tf/transform_listener.h>
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib/client/simple_action_client.h>
 #include "navigation.hpp"
@@ -55,9 +57,14 @@ void Navigation::initialize(ros::NodeHandle &n) {
     movebaseCmdVelPub = n.advertise<geometry_msgs::Twist>
                          ("/mobile_base/commands/velocity", 1000);
 
+    odomSub = n.subscribe("/odom", 50, &Navigation::odomCallback, this);
+
     // Register for timer callback, set it to stop initially
-    timer = n.createTimer(ros::Duration(1), &Navigation::timerCallback, this);
+    timer = n.createTimer(ros::Duration(0.1), &Navigation::timerCallback, this);
     timer.stop();
+
+    direction = DIR_IDLE;
+    angle = DIR_IDLE;
 }
 
 
@@ -105,30 +112,42 @@ void Navigation::cancelMove(void) {
 
 void Navigation::forward(void) {
     ROS_INFO_STREAM("forward");
+    direction = DIR_FORWARD;
+    timer.start();
     return;
 }
 
 
 void Navigation::backward(void) {
     ROS_INFO_STREAM("backward");
+    direction = DIR_BACKWARD;
+    timer.start();
     return;
 }
 
 
 void Navigation::turnLeft(void) {
     ROS_INFO_STREAM("turn left");
+    angle = DIR_TURNLEFT;
+    startAngle = convert2degree(tf::getYaw(curPose.orientation));
+    timer.start();
     return;
 }
 
 
 void Navigation::turnRight(void) {
     ROS_INFO_STREAM("turn right");
+    angle = DIR_TURNRIGHT;
+    startAngle = convert2degree(tf::getYaw(curPose.orientation));
+    timer.start();
     return;
 }
 
 
 void Navigation::stop(void) {
     ROS_INFO_STREAM("stop move");
+    direction = DIR_IDLE;
+    angle = DIR_IDLE;
     timer.stop();
     return;
 }
@@ -146,16 +165,100 @@ void Navigation::movebaseCallback(
 }
 
 
+void Navigation::odomCallback(const nav_msgs::Odometry::ConstPtr& msg) {
+    curPose = msg->pose.pose;
+}
+
+
 void Navigation::timerCallback(const ros::TimerEvent& event) {
     geometry_msgs::Twist msg;
 
-    msg.linear.x = 0.1;
-    msg.linear.y = 0.0;
-    msg.linear.z = 0.0;
-    msg.angular.x = 0.0;
-    msg.angular.y = 0.0;
-    msg.angular.z = 0.0;
+    if (angle == DIR_TURNLEFT) {
+        double targetAngle = startAngle + 90.0;
+        double curAngle = convert2degree(tf::getYaw(curPose.orientation));
+        double diff = 0;
+
+        if (targetAngle > 360)
+            targetAngle -= 360;
+
+        if (startAngle < targetAngle) {
+            diff = curAngle - startAngle;
+        } else {
+            if (curAngle >= startAngle)
+                diff = curAngle - startAngle;
+            else
+                diff = 360 - startAngle + curAngle;
+        }
+
+        ROS_INFO_STREAM("start=" << startAngle << " target=" << targetAngle << " cur=" << curAngle << " diff=" << diff);
+
+        if (diff < 90) {
+            msg.linear.x = 0;
+            msg.linear.y = 0.0;
+            msg.linear.z = 0.0;
+            msg.angular.x = 0.0;
+            msg.angular.y = 0.0;
+            msg.angular.z = 0.1;
+        } else {
+            angle = DIR_IDLE;
+        }
+    } else if (angle == DIR_TURNRIGHT) {
+        double targetAngle = startAngle - 90.0;
+        double curAngle = convert2degree(tf::getYaw(curPose.orientation));
+        double diff = 0;
+
+        if (targetAngle < 0)
+            targetAngle += 360;
+
+
+        if (startAngle > targetAngle) {
+            diff = startAngle - curAngle;
+        } else {
+            if (curAngle <= startAngle)
+                diff = startAngle - curAngle;
+            else
+                diff = 360 - curAngle + startAngle;
+        }
+
+        ROS_INFO_STREAM("start=" << startAngle << " target=" << targetAngle << " cur=" << curAngle << " diff=" << diff);
+
+        if (diff < 90) {
+            msg.linear.x = 0;
+            msg.linear.y = 0.0;
+            msg.linear.z = 0.0;
+            msg.angular.x = 0.0;
+            msg.angular.y = 0.0;
+            msg.angular.z = -0.1;
+        } else {
+            angle = DIR_IDLE;
+        }
+    } else if (direction == DIR_FORWARD) {
+        msg.linear.x = 0.1;
+        msg.linear.y = 0.0;
+        msg.linear.z = 0.0;
+        msg.angular.x = 0.0;
+        msg.angular.y = 0.0;
+        msg.angular.z = 0.0;
+    } else if (direction == DIR_BACKWARD) {
+        msg.linear.x = -0.1;
+        msg.linear.y = 0.0;
+        msg.linear.z = 0.0;
+        msg.angular.x = 0.0;
+        msg.angular.y = 0.0;
+        msg.angular.z = 0.0;
+    } else {
+        timer.stop();
+        return;
+    }
 
     movebaseCmdVelPub.publish(msg);
+    return;
 }
 
+
+double Navigation::convert2degree(double yaw) {
+    double degree = round(yaw * 180.0 / M_PI);
+    if (degree < 0)
+        degree += 360.0;
+    return degree;
+}

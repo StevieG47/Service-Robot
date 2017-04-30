@@ -38,6 +38,7 @@
 #include <ros/ros.h>
 #include <ros/timer.h>
 #include <geometry_msgs/Twist.h>
+#include <nav_msgs/Odometry.h>
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib/client/simple_action_client.h>
 
@@ -49,10 +50,11 @@ typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseCl
 class Navigation {
  public:
      enum dir {
-         DIR_FORWARD = 0,
-         DIR_BACKWARD,
-         DIR_TURNRIGHT,
-         DIR_TURNLEFT,
+         DIR_IDLE = 0x00,
+         DIR_FORWARD = 0x01,
+         DIR_BACKWARD = 0x02,
+         DIR_TURNRIGHT = 0x04,
+         DIR_TURNLEFT = 0x08,
      };
 
      Navigation() : mbClient("move_base", true) {}
@@ -65,17 +67,24 @@ class Navigation {
      void turnLeft(void);
      void turnRight(void);
      void stop(void);
-     void movebaseCallback(
-        const actionlib::SimpleClientGoalState&,
-        const move_base_msgs::MoveBaseResult::ConstPtr&);
+
 
  private:
      ros::Publisher movebaseCmdVelPub;
+     ros::Subscriber odomSub;
      ros::Timer timer;
      MoveBaseClient mbClient;
+     geometry_msgs::Pose curPose;
      int direction;
+     int angle;
+     double startAngle;
 
-    void timerCallback(const ros::TimerEvent&);
+     void odomCallback(const nav_msgs::Odometry::ConstPtr&);
+     void movebaseCallback(
+        const actionlib::SimpleClientGoalState&,
+        const move_base_msgs::MoveBaseResult::ConstPtr&);
+     void timerCallback(const ros::TimerEvent&);
+     double convert2degree(double);
 };
 
 #endif  // INCLUDE_NAVIGATION_HPP_

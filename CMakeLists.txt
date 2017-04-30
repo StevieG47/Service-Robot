@@ -11,10 +11,12 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib
   geometry_msgs
   message_generation
+  nav_msgs
   move_base_msgs
   roscpp
   sound_play
   std_msgs
+  tf
 )
 
 ## System dependencies are found with CMake's conventions
