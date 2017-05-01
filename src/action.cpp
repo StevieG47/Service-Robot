@@ -41,6 +41,8 @@
 #include "soundcontrol.hpp"
 #include "navigation.hpp"
 
+using std::string;
+
 
 void Action::initialize(ros::NodeHandle &n) {
     nodeHandle = n;
@@ -49,14 +51,14 @@ void Action::initialize(ros::NodeHandle &n) {
 }
 
 
-int Action::execute(int act, const std::string &args) {
+int Action::execute(int act, const string &args) {
     time_t t = time(0);
     struct tm *now = localtime(&t);
     std::stringstream ss;
 
     action = act;
 
-    ROS_INFO_STREAM("Action:: action = " << action);
+    ROS_INFO_STREAM("Action:: action = " << action << " args=" << args);
 
     switch(action) {
         case ACT_NAME:
@@ -73,13 +75,8 @@ int Action::execute(int act, const std::string &args) {
             break;
 
         case ACT_PLAYMUSIC:
-            soundCtl.play("/home/viki/catkin_ws/src/servicebot/demo/01.mp3");
-            //vc.play("http://musicmaterial.jpn.org/loop/jingle_logo_001.mp3");
-            break;
-
         case ACT_STOPMUSIC:
-            soundCtl.stopPlaying("/home/viki/catkin_ws/src/servicebot/demo/01.mp3");
-            //vc.stopPlaying("http://musicmaterial.jpn.org/loop/jingle_logo_001.mp3");
+            playMusic(action, args);
             break;
 
         case ACT_MOVETO:
@@ -102,11 +99,11 @@ int Action::execute(int act, const std::string &args) {
 }
 
 
-int Action::navigate(int act, const std::string &args) {
+int Action::navigate(int act, const string &args) {
     geometry_msgs::Pose goal;
 
-    struct location locationA(std::string("location A"), -2.856, 0.881, 0.0, 0.0, 0.0, 0.950, 0.312);
-    struct location locationB(std::string("location B"), -0.523, -3.691, 0.0, 0.0, 0.0, -0.713, 0.702);
+    struct location locationA(string("location A"), -2.856, 0.881, 0.0, 0.0, 0.0, 0.950, 0.312);
+    struct location locationB(string("location B"), -0.523, -3.691, 0.0, 0.0, 0.0, -0.713, 0.702);
 
     std::vector<location> locations;
     locations.push_back(locationA);
@@ -115,7 +112,7 @@ int Action::navigate(int act, const std::string &args) {
     switch(action) {
         case ACT_MOVETO:
             for (int i = 0; i < locations.size(); ++i) {
-                if (args.find(locations[i].loc) != std::string::npos) {
+                if (args.find(locations[i].loc) != string::npos) {
                     ROS_INFO_STREAM("Action:: navigate move to " << locations[i].loc);
                     goal.position.x = locations[i].pointX;
                     goal.position.y = locations[i].pointY;
@@ -171,4 +168,37 @@ int Action::navigate(int act, const std::string &args) {
     return 0;
 }
 
+
+int Action::playMusic(int act, const string &args) {
+    string filename;
+
+    switch(act) {
+        case ACT_PLAYMUSIC:
+            ROS_INFO_STREAM("Action::playMusic:: args size =" << args.size() << " empty=" << args.empty());
+            if (args.empty()) {
+                filename = string("/home/viki/catkin_ws/src/Service-Robot/demo/01.mp3");
+            } else if ((args.find(".mp3") != string::npos) ||
+                       (args.find(".wav") != string::npos) ||
+                       (args.find(".ogg") != string::npos)) {
+                // only can play music with extensions of mp3, wav, ogg
+                filename = args;
+            } else {
+                // unknown file
+                break;
+            }
+
+            ROS_INFO_STREAM("Action::playMusic:: filename=" << filename);
+            soundCtl.play(filename);
+            break;
+
+        case ACT_STOPMUSIC:
+            soundCtl.stopAll();
+            break;
+
+        default:
+            break;
+    }
+
+    return 0;
+}
 

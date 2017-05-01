@@ -38,6 +38,7 @@
 #include <ros/ros.h>
 #include <std_msgs/String.h>
 #include <string>
+#include <sstream>
 #include "servicebot/commandService.h"
 #include "servicebot.hpp"
 #include "action.hpp"
@@ -75,7 +76,7 @@ bool ServiceBot::commandService(
     ROS_INFO_STREAM("ServiceBot::commandService: receive req = " << req.command << " " << req.args);
 
     std::stringstream ss;
-    ss << req.command << " " << req.args;
+    ss << req.command << "," << req.args;
     msg.data = ss.str();
 
     // send messages
@@ -86,31 +87,38 @@ bool ServiceBot::commandService(
 
 
 void ServiceBot::commandCallback(const std_msgs::String::ConstPtr& msg) {
-    ROS_INFO_STREAM("ServiceRobot::commandCallback: receive " << msg->data.c_str());
+    string cmd;
+    string args;
+    std::istringstream lineStream(msg->data.c_str());
 
-    if (msg->data.find("name") != string::npos) {
+    getline(lineStream, cmd, ',');
+    getline(lineStream, args, ',');
+
+    ROS_INFO_STREAM("ServiceRobot::commandCallback cmd=" << cmd << " args=" << args);
+
+    if (cmd.find("name") != string::npos) {
         action.execute(Action::ACT_NAME);
-    } else if (msg->data.find("time") != string::npos) {
+    } else if (cmd.find("time") != string::npos) {
         action.execute(Action::ACT_TIME);
-    } else if (msg->data.find("play music") != string::npos) {
-        action.execute(Action::ACT_PLAYMUSIC);
-    } else if (msg->data.find("stop music") != string::npos) {
+    } else if (cmd.find("play music") != string::npos) {
+        action.execute(Action::ACT_PLAYMUSIC, args);
+    } else if (cmd.find("stop music") != string::npos) {
         action.execute(Action::ACT_STOPMUSIC);
-    } else if (msg->data.find("move to") != string::npos) {
-        action.execute(Action::ACT_MOVETO, msg->data.c_str());
-    } else if (msg->data.find("stop moving") != string::npos) {
+    } else if (cmd.find("move to") != string::npos) {
+        action.execute(Action::ACT_MOVETO, args);
+    } else if (cmd.find("stop moving") != string::npos) {
         action.execute(Action::ACT_STOPMOVETO);
-    } else if (msg->data.find("come back") != string::npos) {
+    } else if (cmd.find("come back") != string::npos) {
         action.execute(Action::ACT_COMEBACK);
-    } else if (msg->data.find("forward") != string::npos) {
+    } else if (cmd.find("forward") != string::npos) {
         action.execute(Action::ACT_FORWARD);
-    } else if (msg->data.find("backward") != string::npos) {
+    } else if (cmd.find("backward") != string::npos) {
         action.execute(Action::ACT_BACKWARD);
-    } else if (msg->data.find("turn left") != string::npos) {
+    } else if (cmd.find("turn left") != string::npos) {
         action.execute(Action::ACT_TURNLEFT);
-    } else if (msg->data.find("turn right") != string::npos) {
+    } else if (cmd.find("turn right") != string::npos) {
         action.execute(Action::ACT_TURNRIGHT);
-    } else if (msg->data.find("stop") != string::npos) {
+    } else if (cmd.find("stop") != string::npos) {
         action.execute(Action::ACT_STOPMOVE);
     } else
         ;

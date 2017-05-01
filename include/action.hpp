@@ -95,6 +95,7 @@ class Action {
      Navigation naviCtl;
 
      int navigate(int, const std::string & args="");
+     int playMusic(int, const std::string & args="");
 };
 
 #endif  // INCLUDE_ACTION_HPP_
