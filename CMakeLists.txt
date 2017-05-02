@@ -17,6 +17,10 @@ find_package(catkin REQUIRED COMPONENTS
   sound_play
   std_msgs
   tf
+nav_core
+sensor_msgs
+cv_bridge
+image_transport
 )
 
 ## System dependencies are found with CMake's conventions
@@ -165,8 +169,9 @@ add_executable(servicebot
   src/action.cpp
   src/navigation.cpp
 )
-target_link_libraries(servicebot ${catkin_LIBRARIES})
 
+target_link_libraries(servicebot ${catkin_LIBRARIES})
+add_library(relaxed_astar_lib src/RAstar_ros.cpp)
 
 #############
 ## Install ##

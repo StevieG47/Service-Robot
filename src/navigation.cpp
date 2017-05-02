@@ -49,7 +49,7 @@ void Navigation::initialize(ros::NodeHandle &n) {
 
     // wait for the action server to come up
     ROS_INFO_STREAM("+++ wait for move_base action server +++");
-    //mbClient.waitForServer();
+    mbClient.waitForServer();
     ROS_INFO_STREAM("--- wait for move_base action server ---");
 
     // Register to publish topic on /servicerobot/command to send voice commands to 

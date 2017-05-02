@@ -62,7 +62,8 @@ int Action::execute(int act, const string &args) {
 
     switch(action) {
         case ACT_NAME:
-            soundCtl.say("my name is servicebot");
+            //soundCtl.say("my name is servicebot");
+		soundCtl.say("Fuck You");
             break;
 
         case ACT_TIME:
@@ -102,12 +103,14 @@ int Action::execute(int act, const string &args) {
 int Action::navigate(int act, const string &args) {
     geometry_msgs::Pose goal;
 
-    struct location locationA(string("location A"), -2.856, 0.881, 0.0, 0.0, 0.0, 0.950, 0.312);
-    struct location locationB(string("location B"), -0.523, -3.691, 0.0, 0.0, 0.0, -0.713, 0.702);
+    struct location locationA(string("Room A"), -5, -11, 0.0, 0.0, 0.0, 0.950, 0.312);
+    struct location locationB(string("Room B"), 7.1, -10.7, 0.0, 0.0, 0.0, -0.713, 0.702);
+    struct location locationC(string("Room C"), 0, 0, 0.0, 0.0, 0.0, -0.713, 0.702);
 
     std::vector<location> locations;
     locations.push_back(locationA);
     locations.push_back(locationB);
+    locations.push_back(locationC);
 
     switch(action) {
         case ACT_MOVETO:
@@ -176,7 +179,7 @@ int Action::playMusic(int act, const string &args) {
         case ACT_PLAYMUSIC:
             ROS_INFO_STREAM("Action::playMusic:: args size =" << args.size() << " empty=" << args.empty());
             if (args.empty()) {
-                filename = string("/home/viki/catkin_ws/src/Service-Robot/demo/01.mp3");
+                filename = string("/home/stevengambino/Downloads/ELO.mp3");
             } else if ((args.find(".mp3") != string::npos) ||
                        (args.find(".wav") != string::npos) ||
                        (args.find(".ogg") != string::npos)) {
