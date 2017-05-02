@@ -17,10 +17,11 @@ find_package(catkin REQUIRED COMPONENTS
   sound_play
   std_msgs
   tf
-nav_core
-sensor_msgs
-cv_bridge
-image_transport
+  nav_core
+  sensor_msgs
+  cv_bridge
+  image_transport
+  base_local_planner
 )
 
 ## System dependencies are found with CMake's conventions
