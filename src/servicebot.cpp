@@ -39,6 +39,7 @@
 #include <std_msgs/String.h>
 #include <string>
 #include <sstream>
+#include <algorithm>
 #include "servicebot/commandService.h"
 #include "servicebot.hpp"
 #include "action.hpp"
@@ -94,19 +95,32 @@ void ServiceBot::commandCallback(const std_msgs::String::ConstPtr& msg) {
     getline(lineStream, cmd, ',');
     getline(lineStream, args, ',');
 
+    // convert command and args to lower case
+    std::transform(cmd.begin(), cmd.end(), cmd.begin(), ::tolower);
+    std::transform(args.begin(), args.end(), args.begin(), ::tolower);
+
     ROS_INFO_STREAM("ServiceRobot::commandCallback cmd=" << cmd << " args=" << args);
 
-    if (cmd.find("name") != string::npos) {
+    if (cmd.find("your name") != string::npos) {
         action.execute(Action::ACT_NAME);
-    } else if (cmd.find("time") != string::npos) {
+    } else if (cmd.find("what time") != string::npos) {
         action.execute(Action::ACT_TIME);
     } else if (cmd.find("play music") != string::npos) {
         action.execute(Action::ACT_PLAYMUSIC, args);
     } else if (cmd.find("stop music") != string::npos) {
         action.execute(Action::ACT_STOPMUSIC);
-    } else if (cmd.find("move to") != string::npos) {
+    } else if ((cmd.find("move to") != string::npos) ||
+               (cmd.find("go to") != string::npos) ||
+               (cmd.find("room a") != string::npos) ||
+               (cmd.find("room b") != string::npos) ||
+               (cmd.find("room c") != string::npos)) {
+        if (args.empty()) {
+            args = cmd;
+        }
         action.execute(Action::ACT_MOVETO, args);
-    } else if (cmd.find("stop moving") != string::npos) {
+    } else if ((cmd.find("stop moving") != string::npos) ||
+               (cmd.find("abort") != string::npos) ||
+               (cmd.find("cancel") != string::npos)) {
         action.execute(Action::ACT_STOPMOVETO);
     } else if (cmd.find("come back") != string::npos) {
         action.execute(Action::ACT_COMEBACK);

@@ -1,11 +1,8 @@
-time
 what time is it
-name
 what is your name
+tell me your name
 play music
 stop music
-where are you
-what day is today
 move forward
 move backward
 foward
@@ -16,3 +13,10 @@ stop moving
 abort
 cancel
 stop
+go to room a
+go to room b
+go to room c
+room a
+room b
+room c
+

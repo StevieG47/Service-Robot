@@ -102,9 +102,9 @@ int Action::execute(int act, const string &args) {
 int Action::navigate(int act, const string &args) {
     geometry_msgs::Pose goal;
 
-    struct location locationA(string("Room A"), -5, -11, 0.0, 0.0, 0.0, 0.950, 0.312);
-    struct location locationB(string("Room B"), 7.1, -10.7, 0.0, 0.0, 0.0, -0.713, 0.702);
-    struct location locationC(string("Room C"), 0, 0, 0.0, 0.0, 0.0, -0.713, 0.702);
+    struct location locationA(string("room a"), -5, -11, 0.0, 0.0, 0.0, 0.950, 0.312);
+    struct location locationB(string("room b"), 7.1, -10.7, 0.0, 0.0, 0.0, -0.713, 0.702);
+    struct location locationC(string("room c"), 0, 0, 0.0, 0.0, 0.0, -0.713, 0.702);
 
     std::vector<location> locations;
     locations.push_back(locationA);
