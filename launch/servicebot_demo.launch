@@ -1,0 +1,14 @@
+<launch>
+
+  <node name="recognizer" pkg="pocketsphinx" type="recognizer.py" output="screen">
+    <param name="lm" value="$(find servicebot)/demo/servicebot.lm"/>
+    <param name="dict" value="$(find servicebot)/demo/servicebot.dic"/>
+  </node>
+
+  <node name="sound_play" pkg="sound_play" type="soundplay_node.py" output="screen">
+  </node>
+
+  <node name="servicebot" pkg="servicebot" type="servicebot" output="screen">
+  </node>
+
+</launch>
