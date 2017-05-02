@@ -1,5 +1,5 @@
 <launch>
-
+  <include file="$(find servicebot)/launch/gazebo.launch"/>
   <node name="recognizer" pkg="pocketsphinx" type="recognizer.py" output="screen">
     <param name="lm" value="$(find servicebot)/demo/servicebot.lm"/>
     <param name="dict" value="$(find servicebot)/demo/servicebot.dic"/>
