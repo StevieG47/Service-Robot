@@ -92,6 +92,14 @@ void SoundControl::play(std::string filename) {
 }
 
 
+void SoundControl::playWaveFromPkg(std::string filename) {
+
+    ROS_INFO_STREAM("SoundControl::playWaveFromPkg: " << filename.c_str());
+    soundClient.playWaveFromPkg("servicebot", filename);
+    return;
+}
+
+
 void SoundControl::stopPlaying(std::string filename) {
 
     ROS_INFO_STREAM("SoundControl::stopPlaying: " << filename.c_str());

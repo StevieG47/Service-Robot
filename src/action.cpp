@@ -62,8 +62,7 @@ int Action::execute(int act, const string &args) {
 
     switch(action) {
         case ACT_NAME:
-            //soundCtl.say("my name is servicebot");
-		soundCtl.say("Fuck You");
+            soundCtl.say("my name is servicebot");
             break;
 
         case ACT_TIME:
@@ -179,19 +178,20 @@ int Action::playMusic(int act, const string &args) {
         case ACT_PLAYMUSIC:
             ROS_INFO_STREAM("Action::playMusic:: args size =" << args.size() << " empty=" << args.empty());
             if (args.empty()) {
-                filename = string("/home/stevengambino/Downloads/ELO.mp3");
+                filename = string("demo/01.mp3");
+                soundCtl.playWaveFromPkg(filename);
             } else if ((args.find(".mp3") != string::npos) ||
                        (args.find(".wav") != string::npos) ||
                        (args.find(".ogg") != string::npos)) {
                 // only can play music with extensions of mp3, wav, ogg
                 filename = args;
+                ROS_INFO_STREAM("Action::playMusic:: filename=" << filename);
+                soundCtl.play(filename);
             } else {
                 // unknown file
-                break;
-            }
+                ROS_ERROR_STREAM("Action::playMusic:: unsupported file format");
 
-            ROS_INFO_STREAM("Action::playMusic:: filename=" << filename);
-            soundCtl.play(filename);
+            }
             break;
 
         case ACT_STOPMUSIC:

@@ -51,6 +51,7 @@ class SoundControl {
      void say(std::string);
      void stopSaying(std::string);
      void play(std::string);
+     void playWaveFromPkg(std::string);
      void stopPlaying(std::string);
      void stopAll(void);
 
