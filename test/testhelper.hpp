@@ -22,46 +22,39 @@
  *  SOFTWARE.
  ********************************************************************/
 
-/** @file soundcontrol.hpp
- *  @brief Definition of class SoundControl
+/** @file testhelper.hpp
+ *  @brief Definition of TestHelper class
  *
- *  This file contains definitions of class SoundControl which subscribes to
- *  /recognizer/output topic and parses voice command from end user
+ *  This file contains definitions of class TestHelper
  *
- *  @author Huei-Tzu Tsai
+ *  @author Huei-Tzu Tsai \n
  *          Steven Gambino
- *  @date   04/25/2017
+ *  @date   05/06/2017
 */
 
-#ifndef INCLUDE_SOUNDCONTROL_HPP_
-#define INCLUDE_SOUNDCONTROL_HPP_
+#ifndef INCLUDE_TESTHELPER_HPP_
+#define INCLUDE_TESTHELPER_HPP_
 
 #include <string>
 #include <ros/ros.h>
 #include <std_msgs/String.h>
 #include <sound_play/sound_play.h>
 
-#define DEMO_MUSIC     "demo/01.mp3"
 
 /**
- *  @brief Class definition of SoundControl class
+ *  @brief Class definition of TestHelper class
 */
-class SoundControl {
+class TestHelper {
  public:
-     void initialize(ros::NodeHandle &);
-     void say(std::string);
-     void stopSaying(std::string);
-     void play(std::string);
-     void playWaveFromPkg(std::string);
+     void testCommandCallback(const std_msgs::String::ConstPtr&);
+     void testRobotSoundCallback(const sound_play::SoundRequest::ConstPtr&);
 
-     void stopAll(void);
+     int8_t snd;
+     int8_t sndCmd;
 
- private:
+     std::string cmd;
+     std::string args;
 
-     ros::Publisher commandPub;
-     ros::Subscriber recognitionSub;
-     sound_play::SoundClient soundClient;
-     void speechCallback(const std_msgs::String::ConstPtr&);
 };
 
-#endif  // INCLUDE_SOUNDCONTROL_HPP_
+#endif  // INCLUDE_TESTHELPER_HPP_

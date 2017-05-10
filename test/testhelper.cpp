@@ -1,7 +1,7 @@
 /********************************************************************
  *   MIT License
  *  
- *   Copyright (c) 2017 Huei-Tzu Tsai, Steven Gambino
+ *   Copyright (c) 2017  Huei-Tzu Tsai, Steven Gambino
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -22,46 +22,50 @@
  *  SOFTWARE.
  ********************************************************************/
 
-/** @file soundcontrol.hpp
- *  @brief Definition of class SoundControl
+/** @file testhelper.cpp
+ *  @brief Implementation of TestHelper class
  *
- *  This file contains definitions of class SoundControl which subscribes to
- *  /recognizer/output topic and parses voice command from end user
+ *  This file contains implementation of TestHelper class for unit tests
  *
- *  @author Huei-Tzu Tsai
+ *  @author Huei Tzu Tsai \n
  *          Steven Gambino
- *  @date   04/25/2017
+ *  @date   05/05/2017
 */
 
-#ifndef INCLUDE_SOUNDCONTROL_HPP_
-#define INCLUDE_SOUNDCONTROL_HPP_
-
-#include <string>
 #include <ros/ros.h>
 #include <std_msgs/String.h>
-#include <sound_play/sound_play.h>
 
-#define DEMO_MUSIC     "demo/01.mp3"
+#include "testhelper.hpp"
 
-/**
- *  @brief Class definition of SoundControl class
-*/
-class SoundControl {
- public:
-     void initialize(ros::NodeHandle &);
-     void say(std::string);
-     void stopSaying(std::string);
-     void play(std::string);
-     void playWaveFromPkg(std::string);
 
-     void stopAll(void);
+void TestHelper::testCommandCallback(const std_msgs::String::ConstPtr& msg) {
+    std::istringstream lineStream(msg->data.c_str());
 
- private:
+    getline(lineStream, cmd, ',');
+    getline(lineStream, args, ',');
 
-     ros::Publisher commandPub;
-     ros::Subscriber recognitionSub;
-     sound_play::SoundClient soundClient;
-     void speechCallback(const std_msgs::String::ConstPtr&);
-};
+    // convert command and args to lower case
+    std::transform(cmd.begin(), cmd.end(), cmd.begin(), ::tolower);
+    std::transform(args.begin(), args.end(), args.begin(), ::tolower);
 
-#endif  // INCLUDE_SOUNDCONTROL_HPP_
+    ROS_DEBUG_STREAM("TestHelper::testCommandCallback cmd=" << cmd << " args=" << args);
+    return;
+
+}
+
+
+void TestHelper::testRobotSoundCallback(const sound_play::SoundRequest::ConstPtr& msg) {
+    snd = msg->sound;
+    sndCmd = msg->command;
+    cmd = msg->arg;
+
+    ROS_DEBUG_STREAM("sound = " <<  (int) snd);
+    ROS_DEBUG_STREAM("command = " << (int) sndCmd);
+    ROS_DEBUG_STREAM("arg = " << cmd);
+    ROS_DEBUG_STREAM("arg2 = " << msg->arg2);
+
+    return;
+}
+
+
+

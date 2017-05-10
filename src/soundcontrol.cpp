@@ -45,7 +45,7 @@ void SoundControl::initialize(ros::NodeHandle &n) {
     ROS_INFO_STREAM("SoundControl::initialization");
 
     // Subscribe topic /recognizer/output to receive voice commands from user
-    recognitionSub = n.subscribe<std_msgs::String>("/recognizer/output", 1000,
+    recognitionSub = n.subscribe("/recognizer/output", 1000,
                                       &SoundControl::speechCallback, this);
 
     // Register to publish topic on /servicerobot/command to send voice commands to 
@@ -96,14 +96,6 @@ void SoundControl::playWaveFromPkg(std::string filename) {
 
     ROS_INFO_STREAM("SoundControl::playWaveFromPkg: " << filename.c_str());
     soundClient.playWaveFromPkg("servicebot", filename);
-    return;
-}
-
-
-void SoundControl::stopPlaying(std::string filename) {
-
-    ROS_INFO_STREAM("SoundControl::stopPlaying: " << filename.c_str());
-    soundClient.stopWave(filename);
     return;
 }
 

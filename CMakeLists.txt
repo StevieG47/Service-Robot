@@ -221,3 +221,25 @@ add_library(relaxed_astar_lib src/RAstar_ros.cpp)
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+if(CATKIN_ENABLE_TESTING)
+  find_package(rostest REQUIRED)
+
+  # gtest soundcontrol class
+  add_rostest_gtest(
+    testsoundcontrol
+    test/testsoundcontrol.launch
+    test/testsoundcontrol.cpp
+    test/testhelper.cpp
+    src/soundcontrol.cpp
+  )
+  target_link_libraries(
+    testsoundcontrol
+    ${catkin_LIBRARIES}
+  )
+  add_dependencies(
+    testsoundcontrol
+    soundcontrol
+    ${catkin_EXPORTED_TARGETS}
+  )
+endif()
