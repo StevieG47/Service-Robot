@@ -41,6 +41,25 @@
 #include "soundcontrol.hpp"
 #include "navigation.hpp"
 
+/**
+ *  @brief Class definition of Action class
+*/
+class Action {
+ public:
+     enum act {
+         ACT_NAME = 0,       ///< say name
+         ACT_TIME,           ///< say time
+         ACT_PLAYMUSIC,      ///< play music
+         ACT_STOPMUSIC,      ///< stop playing music
+         ACT_MOVETO,         ///< move to location
+         ACT_STOPMOVETO,     ///< stop moving to location
+         ACT_COMEBACK,       ///< come back to initial pose
+         ACT_FORWARD,        ///< move forward
+         ACT_BACKWARD,       ///< move backward
+         ACT_TURNLEFT,       ///< turn left
+         ACT_TURNRIGHT,      ///< turn right
+         ACT_STOPMOVE        ///< stop move
+     };
 
 struct location {
     std::string loc;
@@ -60,42 +79,22 @@ struct location {
 };
 
 
-/**
- *  @brief Class definition of Action class
-*/
-class Action {
- public:
-     enum act {
-         ACT_NAME = 0,
-         ACT_TIME,
-         ACT_LOCATION,
-         ACT_PLAYMUSIC,
-         ACT_STOPMUSIC,
-         ACT_MOVETO = 0x20,
-         ACT_STOPMOVETO,
-         ACT_COMEBACK,
-         ACT_FORWARD,
-         ACT_BACKWARD,
-         ACT_TURNLEFT,
-         ACT_TURNRIGHT,
-         ACT_STOPMOVE
-     };
 
 
      void initialize(ros::NodeHandle &);
-     int getStatus(void) { return status; }
-     int execute(int, const std::string & args="");
+
+     void execute(int, const std::string & args="");
 
 
  private:
      int action;
-     int status;
+
      ros::NodeHandle nodeHandle;
      SoundControl soundCtl;
      Navigation naviCtl;
 
-     int navigate(int, const std::string & args="");
-     int playMusic(int, const std::string & args="");
+     void navigate(int, const std::string & args="");
+     void playMusic(int, const std::string & args="");
 };
 
 #endif  // INCLUDE_ACTION_HPP_

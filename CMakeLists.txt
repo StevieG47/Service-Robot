@@ -243,6 +243,7 @@ if(CATKIN_ENABLE_TESTING)
     soundcontrol
     ${catkin_EXPORTED_TARGETS}
   )
+
   # gtest navigation class
   add_rostest_gtest(
     testnavigation
@@ -258,6 +259,28 @@ if(CATKIN_ENABLE_TESTING)
   add_dependencies(
     testnavigation
     navigation
+    ${catkin_EXPORTED_TARGETS}
+  )
+
+  # gtest action class
+  add_rostest_gtest(
+    testaction
+    test/testaction.launch
+    test/testaction.cpp
+    test/testhelper.cpp
+    src/action.cpp
+    src/navigation.cpp
+    src/soundcontrol.cpp
+  )
+  target_link_libraries(
+    testaction
+    ${catkin_LIBRARIES}
+  )
+  add_dependencies(
+    testaction
+    action
+    navigation
+    soundcontrol
     ${catkin_EXPORTED_TARGETS}
   )
 endif()

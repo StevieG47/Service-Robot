@@ -51,7 +51,7 @@ void Action::initialize(ros::NodeHandle &n) {
 }
 
 
-int Action::execute(int act, const string &args) {
+void Action::execute(int act, const string &args) {
     time_t t = time(0);
     struct tm *now = localtime(&t);
     std::stringstream ss;
@@ -95,11 +95,11 @@ int Action::execute(int act, const string &args) {
             break;
     }
 
-    return 0;
+    return;
 }
 
 
-int Action::navigate(int act, const string &args) {
+void Action::navigate(int act, const string &args) {
     geometry_msgs::Pose goal;
 
     struct location locationA(string("room a"), -5, -11, 0.0, 0.0, 0.0, 0.950, 0.312);
@@ -165,20 +165,24 @@ int Action::navigate(int act, const string &args) {
             naviCtl.stop();
             break;
 
+        default :
+            break;
+
     }
 
-    return 0;
+    return;
 }
 
 
-int Action::playMusic(int act, const string &args) {
+void Action::playMusic(int act, const string &args) {
     string filename;
 
     switch(act) {
         case ACT_PLAYMUSIC:
-            ROS_INFO_STREAM("Action::playMusic:: args size =" << args.size() << " empty=" << args.empty());
+            ROS_INFO_STREAM("Action::playMusic:: args size =" << args.size()
+                             << " empty=" << args.empty());
             if (args.empty()) {
-                filename = string("demo/01.mp3");
+                filename = DEMO_MUSIC;
                 soundCtl.playWaveFromPkg(filename);
             } else if ((args.find(".mp3") != string::npos) ||
                        (args.find(".wav") != string::npos) ||
@@ -190,7 +194,6 @@ int Action::playMusic(int act, const string &args) {
             } else {
                 // unknown file
                 ROS_ERROR_STREAM("Action::playMusic:: unsupported file format");
-
             }
             break;
 
@@ -202,6 +205,6 @@ int Action::playMusic(int act, const string &args) {
             break;
     }
 
-    return 0;
+    return;
 }
 
