@@ -1,0 +1,6 @@
+<launch>
+  <node name="servicebot" pkg="servicebot" type="servicebot" output="screen">
+  </node>
+
+  <test pkg="servicebot" test-name="testservicebot" type="testservicebot"/>
+</launch>

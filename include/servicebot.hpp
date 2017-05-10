@@ -46,9 +46,6 @@
 class ServiceBot {
  public:
      void initialize(ros::NodeHandle &);
-     void commandCallback(const std_msgs::String::ConstPtr&);
-     bool commandService(servicebot::commandService::Request &,
-                         servicebot::commandService::Response &);
 
  private:
      ros::NodeHandle nodeHandle;
@@ -56,6 +53,9 @@ class ServiceBot {
      ros::Publisher commandPub;
      ros::ServiceServer commandServer;
      Action action;
+     void commandCallback(const std_msgs::String::ConstPtr&);
+     bool commandService(servicebot::commandService::Request &,
+                         servicebot::commandService::Response &);
 };
 
 #endif  // INCLUDE_SERVICEBOT_HPP_

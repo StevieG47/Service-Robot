@@ -83,6 +83,8 @@ bool ServiceBot::commandService(
     // send messages
     commandPub.publish(msg);
 
+    resp.resp = "OK";
+
     return true;
 }
 
@@ -99,7 +101,7 @@ void ServiceBot::commandCallback(const std_msgs::String::ConstPtr& msg) {
     std::transform(cmd.begin(), cmd.end(), cmd.begin(), ::tolower);
     std::transform(args.begin(), args.end(), args.begin(), ::tolower);
 
-    ROS_INFO_STREAM("ServiceRobot::commandCallback cmd=" << cmd << " args=" << args);
+    ROS_INFO_STREAM("ServiceBot::commandCallback cmd=" << cmd << " args=" << args);
 
     if (cmd.find("your name") != string::npos) {
         action.execute(Action::ACT_NAME);

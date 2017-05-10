@@ -283,4 +283,28 @@ if(CATKIN_ENABLE_TESTING)
     soundcontrol
     ${catkin_EXPORTED_TARGETS}
   )
+
+  # gtest servicebot class
+  add_rostest_gtest(
+    testservicebot
+    test/testservicebot.launch
+    test/testservicebot.cpp
+    test/testhelper.cpp
+    src/servicebot.cpp
+    src/action.cpp
+    src/navigation.cpp
+    src/soundcontrol.cpp
+  )
+  target_link_libraries(
+    testservicebot
+    ${catkin_LIBRARIES}
+  )
+  add_dependencies(
+    testservicebot
+    servicebot
+    action
+    navigation
+    soundcontrol
+    ${catkin_EXPORTED_TARGETS}
+  )
 endif()

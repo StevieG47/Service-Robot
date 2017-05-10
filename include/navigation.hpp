@@ -50,15 +50,16 @@ typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseCl
 class Navigation {
  public:
      enum dir {
-         DIR_IDLE = 0x00,
-         DIR_FORWARD = 0x01,
-         DIR_BACKWARD = 0x02,
-         DIR_TURNRIGHT = 0x04,
-         DIR_TURNLEFT = 0x08,
+         DIR_IDLE,              ///< idle
+         DIR_FORWARD,           ///< move foward
+         DIR_BACKWARD,          ///< move backward
+         DIR_TURNLEFT,          ///< turn left
+         DIR_TURNRIGHT,         ///< turn right
      };
 
      Navigation() : mbClient("move_base", true) {}
 
+     ~Navigation() {}
      void initialize(ros::NodeHandle &n);
      void moveTo(geometry_msgs::Pose &);
      void cancelMove(void);
