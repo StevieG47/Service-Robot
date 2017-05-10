@@ -47,10 +47,6 @@
 void Navigation::initialize(ros::NodeHandle &n) {
     ROS_INFO_STREAM("Navigation::initialize");
 
-    // wait for the action server to come up
-    ROS_INFO_STREAM("+++ wait for move_base action server +++");
-   // mbClient.waitForServer();
-    ROS_INFO_STREAM("--- wait for move_base action server ---");
 
     // Register to publish topic on /servicerobot/command to send voice commands to 
     // service robot
@@ -65,6 +61,15 @@ void Navigation::initialize(ros::NodeHandle &n) {
 
     direction = DIR_IDLE;
     angle = DIR_IDLE;
+
+    // initialize current pose
+    curPose.position.x = 0;
+    curPose.position.y = 0;
+    curPose.position.z = 0;
+    curPose.orientation.x = 0;
+    curPose.orientation.y = 0;
+    curPose.orientation.z = 0;
+    curPose.orientation.w = 1;
 }
 
 
@@ -73,14 +78,14 @@ void Navigation::moveTo(geometry_msgs::Pose &goal) {
 
     ROS_INFO_STREAM("moving to goal:");
     ROS_INFO_STREAM("position");
-    ROS_INFO_STREAM("x" << goal.position.x);
-    ROS_INFO_STREAM("y" << goal.position.y);
-    ROS_INFO_STREAM("z" << goal.position.z);
+    ROS_INFO_STREAM("x " << goal.position.x);
+    ROS_INFO_STREAM("y " << goal.position.y);
+    ROS_INFO_STREAM("z " << goal.position.z);
     ROS_INFO_STREAM("orientation");
-    ROS_INFO_STREAM("x" << goal.orientation.x);
-    ROS_INFO_STREAM("y" << goal.orientation.y);
-    ROS_INFO_STREAM("z" << goal.orientation.z);
-    ROS_INFO_STREAM("w" << goal.orientation.w);
+    ROS_INFO_STREAM("x " << goal.orientation.x);
+    ROS_INFO_STREAM("y " << goal.orientation.y);
+    ROS_INFO_STREAM("z " << goal.orientation.z);
+    ROS_INFO_STREAM("w " << goal.orientation.w);
 
 
     mbGoal.target_pose.header.frame_id = "map";
@@ -88,7 +93,7 @@ void Navigation::moveTo(geometry_msgs::Pose &goal) {
 
     mbGoal.target_pose.pose = goal;
 
-    mbClient.sendGoal(mbGoal);
+
 
     // send a goal to the robot
     mbClient.sendGoal(mbGoal,
@@ -148,7 +153,6 @@ void Navigation::stop(void) {
     ROS_INFO_STREAM("stop move");
     direction = DIR_IDLE;
     angle = DIR_IDLE;
-    timer.stop();
     return;
 }
 
@@ -190,7 +194,8 @@ void Navigation::timerCallback(const ros::TimerEvent& event) {
                 diff = 360 - startAngle + curAngle;
         }
 
-        ROS_INFO_STREAM("start=" << startAngle << " target=" << targetAngle << " cur=" << curAngle << " diff=" << diff);
+        ROS_INFO_STREAM("start=" << startAngle << " target=" << targetAngle
+                         << " cur=" << curAngle << " diff=" << diff);
 
         if (diff < 90) {
             msg.linear.x = 0;
@@ -220,7 +225,8 @@ void Navigation::timerCallback(const ros::TimerEvent& event) {
                 diff = 360 - curAngle + startAngle;
         }
 
-        ROS_INFO_STREAM("start=" << startAngle << " target=" << targetAngle << " cur=" << curAngle << " diff=" << diff);
+        ROS_INFO_STREAM("start=" << startAngle << " target=" << targetAngle
+                        << " cur=" << curAngle << " diff=" << diff);
 
         if (diff < 90) {
             msg.linear.x = 0;
@@ -248,7 +254,12 @@ void Navigation::timerCallback(const ros::TimerEvent& event) {
         msg.angular.z = 0.0;
     } else {
         timer.stop();
-        return;
+        msg.linear.x = 0.0;
+        msg.linear.y = 0.0;
+        msg.linear.z = 0.0;
+        msg.angular.x = 0.0;
+        msg.angular.y = 0.0;
+        msg.angular.z = 0.0;
     }
 
     movebaseCmdVelPub.publish(msg);

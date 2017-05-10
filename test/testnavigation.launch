@@ -1,0 +1,3 @@
+<launch>
+  <test pkg="servicebot" test-name="testnavigation" type="testnavigation"/>
+</launch>

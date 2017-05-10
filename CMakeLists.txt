@@ -22,6 +22,7 @@ find_package(catkin REQUIRED COMPONENTS
   cv_bridge
   image_transport
   base_local_planner
+  actionlib_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -240,6 +241,23 @@ if(CATKIN_ENABLE_TESTING)
   add_dependencies(
     testsoundcontrol
     soundcontrol
+    ${catkin_EXPORTED_TARGETS}
+  )
+  # gtest navigation class
+  add_rostest_gtest(
+    testnavigation
+    test/testnavigation.launch
+    test/testnavigation.cpp
+    test/testhelper.cpp
+    src/navigation.cpp
+  )
+  target_link_libraries(
+    testnavigation
+    ${catkin_LIBRARIES}
+  )
+  add_dependencies(
+    testnavigation
+    navigation
     ${catkin_EXPORTED_TARGETS}
   )
 endif()

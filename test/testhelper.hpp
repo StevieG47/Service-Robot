@@ -39,7 +39,10 @@
 #include <ros/ros.h>
 #include <std_msgs/String.h>
 #include <sound_play/sound_play.h>
-
+#include <geometry_msgs/Pose.h>
+#include <geometry_msgs/Twist.h>
+#include <move_base_msgs/MoveBaseActionGoal.h>
+#include <actionlib_msgs/GoalID.h>
 
 /**
  *  @brief Class definition of TestHelper class
@@ -48,12 +51,21 @@ class TestHelper {
  public:
      void testCommandCallback(const std_msgs::String::ConstPtr&);
      void testRobotSoundCallback(const sound_play::SoundRequest::ConstPtr&);
+     void testMoveBaseGoalCallback(const move_base_msgs::MoveBaseActionGoal::ConstPtr&);
+     void testMoveBaseCancelCallback(const actionlib_msgs::GoalID::ConstPtr&);
+     void testMBCmdVelocityCallback(const geometry_msgs::Twist::ConstPtr&);
 
      int8_t snd;
      int8_t sndCmd;
 
      std::string cmd;
      std::string args;
+
+     geometry_msgs::Pose pos;
+     std::string goalID;
+     std::string cancelID;
+
+     geometry_msgs::Twist twist;
 
 };
 

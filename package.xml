@@ -30,6 +30,7 @@
   <build_depend>cv_bridge</build_depend>
   <build_depend>image_transport</build_depend>
   <build_depend>base_local_planner</build_depend>
+  <build_depend>actionlib_msgs</build_depend>
 
   <run_depend>actionlib</run_depend>
   <run_depend>geometry_msgs</run_depend>
@@ -44,6 +45,10 @@
   <run_depend>cv_bridge</run_depend>
   <run_depend>image_transport</run_depend>
   <run_depend>base_local_planner</run_depend>
+  <run_depend>actionlib_msgs</run_depend>
+
+
+  <test_depend>gtest</test_depend>
 
   <export>
     <nav_core plugin="${prefix}/relaxed_astar_planner_plugin.xml"/>
