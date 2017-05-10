@@ -302,7 +302,7 @@ TEST(TestAction, testMoveToAction) {
     geometry_msgs::Pose actGoal = testItem.pos;
 
     // confirm goal pose received by move_base is expected
-    EXPECT_EQ(true, std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
+    EXPECT_EQ(0, std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
 
     // test moving to room b
     act.execute(Action::ACT_MOVETO, "room b");
@@ -320,7 +320,7 @@ TEST(TestAction, testMoveToAction) {
     actGoal = testItem.pos;
 
     // confirm goal pose received by move_base is expected
-    EXPECT_EQ(true, std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
+    EXPECT_EQ(0, std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
 
     // test moving to room b
     act.execute(Action::ACT_MOVETO, "room c");
@@ -338,7 +338,7 @@ TEST(TestAction, testMoveToAction) {
     actGoal = testItem.pos;
 
     // confirm goal pose received by move_base is expected
-    EXPECT_EQ(true, std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
+    EXPECT_EQ(0, std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
 }
 
 
@@ -418,7 +418,7 @@ TEST(TestAction, testComeBackAction) {
     geometry_msgs::Pose actGoal = testItem.pos;
 
     // confirm goal pose received by move_base is initial pose location
-    EXPECT_EQ(true, std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
+    EXPECT_EQ(0, std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
 }
 
 
@@ -458,7 +458,7 @@ TEST(TestAction, testForwardAction) {
     geometry_msgs::Twist actTwist = testItem.twist;
 
     // confirm forward velocity is expected
-    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(0, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 }
 
 
@@ -498,7 +498,7 @@ TEST(TestAction, testBackwardAction) {
     geometry_msgs::Twist actTwist = testItem.twist;
 
     // confirm backward velocity is expected
-    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(0, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 }
 
 
@@ -538,7 +538,7 @@ TEST(TestAction, testTurnLeftAction) {
     geometry_msgs::Twist actTwist = testItem.twist;
 
     // confirm turn left velocity is expected
-    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(0, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 }
 
 
@@ -578,7 +578,7 @@ TEST(TestAction, testTurnRightAction) {
     geometry_msgs::Twist actTwist = testItem.twist;
 
     // confirm turn right velocity is expected
-    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(0, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 }
 
 
@@ -623,7 +623,7 @@ TEST(TestAction, testStopMoveAction) {
     geometry_msgs::Twist actTwist = testItem.twist;
 
     // confirm robot receives velocity 0 to stop moving
-    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(0, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 }
 
 

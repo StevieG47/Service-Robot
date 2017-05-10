@@ -133,7 +133,7 @@ TEST(TestNavigation, testMoveToFunc) {
     geometry_msgs::Pose actGoal = testItem.pos;
 
     // confirm goal pose is expected
-    EXPECT_EQ(true, std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
+    EXPECT_EQ(0, std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
 }
 
 
@@ -225,7 +225,7 @@ TEST(TestNavigation, testForwardFunc) {
     geometry_msgs::Twist actTwist = testItem.twist;
 
     // confirm velocity is expected
-    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(0, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 
     // test stop
     navi.stop();
@@ -237,7 +237,7 @@ TEST(TestNavigation, testForwardFunc) {
     actTwist = testItem.twist;
 
     // confirm velocity is 0
-    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(0, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 }
 
 
@@ -280,7 +280,7 @@ TEST(TestNavigation, testBackwardFunc) {
     geometry_msgs::Twist actTwist = testItem.twist;
 
     // confirm velocity is expected
-    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(0, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 
     // test stop
     navi.stop();
@@ -292,7 +292,7 @@ TEST(TestNavigation, testBackwardFunc) {
     actTwist = testItem.twist;
 
     // confirm velocity is 0
-    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(0, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 }
 
 
@@ -334,7 +334,7 @@ TEST(TestNavigation, testTurnLeftFunc) {
     geometry_msgs::Twist actTwist = testItem.twist;
 
     // confirm velocity is expected
-    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(0, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 
     // test stop
     navi.stop();
@@ -346,7 +346,7 @@ TEST(TestNavigation, testTurnLeftFunc) {
     actTwist = testItem.twist;
 
     // confirm velocity is 0
-    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(0, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 }
 
 /**
@@ -387,7 +387,7 @@ TEST(TestNavigation, testTurnRightFunc) {
     geometry_msgs::Twist actTwist = testItem.twist;
 
     // confirm velocity is expected
-    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(0, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 
     // test stop
     navi.stop();
@@ -399,7 +399,7 @@ TEST(TestNavigation, testTurnRightFunc) {
     actTwist = testItem.twist;
 
     // confirm velocity is 0
-    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(0, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 }
 
 

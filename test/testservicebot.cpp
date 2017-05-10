@@ -364,7 +364,7 @@ TEST(TestServiceBot, testMoveToCommand) {
     geometry_msgs::Pose actGoal = testItem.pos;
 
     // confirm goal pose is expected
-    EXPECT_EQ(true, std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
+    EXPECT_EQ(0, std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
 
     // test cancel command
     msg.data = "cancel,";
@@ -392,7 +392,7 @@ TEST(TestServiceBot, testMoveToCommand) {
     actGoal = testItem.pos;
 
     // confirm goal pose is expected
-    EXPECT_EQ(true, std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
+    EXPECT_EQ(0, std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
 
     // test abort command
     msg.data = "abort,";
@@ -420,7 +420,7 @@ TEST(TestServiceBot, testMoveToCommand) {
     actGoal = testItem.pos;
 
     // confirm goal pose is expected
-    EXPECT_EQ(true, std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
+    EXPECT_EQ(0, std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
 
     msg.data = "stop moving,";
     pub.publish(msg);
@@ -483,7 +483,7 @@ TEST(TestServiceBot, testComeBackCommand) {
     geometry_msgs::Pose actGoal = testItem.pos;
 
     // confirm goal pose is initial pose
-    EXPECT_EQ(true, std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
+    EXPECT_EQ(0, std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
 
     msg.data = "cancel";
     pub.publish(msg);
@@ -537,7 +537,7 @@ TEST(TestServiceBot, testForwardCommand) {
     geometry_msgs::Twist actTwist = testItem.twist;
 
     // confirm velocity is expected
-    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(0, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 
     msg.data = "stop,";
     pub.publish(msg);
@@ -547,7 +547,7 @@ TEST(TestServiceBot, testForwardCommand) {
     expTwist.linear.x = 0.0;
     actTwist = testItem.twist;
 
-    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(0, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 }
 
 
@@ -594,7 +594,7 @@ TEST(TestServiceBot, testBackwardCommand) {
     geometry_msgs::Twist actTwist = testItem.twist;
 
     // confirm velocity is expected
-    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(0, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 
     msg.data = "stop,";
     pub.publish(msg);
@@ -604,7 +604,7 @@ TEST(TestServiceBot, testBackwardCommand) {
     expTwist.linear.x = 0.0;
     actTwist = testItem.twist;
 
-    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(0, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 }
 
 
@@ -651,7 +651,7 @@ TEST(TestServiceBot, testTurnLeftCommand) {
     geometry_msgs::Twist actTwist = testItem.twist;
 
     // confirm velocity is expected
-    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(0, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 
     msg.data = "stop,";
     pub.publish(msg);
@@ -661,7 +661,7 @@ TEST(TestServiceBot, testTurnLeftCommand) {
     expTwist.angular.z = 0.0;
     actTwist = testItem.twist;
 
-    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(0, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 }
 
 
@@ -707,7 +707,7 @@ TEST(TestServiceBot, testTurnRightCommand) {
     geometry_msgs::Twist actTwist = testItem.twist;
 
     // confirm velocity is expected
-    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(0, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 
     msg.data = "stop,";
     pub.publish(msg);
@@ -717,7 +717,7 @@ TEST(TestServiceBot, testTurnRightCommand) {
     expTwist.angular.z = 0.0;
     actTwist = testItem.twist;
 
-    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(0, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 }
 
 
