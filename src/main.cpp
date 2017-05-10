@@ -26,11 +26,11 @@
  *  @file main.cpp
  *  @brief Initial file of servicebot node
  *
- *  This file contains main entry point of a service robot
+ *  This file contains main entry point of servicebot
  *
  *
  *
- *  @author Huei-Tzu Tsai
+ *  @author Huei-Tzu Tsai \n
  *          Steven Gambino
  *  @date   04/27/2017
 */
@@ -43,7 +43,7 @@
 #include "servicebot.hpp"
 
 /*
- *   @brief  service robot entrypoint
+ *   @brief  servicebot entrypoint
  *  
  *   @param  number of arguments
  *   @param  argument character array

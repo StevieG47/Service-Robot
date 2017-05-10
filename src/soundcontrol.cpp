@@ -25,9 +25,12 @@
 /** @file soundcontrol.cpp
  *  @brief Implementation of class SoundControl methods
  *
- *  This file contains implemenation of SoundControl methods
+ *  This file contains implemenation of methods in SoundControl class which 
+ *  subscribes to receive voice recognition outputs and publishes voice command
+ *  to servicebot to execute the commands.  SoundControl also utilizes
+ *  sound_play node to say and play sound.
  *
- *  @author Huei-Tzu Tsai
+ *  @author Huei-Tzu Tsai \n
  *          Steven Gambino
  *  @date   04/27/2017
 */
@@ -44,24 +47,20 @@
 void SoundControl::initialize(ros::NodeHandle &n) {
     ROS_INFO_STREAM("SoundControl::initialization");
 
-    // Subscribe topic /recognizer/output to receive voice commands from user
+    // subscribe to receive voice commands
     recognitionSub = n.subscribe("/recognizer/output", 1000,
                                       &SoundControl::speechCallback, this);
 
-    // Register to publish topic on /servicerobot/command to send voice commands to 
-    // service robot
+    // register topic to publish voice commands to servicebot
     commandPub = n.advertise<std_msgs::String>("/servicebot/command", 1000);
     return;
 }
 
 
 void SoundControl::speechCallback(const std_msgs::String::ConstPtr& msg) {
-
-    // parse speech commands and publish on topic serviceCommand
-
     ROS_INFO_STREAM("SoundControl::speechCallback: publish " << msg->data.c_str());
 
-    // send messages
+    // publish command to servicebot
     commandPub.publish(msg);
 
     return;
@@ -69,7 +68,6 @@ void SoundControl::speechCallback(const std_msgs::String::ConstPtr& msg) {
 
 
 void SoundControl::say(std::string msg) {
-
     ROS_INFO_STREAM("SoundControl::say: " << msg);
     soundClient.say(msg);
     return;
@@ -77,7 +75,6 @@ void SoundControl::say(std::string msg) {
 
 
 void SoundControl::stopSaying(std::string msg) {
-
     ROS_INFO_STREAM("SoundControl::stopSaying: " << msg.c_str());
     soundClient.stopSaying(msg.c_str());
     return;
@@ -85,7 +82,6 @@ void SoundControl::stopSaying(std::string msg) {
 
 
 void SoundControl::play(std::string filename) {
-
     ROS_INFO_STREAM("SoundControl::play: " << filename.c_str());
     soundClient.playWave(filename);
     return;
@@ -93,7 +89,6 @@ void SoundControl::play(std::string filename) {
 
 
 void SoundControl::playWaveFromPkg(std::string filename) {
-
     ROS_INFO_STREAM("SoundControl::playWaveFromPkg: " << filename.c_str());
     soundClient.playWaveFromPkg("servicebot", filename);
     return;
@@ -101,7 +96,6 @@ void SoundControl::playWaveFromPkg(std::string filename) {
 
 
 void SoundControl::stopAll(void) {
-
     ROS_INFO_STREAM("SoundControl::stopAll");
     soundClient.stopAll();
     return;

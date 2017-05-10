@@ -25,9 +25,10 @@
 /** @file servicebot.hpp
  *  @brief Definition of class ServiceBot
  *
- *  This file contains definitions of class ServiceBot
+ *  This file contains definitions of class ServiceBot which receives voice 
+ *  commands or commands from console and executes the commands accordingly.
  *
- *  @author Huei-Tzu Tsai
+ *  @author Huei-Tzu Tsai \n
  *          Steven Gambino
  *  @date   04/27/2017
 */
@@ -40,20 +41,47 @@
 #include <servicebot/commandService.h>
 #include "action.hpp"
 
+
 /**
  *  @brief Class definition of ServiceBot class
 */
 class ServiceBot {
  public:
+     /**
+      *   @brief  Initialize ServiceBot to subscribe/publish topics for command
+      *           processing and setup a service to receive commands from console
+      *
+      *   @param  ros node handle
+      *   @return none
+     */
      void initialize(ros::NodeHandle &);
 
  private:
-     ros::NodeHandle nodeHandle;
-     ros::Subscriber commandSub;
-     ros::Publisher commandPub;
-     ros::ServiceServer commandServer;
-     Action action;
+     ros::NodeHandle nodeHandle;           ///< ros node handle
+     ros::Subscriber commandSub;           ///< subscriber to /servicebot/command
+     ros::Publisher commandPub;            ///< publisher to /servicebot/command
+     ros::ServiceServer commandServer;     ///< server of /commandService
+     Action action;                        ///< action object to execute commands
+
+
+     /**
+      *   @brief  Command callback to process commands received from voice
+      *           recognition output or console input
+      *
+      *   @param  commands in string
+      *   @return none
+     */
      void commandCallback(const std_msgs::String::ConstPtr&);
+
+
+     /**
+      *   @brief  Command service callback to receive commands from console
+      *           and send the command to /servicebot/command for execution
+      *
+      *   @param  client request command in string
+      *   @param  response to client in string
+      *   @return none
+     */
      bool commandService(servicebot::commandService::Request &,
                          servicebot::commandService::Response &);
 };

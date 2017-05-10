@@ -25,7 +25,8 @@
 /** @file testhelper.cpp
  *  @brief Implementation of TestHelper class
  *
- *  This file contains implementation of TestHelper class for unit tests
+ *  This file contains implementation of TestHelper class for unit and
+ *  integration tests
  *
  *  @author Huei Tzu Tsai \n
  *          Steven Gambino

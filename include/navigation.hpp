@@ -23,11 +23,13 @@
  ********************************************************************/
 
 /** @file navigation.hpp
- *  @brief Definition of class navigation
+ *  @brief Definition of class Navigation
  *
- *  This file contains definitions of class Navigation
+ *  This file contains definitions of class Navigation which navigates robot to 
+ *  pre-defined locations and controls robot's movements to go forward, backward,
+ *  turn left or right, or stop
  *
- *  @author Huei Tzu Tsai
+ *  @author Huei Tzu Tsai \n
  *          Steven Gambino
  *  @date   04/28/2017
 */
@@ -42,6 +44,11 @@
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib/client/simple_action_client.h>
 
+/**
+ *  @typedef MoveBaseClient
+ *
+ *  @brief Actionlib client of Mobilebase
+*/
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 
 /**
@@ -49,6 +56,11 @@ typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseCl
 */
 class Navigation {
  public:
+    /**
+     *  @enum Dir
+     *
+     *  @brief Enumeration of directions
+    */
      enum dir {
          DIR_IDLE,              ///< idle
          DIR_FORWARD,           ///< move foward
@@ -57,34 +69,152 @@ class Navigation {
          DIR_TURNRIGHT,         ///< turn right
      };
 
+
+     /**
+      *   @brief  Constructor of Navigation class
+      *
+      *   @param  none
+      *   @return none
+     */
      Navigation() : mbClient("move_base", true) {}
 
+
+     /**
+      *   @brief  Deconstructor of Navigation class
+      *
+      *   @param  none
+      *   @return none
+     */
      ~Navigation() {}
+
+
+     /**
+      *   @brief  Initialize Navigation class
+      *
+      *   @param  ros node handle
+      *   @return none
+     */
      void initialize(ros::NodeHandle &n);
+
+
+     /**
+      *   @brief  Send goal to movebase to navigate robot to goal location
+      *
+      *   @param  goal location in geometry_msgs::Pose
+      *   @return none
+     */
      void moveTo(geometry_msgs::Pose &);
+
+
+     /**
+      *   @brief  Cancel movebase goal to abort navigation
+      *
+      *   @param  none
+      *   @return none
+     */
      void cancelMove(void);
+
+
+     /**
+      *   @brief  Start timer to publish velocity commands to move robot
+      *           forward
+      *
+      *   @param  none
+      *   @return none
+     */
      void forward(void);
+
+
+     /**
+      *   @brief  Start timer to publish velocity commands to move robot
+      *           backward
+      *
+      *   @param  none
+      *   @return none
+     */
      void backward(void);
+
+
+     /**
+      *   @brief  Start timer to publish velocity commands to make robot turn
+      *           left by 90 degrees
+      *
+      *   @param  none
+      *   @return none
+     */
      void turnLeft(void);
+
+
+     /**
+      *   @brief  Start timer to publish velocity commands to make robot turn
+      *           right by 90 degrees
+      *
+      *   @param  none
+      *   @return none
+     */
      void turnRight(void);
+
+
+     /**
+      *   @brief  Stop timer to stop sending velocity command
+      *
+      *   @param  none
+      *   @return none
+     */
      void stop(void);
 
 
  private:
-     ros::Publisher movebaseCmdVelPub;
-     ros::Subscriber odomSub;
-     ros::Timer timer;
-     MoveBaseClient mbClient;
-     geometry_msgs::Pose curPose;
-     int direction;
-     int angle;
-     double startAngle;
+     ros::Publisher movebaseCmdVelPub;   ///< publisher to publish on
+                                         ///< command velocity topic
+     ros::Subscriber odomSub;            ///< subscriber to get odom info
+     ros::Timer timer;                   ///< timer to send velocity commands
+     MoveBaseClient mbClient;            ///< movebase client to send 
+                                         ///< navigation goal
+     geometry_msgs::Pose curPose;        ///< current pose from odom
+     int direction;                      ///< forward or backward direction
+                                         ///< to move to
+     int angle;                          ///< left or right angle to move to 
+     double startAngle;                  ///< starting angle of robot in degree
 
+
+     /**
+      *   @brief  Callback function to receive odom info
+      *
+      *   @param  odometry info in nav_msgs::Odometry
+      *   @return none
+     */
      void odomCallback(const nav_msgs::Odometry::ConstPtr&);
+
+
+     /**
+      *   @brief  Callback function to receive navigation result
+      *           from movebase
+      *
+      *   @param  goal state in actionlib::SimpleClientGoalState
+      *   @param  result in move_base_msgs::MoveBaseResult::ConstPtr
+      *   @return none
+     */
      void movebaseCallback(
         const actionlib::SimpleClientGoalState&,
         const move_base_msgs::MoveBaseResult::ConstPtr&);
+
+
+     /**
+      *   @brief  Timer callback function to send velocity commands
+      *
+      *   @param  timer event passed by ros::Timer
+      *   @return none
+     */
      void timerCallback(const ros::TimerEvent&);
+
+
+     /**
+      *   @brief  Helper function to convert radians to degree
+      *
+      *   @param  yaw radian in double
+      *   @return none
+     */
      double convert2degree(double);
 };
 

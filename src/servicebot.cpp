@@ -25,10 +25,11 @@
 /** @file servicebot.cpp
  *  @brief Implementation of class ServiceBot methods
  *
- *  This file contains implemenation of callback function in ServiceBot
- *  class.
+ *  This file contains implemenation of methods in ServiceBot class which
+ *  receives voice commands or commands from console and executes the commands 
+ *  accordingly.
  *
- *  @author Huei Tzu Tsai
+ *  @author Huei Tzu Tsai \n
  *          Steven Gambino
  *  @date   04/27/2017
 */
@@ -51,14 +52,14 @@ void ServiceBot::initialize(ros::NodeHandle &n) {
 
     nodeHandle = n;
 
-    // Subscribe topic serviceCommand from master to receive messages published on this topic
+    // subscribe topic /servicebot/command from master to receive voice or console commands
     commandSub = nodeHandle.subscribe("/servicebot/command", 1000,
                                       &ServiceBot::commandCallback, this);
 
-    // Register to publish topic 
+    // register to publish commands received from console to /servicebot/commands
     commandPub = nodeHandle.advertise<std_msgs::String>("/servicebot/command", 1000);
 
-    // Register service with the master
+    // register service with the master to receive commands from console
     commandServer =
         nodeHandle.advertiseService("commandService", &ServiceBot::commandService, this);
 
@@ -94,6 +95,7 @@ void ServiceBot::commandCallback(const std_msgs::String::ConstPtr& msg) {
     string args;
     std::istringstream lineStream(msg->data.c_str());
 
+    // parse string message into command and arguments
     getline(lineStream, cmd, ',');
     getline(lineStream, args, ',');
 

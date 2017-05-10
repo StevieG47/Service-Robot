@@ -77,11 +77,11 @@ TEST(TestNavigation, testInit) {
 
     navi.initialize(n);
 
-    // register to check number of publishers to /servicebot/command topic
+    // register to check number of publishers to /mobile_base/commands/velocity topic
     ros::Subscriber sub = n.subscribe("/mobile_base/commands/velocity", 1000,
                                       &TestHelper::testMBCmdVelocityCallback, &testItem);
 
-    // register to check number of subscribers to /recognizer/output topic
+    // register to check number of subscribers to /odom topic
     ros::Publisher pub = n.advertise<nav_msgs::Odometry>("/odom", 1000);
 
     loop_rate.sleep();
@@ -131,6 +131,7 @@ TEST(TestNavigation, testMoveToFunc) {
 
     geometry_msgs::Pose actGoal = testItem.pos;
 
+    // confirm goal pose is expected
     EXPECT_TRUE(0 == std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
 }
 
@@ -178,6 +179,7 @@ TEST(TestNavigation, testCancelMoveFunc) {
     // allow callback to process
     loop_rate.sleep();
 
+    // confirm goal ID is cancelled
     EXPECT_STREQ(testItem.goalID.c_str(), testItem.cancelID.c_str());
 }
 
@@ -203,6 +205,7 @@ TEST(TestNavigation, testForwardFunc) {
 
     ROS_DEBUG_STREAM("sub: number of publisher = " << sub.getNumPublishers());
 
+    // test move forward
     navi.forward();
 
     // allow callback to process
@@ -218,8 +221,10 @@ TEST(TestNavigation, testForwardFunc) {
 
     geometry_msgs::Twist actTwist = testItem.twist;
 
+    // confirm velocity is expected
     EXPECT_TRUE(0 == std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 
+    // test stop
     navi.stop();
 
     // allow callback to process
@@ -228,6 +233,7 @@ TEST(TestNavigation, testForwardFunc) {
     expTwist.linear.x = 0.0;
     actTwist = testItem.twist;
 
+    // confirm velocity is 0
     EXPECT_TRUE(0 == std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 }
 
@@ -254,6 +260,7 @@ TEST(TestNavigation, testBackwardFunc) {
 
     ROS_DEBUG_STREAM("sub: number of publisher = " << sub.getNumPublishers());
 
+    // test move backward
     navi.backward();
 
     // allow callback to process
@@ -269,8 +276,10 @@ TEST(TestNavigation, testBackwardFunc) {
 
     geometry_msgs::Twist actTwist = testItem.twist;
 
+    // confirm velocity is expected
     EXPECT_TRUE(0 == std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 
+    // test stop
     navi.stop();
 
     // allow callback to process
@@ -279,6 +288,7 @@ TEST(TestNavigation, testBackwardFunc) {
     expTwist.linear.x = 0.0;
     actTwist = testItem.twist;
 
+    // confirm velocity is 0
     EXPECT_TRUE(0 == std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 }
 
@@ -304,6 +314,7 @@ TEST(TestNavigation, testTurnLeftFunc) {
 
     ROS_DEBUG_STREAM("sub: number of publisher = " << sub.getNumPublishers());
 
+    // test turn left
     navi.turnLeft();
 
     // allow callback to process
@@ -319,8 +330,10 @@ TEST(TestNavigation, testTurnLeftFunc) {
 
     geometry_msgs::Twist actTwist = testItem.twist;
 
+    // confirm velocity is expected
     EXPECT_TRUE(0 == std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 
+    // test stop
     navi.stop();
 
     // allow callback to process
@@ -329,6 +342,7 @@ TEST(TestNavigation, testTurnLeftFunc) {
     expTwist.angular.z = 0.0;
     actTwist = testItem.twist;
 
+    // confirm velocity is 0
     EXPECT_TRUE(0 == std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 }
 
@@ -353,6 +367,7 @@ TEST(TestNavigation, testTurnRightFunc) {
 
     ROS_DEBUG_STREAM("sub: number of publisher = " << sub.getNumPublishers());
 
+    // test turn right
     navi.turnRight();
 
     // allow callback to process
@@ -368,8 +383,10 @@ TEST(TestNavigation, testTurnRightFunc) {
 
     geometry_msgs::Twist actTwist = testItem.twist;
 
+    // confirm velocity is expected
     EXPECT_TRUE(0 == std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 
+    // test stop
     navi.stop();
 
     // allow callback to process
@@ -378,10 +395,18 @@ TEST(TestNavigation, testTurnRightFunc) {
     expTwist.angular.z = 0.0;
     actTwist = testItem.twist;
 
+    // confirm velocity is 0
     EXPECT_TRUE(0 == std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 }
 
 
+/*
+ *   @brief  unit test entrypoint
+ *  
+ *   @param  number of arguments
+ *   @param  argument character array
+ *   @return integer 0 upon exit success
+*/
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     ros::init(argc, argv, "testnavigation");

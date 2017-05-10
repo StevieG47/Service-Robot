@@ -77,11 +77,11 @@ TEST(TestAction, testInit) {
 
     act.initialize(n);
 
-    // register to check number of publishers to /servicebot/command topic
+    // register to check number of publishers to /mobile_base/commands/velocity topic
     ros::Subscriber sub = n.subscribe("/mobile_base/commands/velocity", 1000,
                                       &TestHelper::testMBCmdVelocityCallback, &testItem);
 
-    // register to check number of subscribers to /recognizer/output topic
+    // register to check number of subscribers to /odom topic
     ros::Publisher pub = n.advertise<nav_msgs::Odometry>("/odom", 1000);
 
     loop_rate.sleep();
@@ -182,7 +182,7 @@ TEST(TestAction, testPlayMusicAction) {
 
 
 /**
- *   @brief  Verify play music action with filepath arg in Action class
+ *   @brief  Verify play music action with music path arg in Action class
  *
  *   @param  none
  *   @return none
@@ -199,8 +199,8 @@ TEST(TestAction, testPlayMusicFileAction) {
     ros::Subscriber sub = n.subscribe("/robotsound", 1000,
                                       &TestHelper::testRobotSoundCallback, &testItem);
 
+    // get absolute music file path
     std::string path = ros::package::getPath("servicebot");
-
     std::stringstream musicPath;
     musicPath << path << "/demo/01.mp3";
 
@@ -230,12 +230,12 @@ TEST(TestAction, testStopPlayMusicAction) {
 
     ros::Rate loop_rate(2);
 
-    // Subscribe topic /robotsound to verify commands sent from Action class
+    // cubscribe topic /robotsound to verify commands sent from Action class
     ros::Subscriber sub = n.subscribe("/robotsound", 1000,
                                       &TestHelper::testRobotSoundCallback, &testItem);
 
+    // get absolute music file path
     std::string path = ros::package::getPath("servicebot");
-
     std::stringstream musicPath;
     musicPath << path << "/demo/01.mp3";
 
@@ -270,12 +270,15 @@ TEST(TestAction, testMoveToAction) {
 
     ros::Rate loop_rate(2);
 
+    // register to check goal topic received by move_base
     ros::Subscriber subMBGoal = n.subscribe("/move_base/goal", 1000,
                                       &TestHelper::testMoveBaseGoalCallback, &testItem);
 
+    // register to check cancel topic received by move_base
     ros::Subscriber subMBCancel = n.subscribe("/move_base/cancel", 1000,
                                       &TestHelper::testMoveBaseCancelCallback, &testItem);
 
+    // test moving to room a
     act.execute(Action::ACT_MOVETO, "room a");
 
     loop_rate.sleep();
@@ -291,8 +294,10 @@ TEST(TestAction, testMoveToAction) {
 
     geometry_msgs::Pose actGoal = testItem.pos;
 
+    // confirm goal pose received by move_base is expected
     EXPECT_TRUE(0 == std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
 
+    // test moving to room b
     act.execute(Action::ACT_MOVETO, "room b");
 
     loop_rate.sleep();
@@ -307,8 +312,10 @@ TEST(TestAction, testMoveToAction) {
 
     actGoal = testItem.pos;
 
+    // confirm goal pose received by move_base is expected
     EXPECT_TRUE(0 == std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
 
+    // test moving to room b
     act.execute(Action::ACT_MOVETO, "room c");
 
     loop_rate.sleep();
@@ -323,6 +330,7 @@ TEST(TestAction, testMoveToAction) {
 
     actGoal = testItem.pos;
 
+    // confirm goal pose received by move_base is expected
     EXPECT_TRUE(0 == std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
 }
 
@@ -352,11 +360,12 @@ TEST(TestAction, testStopMovingToAction) {
 
     loop_rate.sleep();
 
-    // test stop moving to 
+    // test stop moving to
     act.execute(Action::ACT_STOPMOVETO);
 
     loop_rate.sleep();
 
+    // expect goalID is cancelled
     EXPECT_STREQ(testItem.goalID.c_str(), testItem.cancelID.c_str());
 }
 
@@ -381,6 +390,7 @@ TEST(TestAction, testComeBackAction) {
     ros::Subscriber subMBCancel = n.subscribe("/move_base/cancel", 1000,
                                       &TestHelper::testMoveBaseCancelCallback, &testItem);
 
+    // test comeback command
     act.execute(Action::ACT_COMEBACK);
 
     loop_rate.sleep();
@@ -396,6 +406,7 @@ TEST(TestAction, testComeBackAction) {
 
     geometry_msgs::Pose actGoal = testItem.pos;
 
+    // confirm goal pose received by move_base is initial pose location
     EXPECT_TRUE(0 == std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
 }
 
@@ -419,6 +430,7 @@ TEST(TestAction, testForwardAction) {
     ros::Subscriber sub = n.subscribe("/mobile_base/commands/velocity", 1000,
                                       &TestHelper::testMBCmdVelocityCallback, &testItem);
 
+    // test forward action
     act.execute(Action::ACT_FORWARD);
 
     loop_rate.sleep();
@@ -433,6 +445,7 @@ TEST(TestAction, testForwardAction) {
 
     geometry_msgs::Twist actTwist = testItem.twist;
 
+    // confirm forward velocity is expected
     EXPECT_TRUE(0 == std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 }
 
@@ -456,6 +469,7 @@ TEST(TestAction, testBackwardAction) {
     ros::Subscriber sub = n.subscribe("/mobile_base/commands/velocity", 1000,
                                       &TestHelper::testMBCmdVelocityCallback, &testItem);
 
+    // test backward action
     act.execute(Action::ACT_BACKWARD);
 
     loop_rate.sleep();
@@ -470,6 +484,7 @@ TEST(TestAction, testBackwardAction) {
 
     geometry_msgs::Twist actTwist = testItem.twist;
 
+    // confirm backward velocity is expected
     EXPECT_TRUE(0 == std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 }
 
@@ -493,6 +508,7 @@ TEST(TestAction, testTurnLeftAction) {
     ros::Subscriber sub = n.subscribe("/mobile_base/commands/velocity", 1000,
                                       &TestHelper::testMBCmdVelocityCallback, &testItem);
 
+    // test turn left action
     act.execute(Action::ACT_TURNLEFT);
 
     loop_rate.sleep();
@@ -507,6 +523,7 @@ TEST(TestAction, testTurnLeftAction) {
 
     geometry_msgs::Twist actTwist = testItem.twist;
 
+    // confirm turn left velocity is expected
     EXPECT_TRUE(0 == std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 }
 
@@ -530,6 +547,7 @@ TEST(TestAction, testTurnRightAction) {
     ros::Subscriber sub = n.subscribe("/mobile_base/commands/velocity", 1000,
                                       &TestHelper::testMBCmdVelocityCallback, &testItem);
 
+    // test turn right action
     act.execute(Action::ACT_TURNRIGHT);
 
     loop_rate.sleep();
@@ -544,6 +562,7 @@ TEST(TestAction, testTurnRightAction) {
 
     geometry_msgs::Twist actTwist = testItem.twist;
 
+    // confirm turn right velocity is expected
     EXPECT_TRUE(0 == std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 }
 
@@ -567,10 +586,12 @@ TEST(TestAction, testStopMoveAction) {
     ros::Subscriber sub = n.subscribe("/mobile_base/commands/velocity", 1000,
                                       &TestHelper::testMBCmdVelocityCallback, &testItem);
 
+    // make robot turn right first
     act.execute(Action::ACT_TURNRIGHT);
 
     loop_rate.sleep();
 
+    // test stop move action
     act.execute(Action::ACT_STOPMOVE);
 
     loop_rate.sleep();
@@ -585,10 +606,18 @@ TEST(TestAction, testStopMoveAction) {
 
     geometry_msgs::Twist actTwist = testItem.twist;
 
+    // confirm robot receives velocity 0 to stop moving
     EXPECT_TRUE(0 == std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 }
 
 
+/*
+ *   @brief  unit test entrypoint
+ *  
+ *   @param  number of arguments
+ *   @param  argument character array
+ *   @return integer 0 upon exit success
+*/
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     ros::init(argc, argv, "testaction");

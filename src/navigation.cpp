@@ -25,9 +25,11 @@
 /** @file navigation.cpp
  *  @brief Implementation of class Navigation methods
  *
- *  This file contains implemenation of class Navigation
+ *  This file contains implemenation of class Navigation which navigates robot to 
+ *  pre-defined locations and controls robot's movements to go forward, backward,
+ *  turn left or right, or stop
  *
- *  @author Huei Tzu Tsai
+ *  @author Huei Tzu Tsai \n
  *          Steven Gambino
  *  @date   04/28/2017
 */
@@ -47,15 +49,15 @@
 void Navigation::initialize(ros::NodeHandle &n) {
     ROS_INFO_STREAM("Navigation::initialize");
 
-
-    // Register to publish topic on /servicerobot/command to send voice commands to 
-    // service robot
+    // register to publish topic on /mobile_base/commands/velocity
+    // to send move velocity commands to service robot
     movebaseCmdVelPub = n.advertise<geometry_msgs::Twist>
                          ("/mobile_base/commands/velocity", 1000);
 
+    // subscribe to /odom to receive information for current pose
     odomSub = n.subscribe("/odom", 50, &Navigation::odomCallback, this);
 
-    // Register for timer callback, set it to stop initially
+    // register for timer callback to send velocity commands, set it to stop initially
     timer = n.createTimer(ros::Duration(0.1), &Navigation::timerCallback, this);
     timer.stop();
 
@@ -87,15 +89,13 @@ void Navigation::moveTo(geometry_msgs::Pose &goal) {
     ROS_INFO_STREAM("z " << goal.orientation.z);
     ROS_INFO_STREAM("w " << goal.orientation.w);
 
-
+    // set the frame to map
     mbGoal.target_pose.header.frame_id = "map";
     mbGoal.target_pose.header.stamp = ros::Time::now();
 
     mbGoal.target_pose.pose = goal;
 
-
-
-    // send a goal to the robot
+    // send a goal to movebase
     mbClient.sendGoal(mbGoal,
                 boost::bind(&Navigation::movebaseCallback, this, _1, _2),
                 MoveBaseClient::SimpleActiveCallback(),
@@ -108,7 +108,7 @@ void Navigation::moveTo(geometry_msgs::Pose &goal) {
 void Navigation::cancelMove(void) {
     ROS_INFO_STREAM("cancel moving to goal");
 
-    // send a goal to the robot
+    // send cancel goal to movebase
     mbClient.cancelGoal();
 
     return;
@@ -197,6 +197,7 @@ void Navigation::timerCallback(const ros::TimerEvent& event) {
         ROS_INFO_STREAM("start=" << startAngle << " target=" << targetAngle
                          << " cur=" << curAngle << " diff=" << diff);
 
+        // keep turning until robot reaches target angle
         if (diff < 90) {
             msg.linear.x = 0;
             msg.linear.y = 0.0;
@@ -228,6 +229,7 @@ void Navigation::timerCallback(const ros::TimerEvent& event) {
         ROS_INFO_STREAM("start=" << startAngle << " target=" << targetAngle
                         << " cur=" << curAngle << " diff=" << diff);
 
+        // keep turning until robot reaches target angle
         if (diff < 90) {
             msg.linear.x = 0;
             msg.linear.y = 0.0;

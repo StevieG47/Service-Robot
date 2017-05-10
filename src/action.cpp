@@ -25,9 +25,10 @@
 /** @file action.cpp
  *  @brief Implementation of class Action methods
  *
- *  This file contains implemenation of class Action
+ *  This file contains implemenation of methods in class Action which performs
+ *  actions requested from voice commands or console input
  *
- *  @author Huei Tzu Tsai
+ *  @author Huei Tzu Tsai \n
  *          Steven Gambino
  *  @date   04/27/2017
 */
@@ -102,6 +103,7 @@ void Action::execute(int act, const string &args) {
 void Action::navigate(int act, const string &args) {
     geometry_msgs::Pose goal;
 
+    // pre-defined locations
     struct location locationA(string("room a"), -5, -11, 0.0, 0.0, 0.0, 0.950, 0.312);
     struct location locationB(string("room b"), 7.1, -10.7, 0.0, 0.0, 0.0, -0.713, 0.702);
     struct location locationC(string("room c"), 0, 0, 0.0, 0.0, 0.0, -0.713, 0.702);

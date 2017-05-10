@@ -44,7 +44,7 @@
 
 
 /**
- *   @brief  spin thread to process callbacks.
+ *   @brief  spin thread to process callbacks
  *
  *   @param  continue flag in boolean \n
  *           true to continue, false to terminate thread
@@ -167,7 +167,7 @@ TEST(TestSoundControl, testStopSayingFunc) {
 
     ros::Rate loop_rate(2);
 
-    // register to check say/stop saying command published on /robotsound topic
+    // register to check stop saying command published on /robotsound topic
     ros::Subscriber sub = n.subscribe("/robotsound", 1000,
                                       &TestHelper::testRobotSoundCallback, &testItem);
 
@@ -267,11 +267,18 @@ TEST(TestSoundControl, testStopAllFunc) {
 
     loop_rate.sleep();
 
-    // Expect PLAY_STOP0 for stop all playback
+    // Expect PLAY_STOP for stopping all playback
     EXPECT_EQ(sound_play::SoundRequest::PLAY_STOP, testItem.sndCmd);
 }
 
 
+/*
+ *   @brief  unit test entrypoint
+ *  
+ *   @param  number of arguments
+ *   @param  argument character array
+ *   @return integer 0 upon exit success
+*/
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     ros::init(argc, argv, "testsoundcontrol");
