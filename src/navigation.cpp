@@ -57,8 +57,10 @@ void Navigation::initialize(ros::NodeHandle &n) {
     // subscribe to /odom to receive information for current pose
     odomSub = n.subscribe("/odom", 50, &Navigation::odomCallback, this);
 
-    // register for timer callback to send velocity commands, set it to stop initially
-    timer = n.createTimer(ros::Duration(0.1), &Navigation::timerCallback, this);
+    // register for timer callback to send velocity commands
+    // set it to stop initially
+    timer = n.createTimer(ros::Duration(0.1),
+                          &Navigation::timerCallback, this);
     timer.stop();
 
     direction = DIR_IDLE;
@@ -161,11 +163,10 @@ void Navigation::movebaseCallback(
     const actionlib::SimpleClientGoalState& state,
     const move_base_msgs::MoveBaseResult::ConstPtr& result) {
 
-    if(state == actionlib::SimpleClientGoalState::SUCCEEDED)
+    if (state == actionlib::SimpleClientGoalState::SUCCEEDED)
         ROS_INFO_STREAM("Navigation:: Base succeeded to moved to goal");
     else
         ROS_INFO_STREAM("Navigation:: Base failed to move to goal");
-
 }
 
 

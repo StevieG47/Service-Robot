@@ -48,6 +48,23 @@
 class ServiceBot {
  public:
      /**
+      *   @brief  Constructor of ServiceBot class
+      *
+      *   @param  none
+      *   @return none
+     */
+     ServiceBot() {}
+
+
+     /**
+      *   @brief  Deconstructor of ServiceBot class
+      *
+      *   @param  none
+      *   @return none
+     */
+     ~ServiceBot() {}
+
+     /**
       *   @brief  Initialize ServiceBot to subscribe/publish topics for command
       *           processing and setup a service to receive commands from console
       *
@@ -57,11 +74,11 @@ class ServiceBot {
      void initialize(ros::NodeHandle &);
 
  private:
-     ros::NodeHandle nodeHandle;           ///< ros node handle
-     ros::Subscriber commandSub;           ///< subscriber to /servicebot/command
-     ros::Publisher commandPub;            ///< publisher to /servicebot/command
-     ros::ServiceServer commandServer;     ///< server of /commandService
-     Action action;                        ///< action object to execute commands
+     ros::NodeHandle nodeHandle;         ///< ros node handle
+     ros::Subscriber commandSub;         ///< subscriber to /servicebot/command
+     ros::Publisher commandPub;          ///< publisher to /servicebot/command
+     ros::ServiceServer commandServer;   ///< server of /commandService
+     Action action;                      ///< action object to execute commands
 
 
      /**

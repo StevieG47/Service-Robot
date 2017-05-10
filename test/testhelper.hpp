@@ -32,10 +32,10 @@
  *  @date   05/06/2017
 */
 
-#ifndef INCLUDE_TESTHELPER_HPP_
-#define INCLUDE_TESTHELPER_HPP_
+#ifndef TEST_TESTHELPER_HPP_
+#define TEST_TESTHELPER_HPP_
 
-#include <string>
+
 #include <ros/ros.h>
 #include <std_msgs/String.h>
 #include <sound_play/sound_play.h>
@@ -43,6 +43,7 @@
 #include <geometry_msgs/Twist.h>
 #include <move_base_msgs/MoveBaseActionGoal.h>
 #include <actionlib_msgs/GoalID.h>
+#include <string>
 
 /**
  *  @brief Class definition of TestHelper class
@@ -74,7 +75,8 @@ class TestHelper {
       *   @param  goal messages in move_base_msgs::MoveBaseActionGoal
       *   @return none
      */
-     void testMoveBaseGoalCallback(const move_base_msgs::MoveBaseActionGoal::ConstPtr&);
+     void testMoveBaseGoalCallback
+         (const move_base_msgs::MoveBaseActionGoal::ConstPtr&);
 
 
      /**
@@ -106,7 +108,6 @@ class TestHelper {
      std::string cancelID;        ///< goal ID to be cancelled
 
      geometry_msgs::Twist twist;  ///< command velocity
-
 };
 
-#endif  // INCLUDE_TESTHELPER_HPP_
+#endif  // TEST_TESTHELPER_HPP_

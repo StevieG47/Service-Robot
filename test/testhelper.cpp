@@ -39,6 +39,7 @@
 #include <geometry_msgs/Twist.h>
 #include <move_base_msgs/MoveBaseActionGoal.h>
 #include <actionlib_msgs/GoalID.h>
+#include <algorithm>
 #include "testhelper.hpp"
 
 
@@ -52,13 +53,14 @@ void TestHelper::testCommandCallback(const std_msgs::String::ConstPtr& msg) {
     std::transform(cmd.begin(), cmd.end(), cmd.begin(), ::tolower);
     std::transform(args.begin(), args.end(), args.begin(), ::tolower);
 
-    ROS_DEBUG_STREAM("TestHelper::testCommandCallback cmd=" << cmd << " args=" << args);
+    ROS_DEBUG_STREAM("TestHelper::testCommandCallback cmd="
+                     << cmd << " args=" << args);
     return;
-
 }
 
 
-void TestHelper::testRobotSoundCallback(const sound_play::SoundRequest::ConstPtr& msg) {
+void TestHelper::testRobotSoundCallback(
+    const sound_play::SoundRequest::ConstPtr& msg) {
     snd = msg->sound;
     sndCmd = msg->command;
     cmd = msg->arg;
@@ -72,7 +74,8 @@ void TestHelper::testRobotSoundCallback(const sound_play::SoundRequest::ConstPtr
 }
 
 
-void TestHelper::testMoveBaseGoalCallback(const move_base_msgs::MoveBaseActionGoal::ConstPtr& msg) {
+void TestHelper::testMoveBaseGoalCallback(
+    const move_base_msgs::MoveBaseActionGoal::ConstPtr& msg) {
     goalID = msg->goal_id.id;
     pos = msg->goal.target_pose.pose;
 
@@ -89,7 +92,8 @@ void TestHelper::testMoveBaseGoalCallback(const move_base_msgs::MoveBaseActionGo
 }
 
 
-void TestHelper::testMoveBaseCancelCallback(const actionlib_msgs::GoalID::ConstPtr& msg) {
+void TestHelper::testMoveBaseCancelCallback(
+    const actionlib_msgs::GoalID::ConstPtr& msg) {
     cancelID = msg->id;
 
     ROS_DEBUG_STREAM("cancelID = " << cancelID);
@@ -97,7 +101,8 @@ void TestHelper::testMoveBaseCancelCallback(const actionlib_msgs::GoalID::ConstP
 }
 
 
-void TestHelper::testMBCmdVelocityCallback(const geometry_msgs::Twist::ConstPtr& msg) {
+void TestHelper::testMBCmdVelocityCallback(
+    const geometry_msgs::Twist::ConstPtr& msg) {
     twist = *msg;
 
     ROS_DEBUG_STREAM("twist.linear.x = " << twist.linear.x);

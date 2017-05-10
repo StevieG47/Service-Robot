@@ -52,16 +52,20 @@ void ServiceBot::initialize(ros::NodeHandle &n) {
 
     nodeHandle = n;
 
-    // subscribe topic /servicebot/command from master to receive voice or console commands
+    // subscribe topic /servicebot/command from master to receive voice
+    // or console commands
     commandSub = nodeHandle.subscribe("/servicebot/command", 1000,
                                       &ServiceBot::commandCallback, this);
 
-    // register to publish commands received from console to /servicebot/commands
-    commandPub = nodeHandle.advertise<std_msgs::String>("/servicebot/command", 1000);
+    // register to publish commands received from console to
+    // /servicebot/commands
+    commandPub =
+        nodeHandle.advertise<std_msgs::String>("/servicebot/command", 1000);
 
     // register service with the master to receive commands from console
     commandServer =
-        nodeHandle.advertiseService("commandService", &ServiceBot::commandService, this);
+        nodeHandle.advertiseService("commandService",
+                                    &ServiceBot::commandService, this);
 
     // initialize action
     action.initialize(nodeHandle);
@@ -75,7 +79,8 @@ bool ServiceBot::commandService(
         servicebot::commandService::Response &resp) {
     std_msgs::String msg;
 
-    ROS_INFO_STREAM("ServiceBot::commandService: receive req = " << req.command << " " << req.args);
+    ROS_INFO_STREAM("ServiceBot::commandService: receive req = "
+                    << req.command << " " << req.args);
 
     std::stringstream ss;
     ss << req.command << "," << req.args;
@@ -103,7 +108,8 @@ void ServiceBot::commandCallback(const std_msgs::String::ConstPtr& msg) {
     std::transform(cmd.begin(), cmd.end(), cmd.begin(), ::tolower);
     std::transform(args.begin(), args.end(), args.begin(), ::tolower);
 
-    ROS_INFO_STREAM("ServiceBot::commandCallback cmd=" << cmd << " args=" << args);
+    ROS_INFO_STREAM("ServiceBot::commandCallback cmd="
+                    << cmd << " args=" << args);
 
     if (cmd.find("your name") != string::npos) {
         action.execute(Action::ACT_NAME);
@@ -138,8 +144,9 @@ void ServiceBot::commandCallback(const std_msgs::String::ConstPtr& msg) {
         action.execute(Action::ACT_TURNRIGHT);
     } else if (cmd.find("stop") != string::npos) {
         action.execute(Action::ACT_STOPMOVE);
-    } else
-        ;
+    } else {
+        ROS_INFO_STREAM("ServiceBot:: unknown action");
+    }
 
     return;
 }

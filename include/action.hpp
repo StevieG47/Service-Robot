@@ -96,11 +96,28 @@ class Action {
           *   @return none
          */
          location(std::string s, double px, double py, double pz,
-                  double ox, double oy, double oz, double ow) : 
+                  double ox, double oy, double oz, double ow) :
                   loc(s), pointX(px), pointY(py), pointZ(pz),
                   orientationX(ox), orientationY(oy), orientationZ(oz),
                   orientationW(ow) {}
      };
+
+     /**
+      *   @brief  Constructor of Action class
+      *
+      *   @param  none
+      *   @return none
+     */
+     Action() : action(0) {}
+
+
+     /**
+      *   @brief  Deconstructor of Action class
+      *
+      *   @param  none
+      *   @return none
+     */
+     ~Action() {}
 
      /**
       *   @brief  Initialization of Action class
@@ -118,7 +135,7 @@ class Action {
       *   @param  arguments in string
       *   @return none
      */
-     void execute(int, const std::string & args="");
+     void execute(int, const std::string & args = "");
 
 
  private:
@@ -140,7 +157,7 @@ class Action {
       *           empty args otherwise
       *   @return none
      */
-     void navigate(int, const std::string & args="");
+     void navigate(int, const std::string & args = "");
 
 
      /**
@@ -151,7 +168,7 @@ class Action {
       *           empty string otherwise
       *   @return none
      */
-     void playMusic(int, const std::string & args="");
+     void playMusic(int, const std::string & args = "");
 };
 
 #endif  // INCLUDE_ACTION_HPP_

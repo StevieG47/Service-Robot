@@ -49,7 +49,8 @@
  *
  *  @brief Actionlib client of Mobilebase
 */
-typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
+typedef
+actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 
 /**
  *  @brief Class definition of Navigation class
@@ -76,7 +77,10 @@ class Navigation {
       *   @param  none
       *   @return none
      */
-     Navigation() : mbClient("move_base", true) {}
+     Navigation() : mbClient("move_base", true),
+                    direction(0),
+                    angle(0),
+                    startAngle(0) {}
 
 
      /**
@@ -94,7 +98,7 @@ class Navigation {
       *   @param  ros node handle
       *   @return none
      */
-     void initialize(ros::NodeHandle &n);
+     void initialize(ros::NodeHandle &);
 
 
      /**
@@ -169,12 +173,12 @@ class Navigation {
                                          ///< command velocity topic
      ros::Subscriber odomSub;            ///< subscriber to get odom info
      ros::Timer timer;                   ///< timer to send velocity commands
-     MoveBaseClient mbClient;            ///< movebase client to send 
+     MoveBaseClient mbClient;            ///< movebase client to send
                                          ///< navigation goal
      geometry_msgs::Pose curPose;        ///< current pose from odom
      int direction;                      ///< forward or backward direction
                                          ///< to move to
-     int angle;                          ///< left or right angle to move to 
+     int angle;                          ///< left or right angle to move to
      double startAngle;                  ///< starting angle of robot in degree
 
 

@@ -36,11 +36,11 @@
 */
 
 
-#include <string>
 #include <stdlib.h>
 #include <ros/ros.h>
 #include <std_msgs/String.h>
 #include <sound_play/sound_play.h>
+#include <string>
 #include "soundcontrol.hpp"
 
 
@@ -58,7 +58,8 @@ void SoundControl::initialize(ros::NodeHandle &n) {
 
 
 void SoundControl::speechCallback(const std_msgs::String::ConstPtr& msg) {
-    ROS_INFO_STREAM("SoundControl::speechCallback: publish " << msg->data.c_str());
+    ROS_INFO_STREAM("SoundControl::speechCallback: publish "
+                    << msg->data.c_str());
 
     // publish command to servicebot
     commandPub.publish(msg);

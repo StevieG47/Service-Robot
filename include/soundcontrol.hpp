@@ -38,10 +38,11 @@
 #ifndef INCLUDE_SOUNDCONTROL_HPP_
 #define INCLUDE_SOUNDCONTROL_HPP_
 
-#include <string>
 #include <ros/ros.h>
 #include <std_msgs/String.h>
 #include <sound_play/sound_play.h>
+#include <string>
+
 
 #define DEMO_MUSIC     "demo/01.mp3"
 
@@ -50,6 +51,23 @@
 */
 class SoundControl {
  public:
+     /**
+      *   @brief  Constructor of SoundControl class
+      *
+      *   @param  none
+      *   @return none
+     */
+     SoundControl() {}
+
+
+     /**
+      *   @brief  Deconstructor of SoundControl class
+      *
+      *   @param  none
+      *   @return none
+     */
+     ~SoundControl() {}
+
      /**
       *   @brief  Initialize SoundControl class
       *
@@ -104,12 +122,10 @@ class SoundControl {
      void stopAll(void);
 
  private:
-
      ros::Publisher commandPub;           ///< publisher to /servicebot/command
      ros::Subscriber recognitionSub;      ///< subscriber to /recognizer/output
-     sound_play::SoundClient soundClient; ///< SoundClient object to publish 
-                                          ///< sound commands on /robotsound
-
+     sound_play::SoundClient soundClient;   ///< SoundClient object to publish
+                                            ///< sound commands on /robotsound
 
 
      /**

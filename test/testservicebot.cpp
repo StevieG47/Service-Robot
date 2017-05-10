@@ -48,14 +48,13 @@
 /**
  *   @brief  spin thread to process callbacks
  *
- *   @param  continue flag in boolean \n
- *           true to continue, false to terminate thread
+ *   @param  none
  *   @return none
 */
-void processThread(bool *cont) {
+void processThread(void) {
     ros::Rate loop_rate(10);
 
-    while (ros::ok() && *cont) {
+    while (ros::ok()) {
         ros::spinOnce();
         loop_rate.sleep();
     }
@@ -77,10 +76,12 @@ TEST(TestServiceBot, testInit) {
 
     // register to check number of publishers to /servicebot/command topic
     ros::Subscriber sub = n.subscribe("/servicebot/command", 1000,
-                                      &TestHelper::testCommandCallback, &testItem);
+                                      &TestHelper::testCommandCallback,
+                                      &testItem);
 
     // register to check number of subscribers to /servicebot/command
-    ros::Publisher pub = n.advertise<std_msgs::String>("/servicebot/command", 1000);
+    ros::Publisher pub = n.advertise<std_msgs::String>("/servicebot/command",
+                                                       1000);
 
     loop_rate.sleep();
 
@@ -91,7 +92,7 @@ TEST(TestServiceBot, testInit) {
         n.serviceClient<servicebot::commandService>("commandService");
 
     // expect service to be ready in 1 second
-    EXPECT_TRUE(client.waitForExistence(ros::Duration(1)));
+    EXPECT_EQ(true, client.waitForExistence(ros::Duration(1)));
 }
 
 
@@ -107,9 +108,11 @@ TEST(TestServiceBot, testCommandService) {
 
     ros::Rate loop_rate(2);
 
-    // Subscribe topic serviceCommand from master to receive messages published on this topic
+    // Subscribe topic serviceCommand from master to receive messages published
+    // on this topic
     ros::Subscriber sub = n.subscribe("/servicebot/command", 1000,
-                                      &TestHelper::testCommandCallback, &testItem);
+                                      &TestHelper::testCommandCallback,
+                                      &testItem);
 
     // allow callback to process
     loop_rate.sleep();
@@ -121,7 +124,7 @@ TEST(TestServiceBot, testCommandService) {
     // expect service to be ready in 1 second
     EXPECT_TRUE(client.waitForExistence(ros::Duration(1)));
 
-   // Create request & response objects
+    // Create request & response objects
     servicebot::commandService::Request req;
     servicebot::commandService::Response resp;
 
@@ -156,12 +159,14 @@ TEST(TestServiceBot, testNameCommand) {
 
     ros::Rate loop_rate(2);
 
-    // Register to publish topic 
-    ros::Publisher pub = n.advertise<std_msgs::String>("/servicebot/command", 1000);
+    // Register to publish topic
+    ros::Publisher pub = n.advertise<std_msgs::String>("/servicebot/command",
+                                                       1000);
 
     // Subscribe topic /robotsound to verify name command
     ros::Subscriber sub = n.subscribe("/robotsound", 1000,
-                                      &TestHelper::testRobotSoundCallback, &testItem);
+                                      &TestHelper::testRobotSoundCallback,
+                                      &testItem);
     loop_rate.sleep();
 
     // test name command
@@ -190,12 +195,14 @@ TEST(TestServiceBot, testTimeCommand) {
 
     ros::Rate loop_rate(2);
 
-    // Register to publish topic 
-    ros::Publisher pub = n.advertise<std_msgs::String>("/servicebot/command", 1000);
+    // Register to publish topic
+    ros::Publisher pub = n.advertise<std_msgs::String>("/servicebot/command",
+                                                       1000);
 
     // Subscribe topic /robotsound to verify time command
     ros::Subscriber sub = n.subscribe("/robotsound", 1000,
-                                      &TestHelper::testRobotSoundCallback, &testItem);
+                                      &TestHelper::testRobotSoundCallback,
+                                      &testItem);
     loop_rate.sleep();
 
     // test time command
@@ -207,7 +214,7 @@ TEST(TestServiceBot, testTimeCommand) {
     // confirm sound commands received on /robotsound are correct
     EXPECT_EQ(sound_play::SoundRequest::SAY, testItem.snd);
     EXPECT_EQ(sound_play::SoundRequest::PLAY_ONCE, testItem.sndCmd);
-    EXPECT_TRUE(testItem.cmd.find("time now is") != std::string::npos);
+    EXPECT_EQ(true, testItem.cmd.find("time now is") != std::string::npos);
 }
 
 
@@ -225,12 +232,14 @@ TEST(TestServiceBot, testPlayCommand) {
 
     ros::Rate loop_rate(2);
 
-    // Register to publish topic 
-    ros::Publisher pub = n.advertise<std_msgs::String>("/servicebot/command", 1000);
+    // Register to publish topic
+    ros::Publisher pub = n.advertise<std_msgs::String>("/servicebot/command",
+                                                       1000);
 
     // Subscribe topic /robotsound to verify play music command
     ros::Subscriber sub = n.subscribe("/robotsound", 1000,
-                                      &TestHelper::testRobotSoundCallback, &testItem);
+                                      &TestHelper::testRobotSoundCallback,
+                                      &testItem);
 
     loop_rate.sleep();
 
@@ -249,7 +258,7 @@ TEST(TestServiceBot, testPlayCommand) {
     std::stringstream musicPath;
     std::stringstream command;
     std::string path = ros::package::getPath("servicebot");
-    musicPath << path << "/demo/01.mp3";
+    musicPath << path << DEMO_MUSIC;
     command << "play music," << musicPath.str();
 
     msg.data = command.str();
@@ -277,12 +286,14 @@ TEST(TestServiceBot, testStopPlayCommand) {
 
     ros::Rate loop_rate(2);
 
-    // Register to publish topic 
-    ros::Publisher pub = n.advertise<std_msgs::String>("/servicebot/command", 1000);
+    // Register to publish topic
+    ros::Publisher pub = n.advertise<std_msgs::String>("/servicebot/command",
+                                                       1000);
 
     // Subscribe topic /robotsound to verify stop play music command
     ros::Subscriber sub = n.subscribe("/robotsound", 1000,
-                                      &TestHelper::testRobotSoundCallback, &testItem);
+                                      &TestHelper::testRobotSoundCallback,
+                                      &testItem);
     loop_rate.sleep();
 
     // play music first
@@ -291,7 +302,7 @@ TEST(TestServiceBot, testStopPlayCommand) {
 
     loop_rate.sleep();
 
-    // test stop music command   
+    // test stop music command
     msg.data = "stop music";
     pub.publish(msg);
 
@@ -315,20 +326,25 @@ TEST(TestServiceBot, testMoveToCommand) {
 
     ros::Rate loop_rate(2);
 
-    // Register to publish topic 
-    ros::Publisher pub = n.advertise<std_msgs::String>("/servicebot/command", 1000);
+    // Register to publish topic
+    ros::Publisher pub = n.advertise<std_msgs::String>("/servicebot/command",
+                                                       1000);
 
     // Subscribe to check goal and cancel commands received by movebase
     ros::Subscriber subMBGoal = n.subscribe("/move_base/goal", 1000,
-                                      &TestHelper::testMoveBaseGoalCallback, &testItem);
+                                      &TestHelper::testMoveBaseGoalCallback,
+                                      &testItem);
 
     ros::Subscriber subMBCancel = n.subscribe("/move_base/cancel", 1000,
-                                      &TestHelper::testMoveBaseCancelCallback, &testItem);
+                                      &TestHelper::testMoveBaseCancelCallback,
+                                      &testItem);
 
     loop_rate.sleep();
 
-    ROS_DEBUG_STREAM("subMBGoal: number of publisher = " << subMBGoal.getNumPublishers());
-    ROS_DEBUG_STREAM("subMBCancel: number of publisher = " << subMBCancel.getNumPublishers());
+    ROS_DEBUG_STREAM("subMBGoal: number of publisher = "
+                     << subMBGoal.getNumPublishers());
+    ROS_DEBUG_STREAM("subMBCancel: number of publisher = "
+                     << subMBCancel.getNumPublishers());
 
     // test move to room a
     msg.data = "move to,room a";
@@ -348,7 +364,7 @@ TEST(TestServiceBot, testMoveToCommand) {
     geometry_msgs::Pose actGoal = testItem.pos;
 
     // confirm goal pose is expected
-    EXPECT_TRUE(0 == std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
+    EXPECT_EQ(true, std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
 
     // test cancel command
     msg.data = "cancel,";
@@ -376,7 +392,7 @@ TEST(TestServiceBot, testMoveToCommand) {
     actGoal = testItem.pos;
 
     // confirm goal pose is expected
-    EXPECT_TRUE(0 == std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
+    EXPECT_EQ(true, std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
 
     // test abort command
     msg.data = "abort,";
@@ -404,7 +420,7 @@ TEST(TestServiceBot, testMoveToCommand) {
     actGoal = testItem.pos;
 
     // confirm goal pose is expected
-    EXPECT_TRUE(0 == std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
+    EXPECT_EQ(true, std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
 
     msg.data = "stop moving,";
     pub.publish(msg);
@@ -429,20 +445,25 @@ TEST(TestServiceBot, testComeBackCommand) {
 
     ros::Rate loop_rate(2);
 
-    // Register to publish topic 
-    ros::Publisher pub = n.advertise<std_msgs::String>("/servicebot/command", 1000);
+    // Register to publish topic
+    ros::Publisher pub = n.advertise<std_msgs::String>("/servicebot/command",
+                                                       1000);
 
     // Subscribe to check goal and cancel commands received by movebase
     ros::Subscriber subMBGoal = n.subscribe("/move_base/goal", 1000,
-                                      &TestHelper::testMoveBaseGoalCallback, &testItem);
+                                      &TestHelper::testMoveBaseGoalCallback,
+                                      &testItem);
 
     ros::Subscriber subMBCancel = n.subscribe("/move_base/cancel", 1000,
-                                      &TestHelper::testMoveBaseCancelCallback, &testItem);
+                                      &TestHelper::testMoveBaseCancelCallback,
+                                      &testItem);
 
     loop_rate.sleep();
 
-    ROS_DEBUG_STREAM("subMBGoal: number of publisher = " << subMBGoal.getNumPublishers());
-    ROS_DEBUG_STREAM("subMBCancel: number of publisher = " << subMBCancel.getNumPublishers());
+    ROS_DEBUG_STREAM("subMBGoal: number of publisher = "
+                     << subMBGoal.getNumPublishers());
+    ROS_DEBUG_STREAM("subMBCancel: number of publisher = "
+                     << subMBCancel.getNumPublishers());
 
     // test come back command
     msg.data = "come back,";
@@ -462,7 +483,7 @@ TEST(TestServiceBot, testComeBackCommand) {
     geometry_msgs::Pose actGoal = testItem.pos;
 
     // confirm goal pose is initial pose
-    EXPECT_TRUE(0 == std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
+    EXPECT_EQ(true, std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
 
     msg.data = "cancel";
     pub.publish(msg);
@@ -486,12 +507,14 @@ TEST(TestServiceBot, testForwardCommand) {
 
     ros::Rate loop_rate(2);
 
-    // Register to publish topic 
-    ros::Publisher pub = n.advertise<std_msgs::String>("/servicebot/command", 1000);
+    // Register to publish topic
+    ros::Publisher pub = n.advertise<std_msgs::String>("/servicebot/command",
+                                                       1000);
 
     // Subscribe to check velocity commands received by mobile_base
     ros::Subscriber sub = n.subscribe("/mobile_base/commands/velocity", 1000,
-                                      &TestHelper::testMBCmdVelocityCallback, &testItem);
+                                      &TestHelper::testMBCmdVelocityCallback,
+                                      &testItem);
 
     loop_rate.sleep();
 
@@ -514,7 +537,7 @@ TEST(TestServiceBot, testForwardCommand) {
     geometry_msgs::Twist actTwist = testItem.twist;
 
     // confirm velocity is expected
-    EXPECT_TRUE(0 == std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 
     msg.data = "stop,";
     pub.publish(msg);
@@ -524,7 +547,7 @@ TEST(TestServiceBot, testForwardCommand) {
     expTwist.linear.x = 0.0;
     actTwist = testItem.twist;
 
-    EXPECT_TRUE(0 == std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 }
 
 
@@ -541,12 +564,14 @@ TEST(TestServiceBot, testBackwardCommand) {
 
     ros::Rate loop_rate(2);
 
-    // Register to publish topic 
-    ros::Publisher pub = n.advertise<std_msgs::String>("/servicebot/command", 1000);
+    // Register to publish topic
+    ros::Publisher pub = n.advertise<std_msgs::String>("/servicebot/command",
+                                                       1000);
 
     // Subscribe to check velocity commands received by mobile_base
     ros::Subscriber sub = n.subscribe("/mobile_base/commands/velocity", 1000,
-                                      &TestHelper::testMBCmdVelocityCallback, &testItem);
+                                      &TestHelper::testMBCmdVelocityCallback,
+                                      &testItem);
 
     loop_rate.sleep();
 
@@ -569,7 +594,7 @@ TEST(TestServiceBot, testBackwardCommand) {
     geometry_msgs::Twist actTwist = testItem.twist;
 
     // confirm velocity is expected
-    EXPECT_TRUE(0 == std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 
     msg.data = "stop,";
     pub.publish(msg);
@@ -579,7 +604,7 @@ TEST(TestServiceBot, testBackwardCommand) {
     expTwist.linear.x = 0.0;
     actTwist = testItem.twist;
 
-    EXPECT_TRUE(0 == std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 }
 
 
@@ -596,12 +621,14 @@ TEST(TestServiceBot, testTurnLeftCommand) {
 
     ros::Rate loop_rate(2);
 
-    // Register to publish topic 
-    ros::Publisher pub = n.advertise<std_msgs::String>("/servicebot/command", 1000);
+    // Register to publish topic
+    ros::Publisher pub = n.advertise<std_msgs::String>("/servicebot/command",
+                                                       1000);
 
     // Subscribe to check velocity commands received by mobile_base
     ros::Subscriber sub = n.subscribe("/mobile_base/commands/velocity", 1000,
-                                      &TestHelper::testMBCmdVelocityCallback, &testItem);
+                                      &TestHelper::testMBCmdVelocityCallback,
+                                      &testItem);
 
     loop_rate.sleep();
 
@@ -624,7 +651,7 @@ TEST(TestServiceBot, testTurnLeftCommand) {
     geometry_msgs::Twist actTwist = testItem.twist;
 
     // confirm velocity is expected
-    EXPECT_TRUE(0 == std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 
     msg.data = "stop,";
     pub.publish(msg);
@@ -634,7 +661,7 @@ TEST(TestServiceBot, testTurnLeftCommand) {
     expTwist.angular.z = 0.0;
     actTwist = testItem.twist;
 
-    EXPECT_TRUE(0 == std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 }
 
 
@@ -651,11 +678,13 @@ TEST(TestServiceBot, testTurnRightCommand) {
 
     ros::Rate loop_rate(2);
 
-    ros::Publisher pub = n.advertise<std_msgs::String>("/servicebot/command", 1000);
+    ros::Publisher pub = n.advertise<std_msgs::String>("/servicebot/command",
+                                                       1000);
 
     // Subscribe to check velocity commands received by mobile_base
     ros::Subscriber sub = n.subscribe("/mobile_base/commands/velocity", 1000,
-                                      &TestHelper::testMBCmdVelocityCallback, &testItem);
+                                      &TestHelper::testMBCmdVelocityCallback,
+                                      &testItem);
 
     loop_rate.sleep();
 
@@ -678,7 +707,7 @@ TEST(TestServiceBot, testTurnRightCommand) {
     geometry_msgs::Twist actTwist = testItem.twist;
 
     // confirm velocity is expected
-    EXPECT_TRUE(0 == std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 
     msg.data = "stop,";
     pub.publish(msg);
@@ -688,7 +717,7 @@ TEST(TestServiceBot, testTurnRightCommand) {
     expTwist.angular.z = 0.0;
     actTwist = testItem.twist;
 
-    EXPECT_TRUE(0 == std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 }
 
 
@@ -704,14 +733,12 @@ int main(int argc, char** argv) {
     ros::init(argc, argv, "testservicebot");
     ros::NodeHandle nh;
 
-    bool cont = true;
-
     // spawn another thread
-    boost::thread th(processThread, &cont);
+    boost::thread th(processThread);
 
     int ret = RUN_ALL_TESTS();
 
-    cont = false;
+    ros::shutdown();
 
     // wait the second thread to finish
     th.join();

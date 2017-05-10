@@ -46,14 +46,13 @@
 /**
  *   @brief  spin thread to process callbacks
  *
- *   @param  continue flag in boolean \n
- *           true to continue, false to terminate thread
+ *   @param  none
  *   @return none
 */
-void spinThread(bool *cont) {
+void spinThread(void) {
     ros::Rate loop_rate(10);
 
-    while (ros::ok() && *cont) {
+    while (ros::ok()) {
         ros::spinOnce();
         loop_rate.sleep();
     }
@@ -78,10 +77,11 @@ TEST(TestSoundControl, testInit) {
 
     // register to check number of publishers to /servicebot/command topic
     ros::Subscriber sub = n.subscribe("/servicebot/command", 1000,
-                                      &TestHelper::testCommandCallback, &testItem);
+                                  &TestHelper::testCommandCallback, &testItem);
 
     // register to check number of subscribers to /recognizer/output topic
-    ros::Publisher pub = n.advertise<std_msgs::String>("/recognizer/output", 1000);
+    ros::Publisher pub = n.advertise<std_msgs::String>("/recognizer/output",
+                                                       1000);
 
     loop_rate.sleep();
 
@@ -107,15 +107,15 @@ TEST(TestSoundControl, testSpeechCallback) {
     soundCtl.initialize(n);
 
     ros::Subscriber sub = n.subscribe("/servicebot/command", 1000,
-                                      &TestHelper::testCommandCallback, &testItem);
+                                      &TestHelper::testCommandCallback,
+                                      &testItem);
 
-
-    // register to publish topic on /recognizer/output to test speechCallback in 
-    // SoundControl class
-    ros::Publisher pub = n.advertise<std_msgs::String>("/recognizer/output", 1000);
+    // register to publish topic on /recognizer/output to test speechCallback
+    // in SoundControl class
+    ros::Publisher pub = n.advertise<std_msgs::String>("/recognizer/output",
+                                                       1000);
 
     msg.data = "test";
-
     pub.publish(msg);
 
     loop_rate.sleep();
@@ -141,12 +141,15 @@ TEST(TestSoundControl, testSayFunc) {
 
     // register to check say command published on /robotsound topic
     ros::Subscriber sub = n.subscribe("/robotsound", 1000,
-                                      &TestHelper::testRobotSoundCallback, &testItem);
+                                      &TestHelper::testRobotSoundCallback,
+                                      &testItem);
 
+    // say a test phrase
     soundCtl.say(testPhrase);
 
     loop_rate.sleep();
 
+    // verify sound command and test phase is received by /robotsound
     EXPECT_EQ(sound_play::SoundRequest::SAY, testItem.snd);
     EXPECT_EQ(sound_play::SoundRequest::PLAY_ONCE, testItem.sndCmd);
     EXPECT_STREQ(testPhrase.c_str(), testItem.cmd.c_str());
@@ -169,16 +172,20 @@ TEST(TestSoundControl, testStopSayingFunc) {
 
     // register to check stop saying command published on /robotsound topic
     ros::Subscriber sub = n.subscribe("/robotsound", 1000,
-                                      &TestHelper::testRobotSoundCallback, &testItem);
+                                      &TestHelper::testRobotSoundCallback,
+                                      &testItem);
 
+    // say a test phrase
     soundCtl.say(testPhrase);
 
     loop_rate.sleep();
 
+    // test stop saying
     soundCtl.stopSaying(testPhrase);
 
     loop_rate.sleep();
 
+    // verify stop saying command is received
     EXPECT_EQ(sound_play::SoundRequest::PLAY_STOP, testItem.sndCmd);
 }
 
@@ -193,20 +200,20 @@ TEST(TestSoundControl, testPlayFunc) {
     ros::NodeHandle n;
     TestHelper testItem;
     SoundControl soundCtl;
-    std::string demoMusic = DEMO_MUSIC;
 
     ros::Rate loop_rate(2);
 
     // register to check play command published on /robotsound topic
     ros::Subscriber sub = n.subscribe("/robotsound", 1000,
-                                      &TestHelper::testRobotSoundCallback, &testItem);
+                                      &TestHelper::testRobotSoundCallback,
+                                      &testItem);
 
+    // get absolute path for music file
     std::string path = ros::package::getPath("servicebot");
-
     std::stringstream musicPath;
-    musicPath << path << "/demo/01.mp3";
+    musicPath << path << DEMO_MUSIC;
 
-    ROS_INFO_STREAM("demo music path = " << musicPath.str());
+    ROS_INFO_STREAM("music path = " << musicPath.str());
 
     soundCtl.play(musicPath.str());
 
@@ -228,21 +235,21 @@ TEST(TestSoundControl, testPlayWaveFromPkgFunc) {
     ros::NodeHandle n;
     TestHelper testItem;
     SoundControl soundCtl;
-    std::string demoMusic = DEMO_MUSIC;
 
     ros::Rate loop_rate(2);
 
-    // register to check play from package command published on /robotsound topic
+    // register to check play from package command published on /robotsound
     ros::Subscriber sub = n.subscribe("/robotsound", 1000,
-                                      &TestHelper::testRobotSoundCallback, &testItem);
+                                      &TestHelper::testRobotSoundCallback,
+                                      &testItem);
 
-    soundCtl.playWaveFromPkg(demoMusic);
+    soundCtl.playWaveFromPkg(DEMO_MUSIC);
 
     loop_rate.sleep();
 
     EXPECT_EQ(sound_play::SoundRequest::PLAY_FILE, testItem.snd);
     EXPECT_EQ(sound_play::SoundRequest::PLAY_ONCE, testItem.sndCmd);
-    EXPECT_STREQ(demoMusic.c_str(), testItem.cmd.c_str());
+    EXPECT_STREQ(DEMO_MUSIC, testItem.cmd.c_str());
 }
 
 
@@ -261,7 +268,8 @@ TEST(TestSoundControl, testStopAllFunc) {
 
     // register to check stop all command published on /robotsound topic
     ros::Subscriber sub = n.subscribe("/robotsound", 1000,
-                                      &TestHelper::testRobotSoundCallback, &testItem);
+                                      &TestHelper::testRobotSoundCallback,
+                                      &testItem);
 
     soundCtl.stopAll();
 
@@ -284,14 +292,12 @@ int main(int argc, char** argv) {
     ros::init(argc, argv, "testsoundcontrol");
     ros::NodeHandle nh;
 
-    bool cont = true;
-
     // spawn another thread
-    boost::thread th(spinThread, &cont);
+    boost::thread th(spinThread);
 
     int ret = RUN_ALL_TESTS();
 
-    cont = false;
+    ros::shutdown();
 
     // wait the second thread to finish
     th.join();

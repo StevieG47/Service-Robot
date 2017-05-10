@@ -47,14 +47,13 @@
 /**
  *   @brief  spin thread to process callbacks
  *
- *   @param  continue flag in boolean \n
- *           true to continue, false to terminate thread
+ *   @param  none
  *   @return none
 */
-void processThread(bool *cont) {
+void processThread(void) {
     ros::Rate loop_rate(10);
 
-    while (ros::ok() && *cont) {
+    while (ros::ok()) {
         ros::spinOnce();
         loop_rate.sleep();
     }
@@ -77,9 +76,9 @@ TEST(TestNavigation, testInit) {
 
     navi.initialize(n);
 
-    // register to check number of publishers to /mobile_base/commands/velocity topic
+    // register to check number of publishers to /mobile_base/commands/velocity
     ros::Subscriber sub = n.subscribe("/mobile_base/commands/velocity", 1000,
-                                      &TestHelper::testMBCmdVelocityCallback, &testItem);
+                    &TestHelper::testMBCmdVelocityCallback, &testItem);
 
     // register to check number of subscribers to /odom topic
     ros::Publisher pub = n.advertise<nav_msgs::Odometry>("/odom", 1000);
@@ -106,13 +105,15 @@ TEST(TestNavigation, testMoveToFunc) {
     ros::Rate loop_rate(2);
 
     ros::Subscriber subMBGoal = n.subscribe("/move_base/goal", 1000,
-                                      &TestHelper::testMoveBaseGoalCallback, &testItem);
+                    &TestHelper::testMoveBaseGoalCallback, &testItem);
 
     ros::Subscriber subMBCancel = n.subscribe("/move_base/cancel", 1000,
-                                      &TestHelper::testMoveBaseCancelCallback, &testItem);
+                    &TestHelper::testMoveBaseCancelCallback, &testItem);
 
-    ROS_DEBUG_STREAM("subMBGoal: number of publisher = " << subMBGoal.getNumPublishers());
-    ROS_DEBUG_STREAM("subMBCancel: number of publisher = " << subMBCancel.getNumPublishers());
+    ROS_DEBUG_STREAM("subMBGoal: number of publisher = "
+                     << subMBGoal.getNumPublishers());
+    ROS_DEBUG_STREAM("subMBCancel: number of publisher = "
+                     << subMBCancel.getNumPublishers());
 
     geometry_msgs::Pose expGoal;
     expGoal.position.x = -5;
@@ -132,7 +133,7 @@ TEST(TestNavigation, testMoveToFunc) {
     geometry_msgs::Pose actGoal = testItem.pos;
 
     // confirm goal pose is expected
-    EXPECT_TRUE(0 == std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
+    EXPECT_EQ(true, std::memcmp(&expGoal, &actGoal, sizeof(expGoal)));
 }
 
 
@@ -151,13 +152,15 @@ TEST(TestNavigation, testCancelMoveFunc) {
     ros::Rate loop_rate(2);
 
     ros::Subscriber subMBGoal = n.subscribe("/move_base/goal", 1000,
-                                      &TestHelper::testMoveBaseGoalCallback, &testItem);
+                        &TestHelper::testMoveBaseGoalCallback, &testItem);
 
     ros::Subscriber subMBCancel = n.subscribe("/move_base/cancel", 1000,
-                                      &TestHelper::testMoveBaseCancelCallback, &testItem);
+                        &TestHelper::testMoveBaseCancelCallback, &testItem);
 
-    ROS_DEBUG_STREAM("subMBGoal: number of publisher = " << subMBGoal.getNumPublishers());
-    ROS_DEBUG_STREAM("subMBCancel: number of publisher = " << subMBCancel.getNumPublishers());
+    ROS_DEBUG_STREAM("subMBGoal: number of publisher = "
+                     << subMBGoal.getNumPublishers());
+    ROS_DEBUG_STREAM("subMBCancel: number of publisher = "
+                     << subMBCancel.getNumPublishers());
 
     geometry_msgs::Pose expGoal;
     expGoal.position.x = -5;
@@ -174,7 +177,7 @@ TEST(TestNavigation, testCancelMoveFunc) {
     loop_rate.sleep();
 
     // test cancel move function
-    navi.cancelMove();    
+    navi.cancelMove();
 
     // allow callback to process
     loop_rate.sleep();
@@ -201,7 +204,7 @@ TEST(TestNavigation, testForwardFunc) {
     navi.initialize(n);
 
     ros::Subscriber sub = n.subscribe("/mobile_base/commands/velocity", 1000,
-                                      &TestHelper::testMBCmdVelocityCallback, &testItem);
+                        &TestHelper::testMBCmdVelocityCallback, &testItem);
 
     ROS_DEBUG_STREAM("sub: number of publisher = " << sub.getNumPublishers());
 
@@ -222,7 +225,7 @@ TEST(TestNavigation, testForwardFunc) {
     geometry_msgs::Twist actTwist = testItem.twist;
 
     // confirm velocity is expected
-    EXPECT_TRUE(0 == std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 
     // test stop
     navi.stop();
@@ -234,7 +237,7 @@ TEST(TestNavigation, testForwardFunc) {
     actTwist = testItem.twist;
 
     // confirm velocity is 0
-    EXPECT_TRUE(0 == std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 }
 
 
@@ -256,7 +259,7 @@ TEST(TestNavigation, testBackwardFunc) {
     navi.initialize(n);
 
     ros::Subscriber sub = n.subscribe("/mobile_base/commands/velocity", 1000,
-                                      &TestHelper::testMBCmdVelocityCallback, &testItem);
+                        &TestHelper::testMBCmdVelocityCallback, &testItem);
 
     ROS_DEBUG_STREAM("sub: number of publisher = " << sub.getNumPublishers());
 
@@ -277,7 +280,7 @@ TEST(TestNavigation, testBackwardFunc) {
     geometry_msgs::Twist actTwist = testItem.twist;
 
     // confirm velocity is expected
-    EXPECT_TRUE(0 == std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 
     // test stop
     navi.stop();
@@ -289,7 +292,7 @@ TEST(TestNavigation, testBackwardFunc) {
     actTwist = testItem.twist;
 
     // confirm velocity is 0
-    EXPECT_TRUE(0 == std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 }
 
 
@@ -310,7 +313,7 @@ TEST(TestNavigation, testTurnLeftFunc) {
     navi.initialize(n);
 
     ros::Subscriber sub = n.subscribe("/mobile_base/commands/velocity", 1000,
-                                      &TestHelper::testMBCmdVelocityCallback, &testItem);
+                        &TestHelper::testMBCmdVelocityCallback, &testItem);
 
     ROS_DEBUG_STREAM("sub: number of publisher = " << sub.getNumPublishers());
 
@@ -331,7 +334,7 @@ TEST(TestNavigation, testTurnLeftFunc) {
     geometry_msgs::Twist actTwist = testItem.twist;
 
     // confirm velocity is expected
-    EXPECT_TRUE(0 == std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 
     // test stop
     navi.stop();
@@ -343,7 +346,7 @@ TEST(TestNavigation, testTurnLeftFunc) {
     actTwist = testItem.twist;
 
     // confirm velocity is 0
-    EXPECT_TRUE(0 == std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 }
 
 /**
@@ -363,7 +366,7 @@ TEST(TestNavigation, testTurnRightFunc) {
     navi.initialize(n);
 
     ros::Subscriber sub = n.subscribe("/mobile_base/commands/velocity", 1000,
-                                      &TestHelper::testMBCmdVelocityCallback, &testItem);
+                        &TestHelper::testMBCmdVelocityCallback, &testItem);
 
     ROS_DEBUG_STREAM("sub: number of publisher = " << sub.getNumPublishers());
 
@@ -384,7 +387,7 @@ TEST(TestNavigation, testTurnRightFunc) {
     geometry_msgs::Twist actTwist = testItem.twist;
 
     // confirm velocity is expected
-    EXPECT_TRUE(0 == std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 
     // test stop
     navi.stop();
@@ -396,7 +399,7 @@ TEST(TestNavigation, testTurnRightFunc) {
     actTwist = testItem.twist;
 
     // confirm velocity is 0
-    EXPECT_TRUE(0 == std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
+    EXPECT_EQ(true, std::memcmp(&expTwist, &actTwist, sizeof(expTwist)));
 }
 
 
@@ -412,14 +415,12 @@ int main(int argc, char** argv) {
     ros::init(argc, argv, "testnavigation");
     ros::NodeHandle nh;
 
-    bool cont = true;
-
     // spawn another thread
-    boost::thread th(processThread, &cont);
+    boost::thread th(processThread);
 
     int ret = RUN_ALL_TESTS();
 
-    cont = false;
+    ros::shutdown();
 
     // wait the second thread to finish
     th.join();

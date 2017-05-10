@@ -33,11 +33,12 @@
  *  @date   04/27/2017
 */
 
-#include <ctime>
-#include <string>
+
 #include <stdlib.h>
 #include <ros/ros.h>
 #include <geometry_msgs/Pose.h>
+#include <ctime>
+#include <string>
 #include "action.hpp"
 #include "soundcontrol.hpp"
 #include "navigation.hpp"
@@ -53,24 +54,27 @@ void Action::initialize(ros::NodeHandle &n) {
 
 
 void Action::execute(int act, const string &args) {
+    struct tm now;
     time_t t = time(0);
-    struct tm *now = localtime(&t);
     std::stringstream ss;
 
     action = act;
 
     ROS_INFO_STREAM("Action:: action = " << action << " args=" << args);
 
-    switch(action) {
+    switch (action) {
         case ACT_NAME:
             soundCtl.say("my name is servicebot");
             break;
 
         case ACT_TIME:
-            if (now->tm_hour < 12)
-                ss << "time now is " << now->tm_hour << " " << now->tm_min << " AM";
-            else           
-                ss << "time now is " << (now->tm_hour - 12) << " " << now->tm_min << " PM";
+            localtime_r(&t, &now);
+            if (now.tm_hour < 12)
+                ss << "time now is " << now.tm_hour << " "
+                                     << now.tm_min << " AM";
+            else
+                ss << "time now is " << (now.tm_hour - 12) << " "
+                                     << now.tm_min << " PM";
 
             soundCtl.say(ss.str());
             break;
@@ -104,20 +108,24 @@ void Action::navigate(int act, const string &args) {
     geometry_msgs::Pose goal;
 
     // pre-defined locations
-    struct location locationA(string("room a"), -5, -11, 0.0, 0.0, 0.0, 0.950, 0.312);
-    struct location locationB(string("room b"), 7.1, -10.7, 0.0, 0.0, 0.0, -0.713, 0.702);
-    struct location locationC(string("room c"), 0, 0, 0.0, 0.0, 0.0, -0.713, 0.702);
+    struct location locationA(string("room a"),
+                                     -5, -11, 0.0, 0.0, 0.0, 0.950, 0.312);
+    struct location locationB(string("room b"),
+                                     7.1, -10.7, 0.0, 0.0, 0.0, -0.713, 0.702);
+    struct location locationC(string("room c"),
+                                     0, 0, 0.0, 0.0, 0.0, -0.713, 0.702);
 
     std::vector<location> locations;
     locations.push_back(locationA);
     locations.push_back(locationB);
     locations.push_back(locationC);
 
-    switch(action) {
+    switch (action) {
         case ACT_MOVETO:
             for (int i = 0; i < locations.size(); ++i) {
                 if (args.find(locations[i].loc) != string::npos) {
-                    ROS_INFO_STREAM("Action:: navigate move to " << locations[i].loc);
+                    ROS_INFO_STREAM("Action:: navigate move to "
+                                    << locations[i].loc);
                     goal.position.x = locations[i].pointX;
                     goal.position.y = locations[i].pointY;
                     goal.position.z = locations[i].pointZ;
@@ -136,7 +144,8 @@ void Action::navigate(int act, const string &args) {
             break;
 
         case ACT_COMEBACK:
-            // come back to initial pose (assuming point(0,0,0) quaternion(0,0,1))
+            // come back to initial pose
+            // (assuming point(0,0,0) quaternion(0,0,1))
             goal.position.x = 0;
             goal.position.y = 0;
             goal.position.z = 0;
@@ -169,7 +178,6 @@ void Action::navigate(int act, const string &args) {
 
         default :
             break;
-
     }
 
     return;
@@ -179,7 +187,7 @@ void Action::navigate(int act, const string &args) {
 void Action::playMusic(int act, const string &args) {
     string filename;
 
-    switch(act) {
+    switch (act) {
         case ACT_PLAYMUSIC:
             ROS_INFO_STREAM("Action::playMusic:: args size =" << args.size()
                              << " empty=" << args.empty());
