@@ -1,4 +1,6 @@
 <launch>
+  <arg name="enable_record" default="false"/>
+
   <include file="$(find servicebot)/launch/gazebo.launch"/>
   <node name="recognizer" pkg="pocketsphinx" type="recognizer.py" output="screen">
     <param name="lm" value="$(find servicebot)/demo/servicebot.lm"/>
@@ -11,4 +13,6 @@
   <node name="servicebot" pkg="servicebot" type="servicebot" output="screen">
   </node>
 
+  <node pkg="rosbag" name="record" type="record" args="-a -O session.bag -x /camera/(.*)" if="$(arg enable_record)">
+  </node>
 </launch>
