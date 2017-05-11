@@ -29,8 +29,8 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include <netdb.h> 
-#include <string>
+
+
 
 /** include ros libraries**********************/
 #include <ros/ros.h>
@@ -44,73 +44,78 @@
 #include <move_base_msgs/MoveBaseGoal.h>
 #include <move_base_msgs/MoveBaseActionGoal.h>
 
-#include "sensor_msgs/LaserScan.h"
-#include "sensor_msgs/PointCloud2.h"
+
 
 #include <nav_msgs/Odometry.h>
 #include <nav_msgs/OccupancyGrid.h>
 #include <nav_msgs/Path.h>
 #include <nav_msgs/GetPlan.h>
-
+#include <netdb.h>
 #include <tf/tf.h>
 #include <tf/transform_datatypes.h>
 #include <tf/transform_listener.h>
-
-
-#include <boost/foreach.hpp>
-
 
 /** for global path planner interface */
 #include <costmap_2d/costmap_2d_ros.h>
 #include <costmap_2d/costmap_2d.h>
 #include <nav_core/base_global_planner.h>
 
-#include <geometry_msgs/PoseStamped.h>
 #include <angles/angles.h>
 
-//#include <pcl_conversions/pcl_conversions.h>
+// #include <pcl_conversions/pcl_conversions.h>
 #include <base_local_planner/world_model.h>
 #include <base_local_planner/costmap_model.h>
 
-//Added for rviz
-#include <pcl_ros/publisher.h>
+// Added for rviz
+# include <pcl_ros/publisher.h>
+
+
 
 #include <set>
-using namespace std;
-using std::string;
+#include <string>
+#include <vector>
+#include "sensor_msgs/LaserScan.h"
+#include "sensor_msgs/PointCloud2.h"
+#include <boost/foreach.hpp>
 
-#ifndef RASTAR_ROS_CPP
-#define RASTAR_ROS_CPP
+//  using namespace std;
+using std::string;
+using std::vector;
+using std::cout;
+using std::endl;
+using std::multiset;
+
+#ifndef INCLUDE_RASTAR_ROS_CPP_
+#define INCLUDE_RASTAR_ROS_CPP_
 
 /**
  * @struct cells
  * @brief A struct used for a cell and its fCost.
  */
 struct cells {
-	int currentCell;
-	float fCost;
-};      
+        int currentCell;
+        float fCost;
+};
 
 
 /**
  *  @brief Class definition of global planner class
 */
 namespace RAstar_planner {
-  
+
 class RAstarPlannerROS : public nav_core::BaseGlobalPlanner {
-public:
- 
-  RAstarPlannerROS (ros::NodeHandle &); 
-  RAstarPlannerROS ();
+ public:
+  explicit RAstarPlannerROS(ros::NodeHandle &);
+  RAstarPlannerROS();
   RAstarPlannerROS(std::string name, costmap_2d::Costmap2DROS* costmap_ros);
 
-  //Added for rviz
+  // Added for rviz
   ros::Publisher plan_pub_;
-  
+
   ros::NodeHandle ROSNodeHandle;
-  
+
   /** overriden classes from interface nav_core::BaseGlobalPlanner **/
- 
+
  /**
       *   @brief  Initialize planner
       *
@@ -128,13 +133,12 @@ public:
       *   @param  plan in vector of geometry messages/Posestamped 
       *   @return true/false
      */
-  bool makePlan(const geometry_msgs::PoseStamped& start, 
-		const geometry_msgs::PoseStamped& goal, 
-		std::vector<geometry_msgs::PoseStamped>& plan
-	       );
- 
+  bool makePlan(const geometry_msgs::PoseStamped& start,
+                const geometry_msgs::PoseStamped& goal,
+                std::vector<geometry_msgs::PoseStamped>& plan);
 
- 
+
+
   /**
       *   @brief  Get cooridnate based on x,y position and origin location
       *
@@ -143,7 +147,7 @@ public:
 
       *   @return none
      */
-  void getCorrdinate (float& x, float& y);
+  void getCorrdinate(float& x, float& y);
 
 
   /**
@@ -154,7 +158,7 @@ public:
  
       *   @return cell index in int
      */
-  int convertToCellIndex (float x, float y);
+  int convertToCellIndex(float x, float y);
 
 
 /**
@@ -244,7 +248,8 @@ public:
       *   @param  g_score in float
       *   @return none
      */
-  void addNeighborCellToOpenList(multiset<cells> & OPL, int neighborCell, int goalCell, float g_score[]);
+  void addNeighborCellToOpenList(multiset<cells>& OPL,
+  int neighborCell, int goalCell, float g_score[]);
 
 
 /**
@@ -253,7 +258,7 @@ public:
       *   @param  cellID in int
       *   @return Free neighbors cells in vector int
      */
-  vector <int> findFreeNeighborCell (int CellID);
+  vector <int> findFreeNeighborCell(int CellID);
 
 
 /**
@@ -263,7 +268,7 @@ public:
       *   @param  goalCell in int
       *   @return true/false
      */
-  bool isStartAndGoalCellsValid(int startCell,int goalCell); 
+  bool isStartAndGoalCellsValid(int startCell, int goalCell);
 
 
 /**
@@ -294,7 +299,7 @@ public:
       *   @param  CellID in int
       *   @return true/false
      */
-  bool isFree(int CellID); //returns true if the cell is Free
+  bool isFree(int CellID);  // returns true if the cell is Free
 
 
 /**
@@ -304,7 +309,7 @@ public:
       *   @param  j in int
       *   @return true/false
      */
-  bool isFree(int i, int j); 
+  bool isFree(int i, int j);
 
 
 /**
@@ -314,7 +319,7 @@ public:
       *   @param  j in int 
       *   @return cell index in int
      */
-  int getCellIndex(int i,int j); //get the index of the cell to be used in Path
+  int getCellIndex(int i, int j);  // get index cell to be used in Path
 
 
 /**
@@ -323,7 +328,7 @@ public:
       *   @param  index in int
       *   @return cell row id in int
      */
-  int getCellRowID(int index); //get the row ID from cell index
+  int getCellRowID(int index);  // get the row ID from cell index
 
 
 /**
@@ -332,7 +337,7 @@ public:
       *   @param  index in int
       *   @return cell column id in int
      */
-  int getCellColID(int index); //get colunm ID from cell index
+  int getCellColID(int index);  // get colunm ID from cell index
 
 
 /**
@@ -345,19 +350,20 @@ public:
       *   @param  a in double
       *   @return none
      */
-  void publishPlan(const std::vector<geometry_msgs::PoseStamped>& path, double r, double g, double b, double a);
+  void publishPlan(const std::vector<geometry_msgs::PoseStamped>& path,
+ double r, double g, double b, double a);
 
-  float originX; // x origin
-  float originY; // y origin
-  float resolution; // resolution
-  costmap_2d::Costmap2DROS* costmap_ros_; // costmap
-  double step_size_, min_dist_from_robot_; // stepsize, dist from robot
-  costmap_2d::Costmap2D* costmap_; // costmap
-  bool initialized_; // initialize var
-  int width; // width
-  int height; // height
-  bool* OGM;   // checking if cell is free
+  float originX;  // x origin
+  float originY;  // y origin
+  float resolution;  // resolution
+  costmap_2d::Costmap2DROS* costmap_ros_;  // costmap
+  double step_size_, min_dist_from_robot_;  // stepsize, dist from robot
+  costmap_2d::Costmap2D* costmap_;  // costmap
+  bool initialized_;  // initialize var
+  int width;  // width
+  int height;  // height
+  bool* OGM;    // checking if cell is free
 };
 
-};
-#endif
+};  // namespace RAstar_planner
+#endif  //  INCLUDE_RASTAR_ROS_CPP_

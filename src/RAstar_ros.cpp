@@ -1,7 +1,7 @@
-/* iPath: A C++ Library of Intelligent Global Path Planners for Mobile Robots with ROS Integration. 
+/* iPath: A C++ Library of Intelligent Global Path Planners for Mobile Robots with ROS Integration.
 
  * Website: http://www.iroboapp.org/index.php?title=IPath
- * Contact: 
+ * Contact:
  *
  * Copyright (c) 2014
  * Owners: Al-Imam University/King AbdulAziz Center for Science and Technology (KACST)/Prince Sultan University
@@ -22,6 +22,8 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "RAstar_ros.h"
+#include <pluginlib/class_list_macros.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -29,133 +31,117 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include <netdb.h> 
+#include <netdb.h>
 #include <fstream>
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <algorithm>
+#include <vector>
+#include <set>
+#include <limits>
 
-#include "RAstar_ros.h"
 
-#include <pluginlib/class_list_macros.h>
-//register this planner as a BaseGlobalPlanner plugin
-PLUGINLIB_EXPORT_CLASS(RAstar_planner::RAstarPlannerROS, nav_core::BaseGlobalPlanner)
+
+// register this planner as a BaseGlobalPlanner plugin
+PLUGINLIB_EXPORT_CLASS(RAstar_planner::RAstarPlannerROS,
+                                         nav_core::BaseGlobalPlanner)
 
 
 int value;
 int mapSize;
-//bool* OGM;
-static const float INFINIT_COST = INT_MAX; //!< cost of non connected nodes
+static const float INFINIT_COST = INT_MAX;  // cost of non connected nodes
 float infinity = std::numeric_limits< float >::infinity();
 float tBreak;  // coefficient for breaking ties
 
 
 int clock_gettime(clockid_t clk_id, struct timespect *tp);
 
-timespec diff(timespec start, timespec end)
-{
+timespec diff(timespec start, timespec end) {
   timespec temp;
-	if ((end.tv_nsec-start.tv_nsec)<0) {
-		temp.tv_sec = end.tv_sec-start.tv_sec-1;
-		temp.tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
-	} else {
-		temp.tv_sec = end.tv_sec-start.tv_sec;
-		temp.tv_nsec = end.tv_nsec-start.tv_nsec;
-	}
-	return temp;
+        if ((end.tv_nsec-start.tv_nsec) < 0) {
+                temp.tv_sec = end.tv_sec-start.tv_sec-1;
+                temp.tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
+            } else {
+                temp.tv_sec = end.tv_sec-start.tv_sec;
+                temp.tv_nsec = end.tv_nsec-start.tv_nsec;
+          }
+       return temp;
 }
+inline vector <int> findFreeNeighborCell(int CellID);
+namespace RAstar_planner {
 
-inline vector <int> findFreeNeighborCell (int CellID);
-
-namespace RAstar_planner
-{
-
-//Default Constructor
-RAstarPlannerROS::RAstarPlannerROS()
-{
-
+// Default Constructor
+RAstarPlannerROS::RAstarPlannerROS() {
 }
-RAstarPlannerROS::RAstarPlannerROS(ros::NodeHandle &nh)
-{
+RAstarPlannerROS::RAstarPlannerROS(ros::NodeHandle &nh) {
   ROSNodeHandle = nh;
-
 }
 
-RAstarPlannerROS::RAstarPlannerROS(std::string name, costmap_2d::Costmap2DROS* costmap_ros)
-{
+RAstarPlannerROS::RAstarPlannerROS(std::string name,
+               costmap_2d::Costmap2DROS* costmap_ros) {
   initialize(name, costmap_ros);
 }
 
-void RAstarPlannerROS::initialize(std::string name, costmap_2d::Costmap2DROS* costmap_ros)
-{
- ROS_INFO("TEST1");
-  if (!initialized_)
-  {
+void RAstarPlannerROS::initialize(std::string name,
+                      costmap_2d::Costmap2DROS* costmap_ros) {
+  ROS_INFO("TEST1");
+  if (!initialized_) {
     costmap_ros_ = costmap_ros;
     costmap_ = costmap_ros_->getCostmap();
 
     ros::NodeHandle private_nh("~/" + name);
 
-    //Added for rviz showing
+    // Added for rviz showing
     plan_pub_ = private_nh.advertise<nav_msgs::Path>("plan", 1);
 
     originX = costmap_->getOriginX();
     originY = costmap_->getOriginY();
-   
 
-
-	width = costmap_->getSizeInCellsX();
-	height = costmap_->getSizeInCellsY();
-	resolution = costmap_->getResolution();
-	mapSize = width*height;
-	tBreak = 1+1/(mapSize); 
-	value =0;
-
-
-	OGM = new bool [mapSize]; 
-    for (unsigned int iy = 0; iy < costmap_->getSizeInCellsY(); iy++)
-    {
-      for (unsigned int ix = 0; ix < costmap_->getSizeInCellsX(); ix++)
-      {
+    width = costmap_->getSizeInCellsX();
+    height = costmap_->getSizeInCellsY();
+    resolution = costmap_->getResolution();
+    mapSize = width*height;
+    tBreak = 1+1/(mapSize);
+    value = 0;
+    OGM = new bool[mapSize];
+    for (unsigned int iy = 0; iy < costmap_->getSizeInCellsY(); iy++) {
+      for (unsigned int ix = 0; ix < costmap_->getSizeInCellsX(); ix++) {
         unsigned int cost = static_cast<int>(costmap_->getCost(ix, iy));
-        //cout<<cost;
+        // cout<<cost;
         if (cost == 0)
-          OGM[iy*width+ix]=true;
+          OGM[iy*width+ix] = true;
         else
-          OGM[iy*width+ix]=false;
+          OGM[iy*width+ix] = false;
       }
     }
 
-
-	
-
     ROS_INFO("RAstar planner initialized successfully");
     initialized_ = true;
-  }
-  else
+  } else {
     ROS_WARN("This planner has already been initialized... doing nothing");
+    }
 }
 
-bool RAstarPlannerROS::makePlan(const geometry_msgs::PoseStamped& start, const geometry_msgs::PoseStamped& goal,
-                             std::vector<geometry_msgs::PoseStamped>& plan)
-{
-
+bool RAstarPlannerROS::makePlan(const geometry_msgs::PoseStamped& start,
+const geometry_msgs::PoseStamped& goal,
+                             std::vector<geometry_msgs::PoseStamped>& plan) {
 ROS_INFO("make Plan function");
-  if (!initialized_)
-  {
+  if (!initialized_)  {
     ROS_ERROR("The planner has not been initialized, please call initialize() to use the planner");
     return false;
   }
 
-  ROS_INFO("Got a start: %.2f, %.2f, and a goal: %.2f, %.2f", start.pose.position.x, start.pose.position.y,
-            goal.pose.position.x, goal.pose.position.y);
+  ROS_INFO("Got a start: %.2f, %.2f, and a goal: %.2f, %.2f",
+       start.pose.position.x, start.pose.position.y,
+       goal.pose.position.x, goal.pose.position.y);
 
   plan.clear();
 
-  if (goal.header.frame_id != costmap_ros_->getGlobalFrameID())
-  {
+  if (goal.header.frame_id != costmap_ros_->getGlobalFrameID()) {
     ROS_ERROR("This planner as configured will only accept goals in the %s frame, but a goal was sent in the %s frame.",
-              costmap_ros_->getGlobalFrameID().c_str(), goal.header.frame_id.c_str());
+             costmap_ros_->getGlobalFrameID().c_str(),
+                            goal.header.frame_id.c_str());
     return false;
   }
 
@@ -175,47 +161,31 @@ ROS_INFO("make Plan function");
 
   getCorrdinate(startX, startY);
   getCorrdinate(goalX, goalY);
-ROS_INFO("Got coordinates");
+  ROS_INFO("Got coordinates");
   int startCell;
   int goalCell;
 
-  if (isCellInsideMap(startX, startY) && isCellInsideMap(goalX, goalY))
-  {
+  if (isCellInsideMap(startX, startY) && isCellInsideMap(goalX, goalY)) {
     startCell = convertToCellIndex(startX, startY);
 
     goalCell = convertToCellIndex(goalX, goalY);
 
     ROS_INFO("Start/goal inside map");
-
-
-
-  }
-  else
-  {
+  } else {
     ROS_WARN("the start or goal is out of the map");
     return false;
   }
 
-
-
   // call global planner
-
-  if (isStartAndGoalCellsValid(startCell, goalCell)){
-
+  if (isStartAndGoalCellsValid(startCell, goalCell)) {
         vector<int> bestPath;
-	bestPath.clear();
-
-    bestPath = RAstarPlanner(startCell, goalCell);
-	ROS_INFO("Found best path");
-//if the global planner find a path
-    if ( bestPath.size()>0)
-    {
-
+    bestPath.clear();
+        bestPath = RAstarPlanner(startCell, goalCell);
+    ROS_INFO("Found best path");
+// if the global planner find a path
+    if (bestPath.size() > 0)  {
 // convert the path
-
-      for (int i = 0; i < bestPath.size(); i++)
-      {
-
+      for (int i = 0; i < bestPath.size(); i++) {
         float x = 0.0;
         float y = 0.0;
 
@@ -238,55 +208,41 @@ ROS_INFO("Got coordinates");
       }
 
 
-	float path_length = 0.0;
-	
-	std::vector<geometry_msgs::PoseStamped>::iterator it = plan.begin();
-	
-	geometry_msgs::PoseStamped last_pose;
-	last_pose = *it;
-	it++;
-	for (; it!=plan.end(); ++it) {
-	   path_length += hypot(  (*it).pose.position.x - last_pose.pose.position.x, 
-		                 (*it).pose.position.y - last_pose.pose.position.y );
-	   last_pose = *it;
-	}
-	cout <<"The global path length: "<< path_length<< " meters"<<endl;
-	
-      //publish the plan
+    float path_length = 0.0;
+
+    std::vector<geometry_msgs::PoseStamped>::iterator it = plan.begin();
+
+    geometry_msgs::PoseStamped last_pose;
+    last_pose = *it;
+    it++;
+    for (; it != plan.end(); ++it) {
+       path_length += hypot((*it).pose.position.x - last_pose.pose.position.x,
+                         (*it).pose.position.y - last_pose.pose.position.y);
+       last_pose = *it;
+    }
+    cout << "The global path length: " << path_length << " meters" << endl;
+
+      // publish the plan
 
       return true;
-
-    }
-
-    else
-    {
+    } else {
       ROS_WARN("The planner failed to find a path, choose other goal position");
       return false;
     }
-
-  }
-
-  else
-  {
+  } else {
     ROS_WARN("Not valid start or goal");
     return false;
   }
-
 }
-void RAstarPlannerROS::getCorrdinate(float& x, float& y)
-{
-
+void RAstarPlannerROS::getCorrdinate(float& x, float& y) {
   x = x - originX;
   y = y - originY;
-
 }
 
 
 
 
-int RAstarPlannerROS::convertToCellIndex(float x, float y)
-{
-
+int RAstarPlannerROS::convertToCellIndex(float x, float y) {
   int cellIndex;
 
   float newX = x / resolution;
@@ -297,20 +253,16 @@ int RAstarPlannerROS::convertToCellIndex(float x, float y)
   return cellIndex;
 }
 
-void RAstarPlannerROS::convertToCoordinate(int index, float& x, float& y)
-{
-
+void RAstarPlannerROS::convertToCoordinate(int index, float& x, float& y) {
   x = getCellColID(index) * resolution;
 
   y = getCellRowID(index) * resolution;
 
   x = x + originX;
   y = y + originY;
-
 }
 
-bool RAstarPlannerROS::isCellInsideMap(float x, float y)
-{
+bool RAstarPlannerROS::isCellInsideMap(float x, float y) {
   bool valid = true;
 
   if (x > (width * resolution) || y > (height * resolution))
@@ -319,357 +271,339 @@ bool RAstarPlannerROS::isCellInsideMap(float x, float y)
   return valid;
 }
 
-void RAstarPlannerROS::mapToWorld(double mx, double my, double& wx, double& wy){
-   costmap_2d::Costmap2D* costmap = costmap_ros_->getCostmap();
+void RAstarPlannerROS::mapToWorld(double mx, double my,
+                                        double& wx, double& wy) {
+costmap_2d::Costmap2D* costmap = costmap_ros_->getCostmap();
     wx = costmap->getOriginX() + mx * resolution;
     wy = costmap->getOriginY() + my * resolution;
 }
 
-vector<int> RAstarPlannerROS::RAstarPlanner(int startCell, int goalCell){
+vector<int> RAstarPlannerROS::RAstarPlanner(int startCell, int goalCell) {
 ROS_INFO("RAstar Planner function");
-   vector<int> bestPath;
+vector<int> bestPath;
 
 
-//float g_score [mapSize][2];
-//ROS_INFO("created best path vector mapSize %d", mapSize);
+// float g_score [mapSize][2];
+// ROS_INFO("created best path vector mapSize %d", mapSize);
 float *g_score = new float[mapSize];
-//ROS_INFO("Got g score ++");
+// ROS_INFO("Got g score ++");
 
-for (uint i=0; i<mapSize; i++)
-	g_score[i]=infinity;
+for (uint i = 0; i < mapSize; i++)
+    g_score[i] = infinity;
 
-//ROS_INFO("Got g score --");
+// ROS_INFO("Got g score --");
 
-   timespec time1, time2;
+timespec time1, time2;
   /* take current time here */
-   clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
- //  ROS_INFO("Clock");
-  bestPath=findPath(startCell, goalCell,  g_score);
-	ROS_INFO("Found Path to Goal");
-   clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
-	//ROS_INFO("CLOCK2");
+clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
+//  ROS_INFO("Clock");
+  bestPath = findPath(startCell, goalCell,  g_score);
+    ROS_INFO("Found Path to Goal");
+clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
+    // ROS_INFO("CLOCK2");
 
-   cout<<"Time to generate A* path: " << (diff(time1,time2).tv_sec)*1e3 + (diff(time1,time2).tv_nsec)*1e-6 << " microseconds" << endl;
-   
+cout << "Time to generate A* path: " << (diff(time1, time2).tv_sec)*1e3 +
+(diff(time1, time2).tv_nsec)*1e-6 << " microseconds" << endl;
+
   delete g_score;
 
-
-
-
   return bestPath;
-
 }
 
 
-/*******************************************************************************/
-//Function Name: findPath
-//Inputs: the map layout, the start and the goal Cells and a boolean to indicate if we will use break ties or not
-//Output: the best path
-//Description: it is used to generate the robot free path
-/*********************************************************************************/
+/*****************************************************************************/
+// Function Name: findPath
+// Inputs: the map layout, the start, goal Cells and boolean to indicate if
+// we will use break ties or not
+// Output: the best path
+// Description: it is used to generate the robot free path
+/*****************************************************************************/
 
 /*********************/
-//Publish the plan for visualization
- void RAstarPlannerROS::publishPlan(const std::vector<geometry_msgs::PoseStamped>& path, double r, double g, double b, double a){
-    if(!initialized_){
+// Publish the plan for visualization
+void RAstarPlannerROS::publishPlan(const std::vector<geometry_msgs::PoseStamped>& path,
+double r, double g, double b, double a) {
+    if (!initialized_) {
       ROS_ERROR("This planner has not been initialized yet, but it is being used, please call initialize() before use");
       return;
     }
 
-    //create a message for the plan 
+    // create a message for the plan
     nav_msgs::Path gui_path;
     gui_path.poses.resize(path.size());
 
-    if(!path.empty())
-    {
+    if (!path.empty()) {
       gui_path.header.frame_id = path[0].header.frame_id;
       gui_path.header.stamp = path[0].header.stamp;
     }
 
-    // Extract the plan in world co-ordinates, we assume the path is all in the same frame
-    for(unsigned int i=0; i < path.size(); i++){
+    // Extract plan in world co-ordinates, assume path all in the same frame
+    for (unsigned int i=0; i < path.size(); i++) {
       gui_path.poses[i] = path[i];
     }
 
     plan_pub_.publish(gui_path);
 }
-vector<int> RAstarPlannerROS::findPath(int startCell, int goalCell, float g_score[])
-{
-	value++;
-	vector<int> bestPath;
-	vector<int> emptyPath;
-	cells CP;
+vector<int> RAstarPlannerROS::findPath(int startCell,
+                                       int goalCell, float g_score[]) {
+        value++;
+        vector<int> bestPath;
+        vector<int> emptyPath;
+        cells CP;
 
-	multiset<cells> OPL;
-	int currentCell;
+        multiset<cells> OPL;
+        int currentCell;
 
-	//calculate g_score and f_score of the start position
-	g_score[startCell]=0;
-	CP.currentCell=startCell;
-	CP.fCost=g_score[startCell]+calculateHCost(startCell,goalCell);
+        // calculate g_score and f_score of the start position
+        g_score[startCell] = 0;
+        CP.currentCell = startCell;
+        CP.fCost = g_score[startCell]+calculateHCost(startCell, goalCell);
 
-	//add the start cell to the open list
-	OPL.insert(CP);
-	currentCell=startCell;
-        //ROS_INFO("mark1");
-	//while the open list is not empty continuie the search or g_score(goalCell) is equal to infinity
-	//ROS_INFO_STREAM("gscore goal cell = "<<g_score[goalCell]);
-	//ROS_INFO_STREAM("OPL: "<<OPL.empty());
-	
-	while (!OPL.empty()&& g_score[goalCell]==infinity) 
-	{
-		//ROS_INFO("In while1");
-		//choose the cell that has the lowest cost fCost in the open set which is the begin of the multiset
-		currentCell = OPL.begin()->currentCell;
-		//ROS_INFO("got currentCell");
-		//remove the currentCell from the openList
-		OPL.erase(OPL.begin());
-		//ROS_INFO("Removed from open list");
-		//search the neighbors of the current Cell
-		vector <int> neighborCells; 
-		neighborCells=findFreeNeighborCell(currentCell);
-	        //ROS_INFO("mark2");
-		for(uint i=0; i<neighborCells.size(); i++) //for each neighbor v of current cell
-		{
-			//ROS_INFO("in for 1");
-			// if the g_score of the neighbor is equal to INF: unvisited cell
-			if(g_score[neighborCells[i]]==infinity)
-			{
-				//ROS_INFO("g score 1");
-				g_score[neighborCells[i]]=g_score[currentCell]+getMoveCost(currentCell,neighborCells[i]);
-				//ROS_INFO("g score 2");				
-				addNeighborCellToOpenList(OPL, neighborCells[i], goalCell, g_score); 
-				//ROS_INFO("addNay1");
-			}//end if
-		}//end for
-	}//end while
-        //ROS_INFO("goal gscore 1");
-	if(g_score[goalCell]!=infinity)  // if g_score(goalcell)==INF : construct path 
-	{
-		//ROS_INFO("construct Path 1");
-		bestPath=constructPath(startCell, goalCell, g_score);
-		//publishPlan(bestPath, 0.0, 1.0, 0.0, 0.0);
-		//ROS_INFO("construct Path2");
-		return   bestPath; 
-	}
-	else
-	{
-		//ROS_INFO("No path");
-		cout << "Failure to find a path !" << endl;
-		return emptyPath;
-	}
+        // add the start cell to the open list
+        OPL.insert(CP);
+        currentCell = startCell;
+        // ROS_INFO("mark1");
+        // while open list not empty continue search or
+        // g_score(goalCell) is equal to infinity
+        // ROS_INFO_STREAM("gscore goal cell = "<<g_score[goalCell]);
+        // ROS_INFO_STREAM("OPL: "<<OPL.empty());
+
+        while (!OPL.empty()&& g_score[goalCell] == infinity) {
+                // ROS_INFO("In while1");
+                // choose the cell that has the lowest cost fCost in the
+                // open set which is the begin of the multiset
+                currentCell = OPL.begin()->currentCell;
+                // ROS_INFO("got currentCell");
+                // remove the currentCell from the openList
+                OPL.erase(OPL.begin());
+                // ROS_INFO("Removed from open list");
+                // search the neighbors of the current Cell
+                vector <int> neighborCells;
+                neighborCells = findFreeNeighborCell(currentCell);
+            // ROS_INFO("mark2");
+                // for each nay of current cell
+                for (uint i = 0; i < neighborCells.size(); i++) {
+                        // ROS_INFO("in for 1");
+                        // if g_score of neighbor equal to INF: unvisited cell
+                        if (g_score[neighborCells[i]] == infinity)   {
+                               // ROS_INFO("g score 1");
+                               g_score[neighborCells[i]] = g_score[currentCell]
+                                 +getMoveCost(currentCell, neighborCells[i]);
+                               // ROS_INFO("g score 2");
+                               addNeighborCellToOpenList(OPL,
+                                       neighborCells[i], goalCell, g_score);
+                               // ROS_INFO("addNay1");
+                  }  // end if
+             }  // end for
+        }  // end while
+        // ROS_INFO("goal gscore 1");
+        // if g_score(goalcell)=INF,construct path
+        if (g_score[goalCell] != infinity) {
+                // ROS_INFO("construct Path 1");
+                bestPath = constructPath(startCell, goalCell, g_score);
+                // publishPlan(bestPath, 0.0, 1.0, 0.0, 0.0);
+                // ROS_INFO("construct Path2");
+                return   bestPath;
+        } else {
+                // ROS_INFO("No path");
+                cout << "Failure to find a path !" << endl;
+                return emptyPath;
+        }
 }
 
-/*******************************************************************************/
-//Function Name: constructPath
-//Inputs: the start and the goal Cells
-//Output: the best path
-//Description: it is used to construct the robot path
-/*********************************************************************************/
-vector<int> RAstarPlannerROS::constructPath(int startCell, int goalCell,float g_score[])
-{
-	vector<int> bestPath;
-	vector<int> path;
+/******************************************************************************/
+// Function Name: constructPath
+// Inputs: the start and the goal Cells
+// Output: the best path
+// Description: it is used to construct the robot path
+/******************************************************************************/
+vector<int> RAstarPlannerROS::constructPath(int startCell, int goalCell,
+                                                       float g_score[]) {
+        vector<int> bestPath;
+        vector<int> path;
 
-	path.insert(path.begin()+bestPath.size(), goalCell);
-	int currentCell=goalCell;
+        path.insert(path.begin()+bestPath.size(), goalCell);
+        int currentCell = goalCell;
 
-	while(currentCell!=startCell)
-	{ 
-		vector <int> neighborCells;
-		neighborCells=findFreeNeighborCell(currentCell);
+        while (currentCell != startCell) {
+                vector <int> neighborCells;
+                neighborCells = findFreeNeighborCell(currentCell);
 
-		vector <float> gScoresNeighbors;
-		for(uint i=0; i<neighborCells.size(); i++)
-			gScoresNeighbors.push_back(g_score[neighborCells[i]]);
-		
-		int posMinGScore=distance(gScoresNeighbors.begin(), min_element(gScoresNeighbors.begin(), gScoresNeighbors.end()));
-		currentCell=neighborCells[posMinGScore];
+                vector <float> gScoresNeighbors;
+                for (uint i = 0; i < neighborCells.size(); i++)
+                    gScoresNeighbors.push_back(g_score[neighborCells[i]]);
 
-		//insert the neighbor in the path
-		path.insert(path.begin()+path.size(), currentCell);
-	}
-	for(uint i=0; i<path.size(); i++)
-		bestPath.insert(bestPath.begin()+bestPath.size(), path[path.size()-(i+1)]);
-	
-	//publishPlan(bestPath, 0.0, 1.0, 0.0, 0.0);
-	return bestPath;
+                int posMinGScore = distance(gScoresNeighbors.begin(),
+                min_element(gScoresNeighbors.begin(), gScoresNeighbors.end()));
+                currentCell = neighborCells[posMinGScore];
+
+                // insert the neighbor in the path
+                path.insert(path.begin()+path.size(), currentCell);
+        }
+        for (uint i = 0; i < path.size(); i++)
+               bestPath.insert(bestPath.begin()+bestPath.size(),
+                                            path[path.size()-(i+1)]);
+
+    // publishPlan(bestPath, 0.0, 1.0, 0.0, 0.0);
+        return bestPath;
 }
 
 
-float RAstarPlannerROS::calculateHCost(int cellID, int goalCell){
-  int x1=getCellRowID(goalCell);
-  int y1=getCellColID(goalCell);
-  int x2=getCellRowID(cellID);
-  int y2=getCellColID(cellID);
+float RAstarPlannerROS::calculateHCost(int cellID, int goalCell) {
+  int x1 = getCellRowID(goalCell);
+  int y1 = getCellColID(goalCell);
+  int x2 = getCellRowID(cellID);
+  int y2 = getCellColID(cellID);
     return abs(x1-x2)+abs(y1-y2);
   }
 
 
-int RAstarPlannerROS::getCellIndex(int i,int j) //get the index of the cell to be used in Path
-  {
-   return (i*width)+j;  
+int RAstarPlannerROS::getCellIndex(int i, int j) {  //  index of cell in Path
+  return (i*width)+j;
   }
 
-int RAstarPlannerROS::getCellRowID(int index)//get the row ID from cell index
-  {
-     return index/width;
+int RAstarPlannerROS::getCellRowID(int index) {  // get row ID from cell index
+  return index/width;
   }
 
-int RAstarPlannerROS::getCellColID(int index)//get colunm ID from cell index
-  {
+int RAstarPlannerROS::getCellColID(int index) {  // get col ID from cell index
     return index%width;
   }
-/*******************************************************************************/
-//Function Name: addNeighborCellToOpenList
-//Inputs: the open list, the neighbors Cell, the g_score matrix, the goal cell 
-//Output: 
-//Description: it is used to add a neighbor Cell to the open list
-/*********************************************************************************/
-void RAstarPlannerROS::addNeighborCellToOpenList(multiset<cells> & OPL, int neighborCell, int goalCell, float g_score[])
-{
-	cells CP;
-	CP.currentCell=neighborCell; //insert the neighbor cell
-	CP.fCost=g_score[neighborCell]+0;//calculateHCost(neighborCell,goalCell);
-	OPL.insert(CP);
+/****************************************************************************/
+// Function Name: addNeighborCellToOpenList
+// Inputs: the open list, the neighbors Cell, the g_score matrix,the goal cell
+// Output:
+// Description: it is used to add a neighbor Cell to the open list
+/****************************************************************************/
+void RAstarPlannerROS::addNeighborCellToOpenList(multiset<cells> & OPL,
+ int neighborCell, int goalCell, float g_score[]) {
+        cells CP;
+        CP.currentCell = neighborCell;  // insert the neighbor cell
+        CP.fCost = g_score[neighborCell]+0;
+        //  Control Heurisitc Here: x*calculateHCost(neighborCell,goalCell);
+        //  Add to previous line Cp.fCost = ...
+        OPL.insert(CP);
 }
 
-  /*******************************************************************************
+  /***************************************************************************
  * Function Name: findFreeNeighborCell
  * Inputs: the row and columun of the current Cell
  * Output: a vector of free neighbor cells of the current cell
- * Description:it is used to find the free neighbors Cells of a the current Cell in the grid
+ * Description:used to find the free neighbors Cells of current Cell in grid
  * Check Status: Checked by Anis, Imen and Sahar
-*********************************************************************************/
+*****************************************************************************/
 
-vector <int> RAstarPlannerROS::findFreeNeighborCell (int CellID){
- //ROS_INFO("find Free Neighbor Cell START");
-  int rowID=getCellRowID(CellID);
-  int colID=getCellColID(CellID);
- // ROS_INFO("Got row and col ID");
+vector <int> RAstarPlannerROS::findFreeNeighborCell(int CellID) {
+  // ROS_INFO("find Free Neighbor Cell START");
+  int rowID = getCellRowID(CellID);
+  int colID = getCellColID(CellID);
+  // ROS_INFO("Got row and col ID");
   int neighborIndex;
   vector <int>  freeNeighborCells;
 
-  for (int i=-1;i<=1;i++)
-    for (int j=-1; j<=1;j++){
-      //check whether the index is valid
-     if ((rowID+i>=0)&&(rowID+i<height)&&(colID+j>=0)&&(colID+j<width)&& (!(i==0 && j==0))){
-	neighborIndex = getCellIndex(rowID+i,colID+j);
-	//ROS_INFO("Got neighborIndex %d", neighborIndex);
-	//ROS_INFO_STREAM("isFree(neighborIndex) = " << isFree(neighborIndex));
-        if(isFree(neighborIndex) == 1)
-	 //   ROS_INFO("Neighbor is free...adding a neighbor");
-	    freeNeighborCells.push_back(neighborIndex);
-	 //   ROS_INFO("added a neighbor");
-	}
-	//ROS_INFO("mark 3");
+  for (int i = -1; i <= 1; i++)
+    for (int j = -1; j <= 1; j++) {
+      // check whether the index is valid
+     if ((rowID+i >= 0)&&(rowID+i < height)&&(colID+j >= 0)&&(colID+j < width)
+        && (!(i == 0 && j == 0))) {
+        neighborIndex = getCellIndex(rowID+i, colID+j);
+        // ROS_INFO("Got neighborIndex %d", neighborIndex);
+        // ROS_INFO_STREAM("isFree(neighborIndex)=" << isFree(neighborIndex));
+         if (isFree(neighborIndex) == 1)
+         //   ROS_INFO("Neighbor is free...adding a neighbor");
+            freeNeighborCells.push_back(neighborIndex);
+         //   ROS_INFO("added a neighbor");
+        }
+         // ROS_INFO("mark 3");
     }
-   // ROS_INFO("returning free neighbors");
+    // ROS_INFO("returning free neighbors");
     return  freeNeighborCells;
- 
 }
 
-/*******************************************************************************/
-//Function Name: isStartAndGoalCellsValid
-//Inputs: the start and Goal cells
-//Output: true if the start and the goal cells are valid
-//Description: check if the start and goal cells are valid
-/*********************************************************************************/
-bool RAstarPlannerROS::isStartAndGoalCellsValid(int startCell,int goalCell)
-{ 
- bool isvalid=true;
- bool isFreeStartCell=isFree(startCell);
- bool isFreeGoalCell=isFree(goalCell);
-    if (startCell==goalCell)
-    {
-    //cout << "The Start and the Goal cells are the same..." << endl; 
+/***************************************************************************/
+// Function Name: isStartAndGoalCellsValid
+// Inputs: the start and Goal cells
+// Output: true if the start and the goal cells are valid
+// Description: check if the start and goal cells are valid
+/***************************************************************************/
+bool RAstarPlannerROS::isStartAndGoalCellsValid(int startCell, int goalCell) {
+    bool isvalid = true;
+    bool isFreeStartCell = isFree(startCell);
+    bool isFreeGoalCell = isFree(goalCell);
+    if (startCell == goalCell) {
+    // cout << "The Start and the Goal cells are the same..." << endl;
     isvalid = false;
-    }
-   else
-   {
-      if (!isFreeStartCell && !isFreeGoalCell)
-      {
-	//cout << "The start and the goal cells are obstacle positions..." << endl;
+    } else  {
+      if (!isFreeStartCell && !isFreeGoalCell) {
+      // cout << "The start and goal cells are obstacle positions" << endl;
         isvalid = false;
-      }
-      else
-      {
-	if (!isFreeStartCell)
-	{
-	  //cout << "The start is an obstacle..." << endl;
-	  isvalid = false;
-	}
-	else
-	{
-	    if(!isFreeGoalCell)
-	    {
-	      //cout << "The goal cell is an obstacle..." << endl;
-	      isvalid = false;
-	    }
-	    else
-	    {
-	      if (findFreeNeighborCell(goalCell).size()==0)
-	      {
-		//cout << "The goal cell is encountred by obstacles... "<< endl;
-		isvalid = false;
-	      }
-	      else
-	      {
-		if(findFreeNeighborCell(startCell).size()==0)
-		{
-		  //cout << "The start cell is encountred by obstacles... "<< endl;
-		  isvalid = false;
-		}
-	      }
-	    }
-	}
+      } else {
+        if (!isFreeStartCell) {
+        // cout << "The start is an obstacle..." << endl;
+        isvalid = false;
+        } else {
+            if (!isFreeGoalCell)  {
+              // cout << "The goal cell is an obstacle..." << endl;
+              isvalid = false;
+            } else {
+            if (findFreeNeighborCell(goalCell).size() == 0)  {
+              // cout << "The goal cell is encountred by obstacles."<< endl;
+              isvalid = false;
+              } else {
+                  if (findFreeNeighborCell(startCell).size() == 0) {
+              // cout << "The start cell is encountred by obstacles"<< endl;
+                  isvalid = false;
+                }
+              }
+            }
+         }
       }
   }
- return isvalid;
+return isvalid;
 }
 
 
- float  RAstarPlannerROS::getMoveCost(int i1, int j1, int i2, int j2){
-   float moveCost=INFINIT_COST;//start cost with maximum value. Change it to real cost of cells are connected
-   //if cell2(i2,j2) exists in the diagonal of cell1(i1,j1)
-   if((j2==j1+1 && i2==i1+1)||(i2==i1-1 && j2==j1+1) ||(i2==i1-1 && j2==j1-1)||(j2==j1-1 && i2==i1+1)){
-     //moveCost = DIAGONAL_MOVE_COST;
+float RAstarPlannerROS::getMoveCost(int i1, int j1, int i2, int j2) {
+    float moveCost = INFINIT_COST;  // start cost w/ max value, to be changed
+    // if cell2(i2,j2) exists in the diagonal of cell1(i1,j1)
+    if ((j2 == j1+1 && i2 == i1+1) || (i2 == i1-1 && j2 == j1+1) ||
+       (i2 == i1-1 && j2 == j1-1) || (j2 == j1-1 && i2 == i1+1)) {
+     // moveCost = DIAGONAL_MOVE_COST;
      moveCost = 1.4;
-   }
-    //if cell 2(i2,j2) exists in the horizontal or vertical line with cell1(i1,j1)
-   else{
-     if ((j2==j1 && i2==i1-1)||(i2==i1 && j2==j1-1)||(i2==i1+1 && j2==j1) ||(i1==i2 && j2==j1+1)){
-       //moveCost = MOVE_COST;
+
+    // if cell2(i2,j2) in the horizontal or vertical line with cell1(i1,j1)
+    } else {
+    if ((j2 == j1 && i2 == i1-1) || (i2 == i1 && j2 == j1-1) ||
+        (i2 == i1+1 && j2 == j1) || (i1 == i2 && j2 == j1+1)) {
+       // moveCost = MOVE_COST;
        moveCost = 1;
      }
-   }
-   return moveCost;
- } 
- 
-  float  RAstarPlannerROS::getMoveCost(int CellID1, int CellID2){
-   int i1=0,i2=0,j1=0,j2=0;
-    
-   i1=getCellRowID(CellID1);
-   j1=getCellColID(CellID1);
-   i2=getCellRowID(CellID2);
-   j2=getCellColID(CellID2);
-    
-    return getMoveCost(i1, j1, i2, j2);
- } 
-
-
- //verify if the cell(i,j) is free
- bool  RAstarPlannerROS::isFree(int i, int j){
-   int CellID = getCellIndex(i, j);
- return OGM[CellID];
-
- } 
-
-  //verify if the cell(i,j) is free
- bool  RAstarPlannerROS::isFree(int CellID){
- return OGM[CellID];
- } 
+  }
+  return moveCost;
 }
-;
+
+float RAstarPlannerROS::getMoveCost(int CellID1, int CellID2) {
+int i1 = 0, i2 = 0, j1 = 0, j2 = 0;
+
+i1 = getCellRowID(CellID1);
+j1 = getCellColID(CellID1);
+i2 = getCellRowID(CellID2);
+j2 = getCellColID(CellID2);
+return getMoveCost(i1, j1, i2, j2);
+}
+
+
+// verify if the cell(i,j) is free
+bool RAstarPlannerROS::isFree(int i, int j) {
+int CellID = getCellIndex(i, j);
+return OGM[CellID];
+}
+
+// verify if the cell(i,j) is free
+bool RAstarPlannerROS::isFree(int CellID) {
+return OGM[CellID];
+}
+
+}  // namespace RAstar_planner
 
 bool operator<(cells const &c1, cells const &c2) { return c1.fCost < c2.fCost; }

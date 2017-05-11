@@ -1,3 +1,36 @@
+/********************************************************************
+ *   MIT License
+ *  
+ *   Copyright (c) 2017  Huei-Tzu Tsai, Steven Gambino
+ *  
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  of this software and associated documentation files (the "Software"), to deal
+ *  in the Software without restriction, including without limitation the rights
+ *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *  copies of the Software, and to permit persons to whom the Software is
+ *  furnished to do so, subject to the following conditions:
+ *  
+ *  The above copyright notice and this permission notice shall be included in all
+ *  copies or substantial portions of the Software.
+ *  
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *  SOFTWARE.
+ ********************************************************************/
+
+/** @file Astartest.cpp
+ *  @brief Implementation of unit test for Global planner class
+ *
+ *  This file contains implementation of unit test for Global Planner class
+ *
+ *  @author Huei Tzu Tsai \n
+ *          Steven Gambino
+ *  @date   05/10/2017
+*/
 #include <ros/ros.h>
 #include <ros/package.h>
 #include <std_msgs/String.h>
@@ -22,7 +55,6 @@ void spinThread(bool *cont) {
  *   @return none
 */
 TEST(TestPlannerl, testIsCellInsideMap) {
-    
     RAstar_planner::RAstarPlannerROS plan;
     float x = 1.0;
     float y = 1.0;
@@ -30,7 +62,7 @@ TEST(TestPlannerl, testIsCellInsideMap) {
     plan.height = 10;
     plan.resolution = 5;
 
-    EXPECT_EQ(true, plan.isCellInsideMap(x,y));
+    EXPECT_EQ(true, plan.isCellInsideMap(x, y));
 }
 
 
@@ -41,17 +73,16 @@ TEST(TestPlannerl, testIsCellInsideMap) {
  *   @return none
 */
 TEST(TestPlannerl, testgetCoord) {
-    
     RAstar_planner::RAstarPlannerROS plan;
 
     float x = 5.0;
     float y = 7.0;
     plan.originX = 2.0;
     plan.originY = 3.0;
-    plan.getCorrdinate(x,y);
+    plan.getCorrdinate(x, y);
 
     EXPECT_EQ(3.0, x);
-    EXPECT_EQ(4.0,y);
+    EXPECT_EQ(4.0, y);
 }
 
 
@@ -62,15 +93,14 @@ TEST(TestPlannerl, testgetCoord) {
  *   @return none
 */
 TEST(TestPlannerl, testConvertToCellIndex) {
-    
     RAstar_planner::RAstarPlannerROS plan;
 
     float x = 20.0;
     float y = 30.0;
     plan.resolution = 10.0;
     plan.width = 1.0;
-    
-    EXPECT_EQ(5, plan.convertToCellIndex(x,y));
+
+    EXPECT_EQ(5, plan.convertToCellIndex(x, y));
 }
 
 
@@ -81,7 +111,6 @@ TEST(TestPlannerl, testConvertToCellIndex) {
  *   @return none
 */
 TEST(TestPlannerl, testConvertToCoord) {
-    
     RAstar_planner::RAstarPlannerROS plan;
 
     float x = 10.0;
@@ -89,11 +118,11 @@ TEST(TestPlannerl, testConvertToCoord) {
     plan.resolution = 5.0;
     int index = 10;
     plan.originX = 2.0;
-    plan.originY = 3.0; 
+    plan.originY = 3.0;
     plan.width = 5.0;
-    plan.convertToCoordinate(index,x,y);
+    plan.convertToCoordinate(index, x, y);
     EXPECT_EQ(2, x);
-    EXPECT_EQ(13,y);
+    EXPECT_EQ(13, y);
 }
 
 
@@ -104,30 +133,27 @@ TEST(TestPlannerl, testConvertToCoord) {
  *   @return none
 */
 TEST(TestPlannerl, testFindFreeNeighborCell) {
-    
     RAstar_planner::RAstarPlannerROS plan;
     plan.width = 3.0;
     plan.height = 3.0;
     int id = 4;
     int mapSize = plan.width*plan.height;
-    plan.OGM = new bool [mapSize]; 
-    for (unsigned int iy = 0; iy < plan.height; iy++)
-    {
-      for (unsigned int ix = 0; ix < plan.width; ix++)
-      {
+    plan.OGM = new bool[mapSize];
+    for (unsigned int iy = 0; iy < plan.height; iy++) {
+      for (unsigned int ix = 0; ix < plan.width; ix++) {
        int cost = 0;
-        
+
         if (cost == 0) {
-          plan.OGM[iy*plan.width+ix]=true;
-	 }
+          plan.OGM[iy*plan.width+ix] = true;
+         }
        }
     }
-    
-    int ints[] = {0,1,2,3,5,6,7,8};
+
+    int ints[] = {0, 1, 2, 3, 5, 6, 7, 8};
     vector <int> test (ints, ints+sizeof(ints)/sizeof(int));
     vector <int> nay;
     nay =  plan.findFreeNeighborCell(id);
-    EXPECT_EQ(test, nay);   
+    EXPECT_EQ(test, nay);
 }
 
 
@@ -138,41 +164,39 @@ TEST(TestPlannerl, testFindFreeNeighborCell) {
  *   @return none
 */
 TEST(TestPlannerl, testFindPath) {
-    
     RAstar_planner::RAstarPlannerROS plan;
     plan.width = 5.0;
     plan.height = 5.0;
-    //plan.width2 = 10.0;
-    //plan.height2 = 10.0;
+    // plan.width2 = 10.0;
+    // plan.height2 = 10.0;
     float infinity = std::numeric_limits< float >::infinity();
     int startCell = 1;
     int endCell = 23;
     int mapSize = plan.width*plan.height;
-    //plan.OGM;
-    plan.OGM = new bool [mapSize]; 
-    for (unsigned int iy = 0; iy < plan.height; iy++)
-    {
-      for (unsigned int ix = 0; ix < plan.width; ix++)
-      {
+    // plan.OGM;
+    plan.OGM = new bool[mapSize];
+    for (unsigned int iy = 0; iy < plan.height; iy++) {
+      for (unsigned int ix = 0; ix < plan.width; ix++) {
        int cost = 0;
-        
-        if (cost == 0) {
-          plan.OGM[iy*plan.width+ix]=true;
-	  //ROS_INFO_STREAM("OGM["<<iy*plan.width+ix<<"] =" << plan.OGM[iy*plan.width+ix]);
-	}
+
+       if (cost == 0) {
+          plan.OGM[iy*plan.width+ix] = true;
+          // ROS_INFO_STREAM("OGM["<<iy*plan.width+ix<<"]
+            //=" << plan.OGM[iy*plan.width+ix]);
+          }
        }
     }
-    //ROS_INFO_STREAM("OGM[0] = " << plan.OGM[0]);
+    // ROS_INFO_STREAM("OGM[0] = " << plan.OGM[0]);
     float *g_score = new float[mapSize];
-    for (uint i=0; i<mapSize; i++)
-	g_score[i]=infinity;
-    
-    int ints[] = {1,6,11,17,23};
+    for (uint i = 0; i < mapSize; i++)
+         g_score[i] = infinity;
+
+    int ints[] = {1, 6, 11, 17, 23};
     vector <int> test (ints, ints+sizeof(ints)/sizeof(int));
     vector<int> bpath;
-    //ROS_INFO("bpath1");
-    bpath =  plan.findPath(startCell,endCell,g_score);
-    //ROS_INFO("bpath2");
+    // ROS_INFO("bpath1");
+    bpath =  plan.findPath(startCell, endCell, g_score);
+    // ROS_INFO("bpath2");
     EXPECT_EQ(test, bpath);
 }
 
@@ -184,19 +208,18 @@ TEST(TestPlannerl, testFindPath) {
  *   @return none
 */
 TEST(TestPlannerl, testCalcH) {
-    
     RAstar_planner::RAstarPlannerROS plan;
     int cell = 10;
     int goal = 30;
     float dist = 4.0;
-    
+
     int cell2 = 10;
     int goal2 = 33;
     float dist2 = 7.0;
     plan.width = 5.0;
-    float H = plan.calculateHCost(cell,goal);
-    float H2 = plan.calculateHCost(cell2,goal2);
-    EXPECT_EQ(dist, H);    
+    float H = plan.calculateHCost(cell, goal);
+    float H2 = plan.calculateHCost(cell2, goal2);
+    EXPECT_EQ(dist, H);
     EXPECT_EQ(dist2, H2);
 }
 
@@ -208,7 +231,6 @@ TEST(TestPlannerl, testCalcH) {
  *   @return none
 */
 TEST(TestPlannerl, testAddNToCellOpenList) {
-    
     RAstar_planner::RAstarPlannerROS plan;
     int neighborCell = 1;
     int goalCell = 3;
@@ -217,13 +239,13 @@ TEST(TestPlannerl, testAddNToCellOpenList) {
     int mapSize = plan.width*plan.height;
     float infinity = std::numeric_limits< float >::infinity();
     float *g_score = new float[mapSize];
-    for (uint i=0; i<mapSize; i++)
-	g_score[i]=5;
+    for (uint i = 0; i < mapSize; i++)
+        g_score[i] = 5;
     multiset<cells> OPL;
-    
-    EXPECT_EQ(true, OPL.empty());  
-    plan.addNeighborCellToOpenList(OPL,neighborCell,goalCell,g_score);
-    EXPECT_EQ(false, OPL.empty());    
+
+    EXPECT_EQ(true, OPL.empty());
+    plan.addNeighborCellToOpenList(OPL, neighborCell, goalCell, g_score);
+    EXPECT_EQ(false, OPL.empty());
 }
 
 
@@ -234,7 +256,6 @@ TEST(TestPlannerl, testAddNToCellOpenList) {
  *   @return none
 */
 TEST(TestPlannerl, testIsStartGoalValid) {
-    
     RAstar_planner::RAstarPlannerROS plan;
     int start1 = 10;
     int goal1 = 10;
@@ -254,26 +275,22 @@ TEST(TestPlannerl, testIsStartGoalValid) {
     plan.width = 5;
     plan.height = 5;
     int mapSize = plan.width*plan.height;
-    plan.OGM = new bool [mapSize]; 
-    for (unsigned int iy = 0; iy < plan.height; iy++)
-    {
-      for (unsigned int ix = 0; ix < plan.width; ix++)
-      {
+    plan.OGM = new bool[mapSize];
+    for (unsigned int iy = 0; iy < plan.height; iy++) {
+      for (unsigned int ix = 0; ix < plan.width; ix++) {
        int cost = 0;
-        
+
         if (cost == 0) {
-          plan.OGM[iy*plan.width+ix]=true;
-	}
+          plan.OGM[iy*plan.width+ix] = true;
+         }
        }
     }
-   
-    EXPECT_EQ(false,plan.isStartAndGoalCellsValid(start1,goal1) );
-    EXPECT_EQ(false,plan.isStartAndGoalCellsValid(start2,goal2) );
-    EXPECT_EQ(false,plan.isStartAndGoalCellsValid(start3,goal3) );
-    EXPECT_EQ(false,plan.isStartAndGoalCellsValid(start4,goal4) );
-    EXPECT_EQ(true ,plan.isStartAndGoalCellsValid(start5,goal5) );
-   
-    
+
+    EXPECT_EQ(false, plan.isStartAndGoalCellsValid(start1, goal1));
+    EXPECT_EQ(false, plan.isStartAndGoalCellsValid(start2, goal2));
+    EXPECT_EQ(false, plan.isStartAndGoalCellsValid(start3, goal3));
+    EXPECT_EQ(false, plan.isStartAndGoalCellsValid(start4, goal4));
+    EXPECT_EQ(true , plan.isStartAndGoalCellsValid(start5, goal5));
 }
 
 
@@ -284,7 +301,6 @@ TEST(TestPlannerl, testIsStartGoalValid) {
  *   @return none
 */
 TEST(TestPlannerl, testGetMoveCost) {
-    
     RAstar_planner::RAstarPlannerROS plan;
     int cell1 = 1;
     int cell2 = 2;
@@ -292,8 +308,8 @@ TEST(TestPlannerl, testGetMoveCost) {
     plan.width = 5.0;
     float d1 = 1;
     float d2 = 1.4;
-    EXPECT_EQ(d1, plan.getMoveCost(cell1,cell2));  
-    EXPECT_EQ(0, d2 - plan.getMoveCost(cell1,cell3));  
+    EXPECT_EQ(d1, plan.getMoveCost(cell1, cell2));
+    EXPECT_EQ(0, d2 - plan.getMoveCost(cell1, cell3));
     }
 
 
@@ -305,7 +321,6 @@ TEST(TestPlannerl, testGetMoveCost) {
  *   @return none
 */
 TEST(TestPlannerl, testIsFree) {
-    
     RAstar_planner::RAstarPlannerROS plan;
     int id = 1;
     int i = 2;
@@ -313,21 +328,19 @@ TEST(TestPlannerl, testIsFree) {
     plan.width = 5.0;
     plan.height = 5.0;
     int mapSize = plan.width*plan.height;
-    plan.OGM = new bool [mapSize]; 
-    for (unsigned int iy = 0; iy < plan.height; iy++)
-    {
-      for (unsigned int ix = 0; ix < plan.width; ix++)
-      {
+    plan.OGM = new bool[mapSize];
+    for (unsigned int iy = 0; iy < plan.height; iy++) {
+      for (unsigned int ix = 0; ix < plan.width; ix++) {
        int cost = 0;
-        
+
         if (cost == 0) {
-          plan.OGM[iy*plan.width+ix]=true;
-	}
+          plan.OGM[iy*plan.width+ix] = true;
+        }
        }
     }
     plan.OGM[id] = false;
-    EXPECT_EQ(true, plan.isFree(i,j));  
-    EXPECT_EQ(false,plan.isFree(id));  
+    EXPECT_EQ(true, plan.isFree(i, j));
+    EXPECT_EQ(false, plan.isFree(id));
     }
 
 
