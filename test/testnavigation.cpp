@@ -215,7 +215,7 @@ TEST(TestNavigation, testForwardFunc) {
     loop_rate.sleep();
 
     geometry_msgs::Twist expTwist;
-    expTwist.linear.x = 0.1;
+    expTwist.linear.x = 0.3;
     expTwist.linear.y = 0.0;
     expTwist.linear.z = 0.0;
     expTwist.angular.x = 0.0;
@@ -270,7 +270,7 @@ TEST(TestNavigation, testBackwardFunc) {
     loop_rate.sleep();
 
     geometry_msgs::Twist expTwist;
-    expTwist.linear.x = -0.1;
+    expTwist.linear.x = -0.3;
     expTwist.linear.y = 0.0;
     expTwist.linear.z = 0.0;
     expTwist.angular.x = 0.0;
@@ -329,7 +329,7 @@ TEST(TestNavigation, testTurnLeftFunc) {
     expTwist.linear.z = 0.0;
     expTwist.angular.x = 0.0;
     expTwist.angular.y = 0.0;
-    expTwist.angular.z = 0.1;
+    expTwist.angular.z = 0.3;
 
     geometry_msgs::Twist actTwist = testItem.twist;
 
@@ -382,7 +382,7 @@ TEST(TestNavigation, testTurnRightFunc) {
     expTwist.linear.z = 0.0;
     expTwist.angular.x = 0.0;
     expTwist.angular.y = 0.0;
-    expTwist.angular.z = -0.1;
+    expTwist.angular.z = -0.3;
 
     geometry_msgs::Twist actTwist = testItem.twist;
 
