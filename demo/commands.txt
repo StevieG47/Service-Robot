@@ -5,7 +5,7 @@ play music
 stop music
 move forward
 move backward
-foward
+forward
 backward
 turn left
 turn right

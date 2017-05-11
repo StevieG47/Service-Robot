@@ -205,7 +205,7 @@ void Navigation::timerCallback(const ros::TimerEvent& event) {
             msg.linear.z = 0.0;
             msg.angular.x = 0.0;
             msg.angular.y = 0.0;
-            msg.angular.z = 0.1;
+            msg.angular.z = 0.3;
         } else {
             angle = DIR_IDLE;
         }
@@ -237,19 +237,19 @@ void Navigation::timerCallback(const ros::TimerEvent& event) {
             msg.linear.z = 0.0;
             msg.angular.x = 0.0;
             msg.angular.y = 0.0;
-            msg.angular.z = -0.1;
+            msg.angular.z = -0.3;
         } else {
             angle = DIR_IDLE;
         }
     } else if (direction == DIR_FORWARD) {
-        msg.linear.x = 0.1;
+        msg.linear.x = 0.3;
         msg.linear.y = 0.0;
         msg.linear.z = 0.0;
         msg.angular.x = 0.0;
         msg.angular.y = 0.0;
         msg.angular.z = 0.0;
     } else if (direction == DIR_BACKWARD) {
-        msg.linear.x = -0.1;
+        msg.linear.x = -0.3;
         msg.linear.y = 0.0;
         msg.linear.z = 0.0;
         msg.angular.x = 0.0;

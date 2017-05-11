@@ -1,4 +1,4 @@
-Language model created by QuickLM on Tue May  2 17:22:28 EDT 2017
+Language model created by QuickLM on Wed May 10 23:22:56 EDT 2017
 Copyright (c) 1996-2010 Carnegie Mellon University and Alexander I. Rudnicky
 
 The model is in standard ARPA format, designed by Doug Paul while he was at MITRE.
@@ -7,30 +7,29 @@ The code that was used to produce this language model is available in Open Sourc
 Please visit http://www.speech.cs.cmu.edu/tools/ for more information
 
 The (fixed) discount mass is 0.5. The backoffs are computed using the ratio method.
-This model based on a corpus of 21 sentences and 29 words
+This model based on a corpus of 21 sentences and 28 words
 
 \data\
-ngram 1=29
-ngram 2=47
+ngram 1=28
+ngram 2=46
 ngram 3=41
 
 \1-grams:
 -0.9379 </s> -0.3010
--0.9379 <s> -0.2369
+-0.9379 <s> -0.2341
 -1.9590 A -0.2478
 -2.2601 ABORT -0.2478
 -1.9590 B -0.2478
 -1.9590 BACKWARD -0.2478
 -1.9590 C -0.2478
 -2.2601 CANCEL -0.2478
--2.2601 FORWARD -0.2478
--2.2601 FOWARD -0.2478
+-1.9590 FORWARD -0.2478
 -1.7830 GO -0.2938
 -1.9590 IS -0.2938
 -2.2601 IT -0.2478
 -2.2601 LEFT -0.2478
 -2.2601 ME -0.2962
--1.9590 MOVE -0.2938
+-1.9590 MOVE -0.2914
 -2.2601 MOVING -0.2478
 -1.9590 MUSIC -0.2478
 -1.9590 NAME -0.2478
@@ -49,7 +48,7 @@ ngram 3=41
 -1.6232 <s> ABORT 0.0000
 -1.6232 <s> BACKWARD 0.0000
 -1.6232 <s> CANCEL 0.0000
--1.6232 <s> FOWARD 0.0000
+-1.6232 <s> FORWARD 0.0000
 -1.1461 <s> GO 0.0000
 -1.3222 <s> MOVE 0.0000
 -1.6232 <s> PLAY 0.0000
@@ -65,7 +64,6 @@ ngram 3=41
 -0.3010 C </s> -0.3010
 -0.3010 CANCEL </s> -0.3010
 -0.3010 FORWARD </s> -0.3010
--0.3010 FOWARD </s> -0.3010
 -0.3010 GO TO 0.0000
 -0.6021 IS IT 0.0000
 -0.6021 IS YOUR 0.0000
@@ -98,7 +96,7 @@ ngram 3=41
 -0.3010 <s> ABORT </s>
 -0.3010 <s> BACKWARD </s>
 -0.3010 <s> CANCEL </s>
--0.3010 <s> FOWARD </s>
+-0.3010 <s> FORWARD </s>
 -0.3010 <s> GO TO
 -0.6021 <s> MOVE BACKWARD
 -0.6021 <s> MOVE FORWARD
