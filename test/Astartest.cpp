@@ -14,6 +14,13 @@ void spinThread(bool *cont) {
     }
 }
 
+
+/**
+ *   @brief  Test cells inside map
+ *
+ *   @param  none
+ *   @return none
+*/
 TEST(TestPlannerl, testIsCellInsideMap) {
     
     RAstar_planner::RAstarPlannerROS plan;
@@ -24,9 +31,15 @@ TEST(TestPlannerl, testIsCellInsideMap) {
     plan.resolution = 5;
 
     EXPECT_EQ(true, plan.isCellInsideMap(x,y));
-   
 }
 
+
+/**
+ *   @brief  Test getting coordinates
+ *
+ *   @param  none
+ *   @return none
+*/
 TEST(TestPlannerl, testgetCoord) {
     
     RAstar_planner::RAstarPlannerROS plan;
@@ -41,6 +54,13 @@ TEST(TestPlannerl, testgetCoord) {
     EXPECT_EQ(4.0,y);
 }
 
+
+/**
+ *   @brief  Test conversion to cell index
+ *
+ *   @param  none
+ *   @return none
+*/
 TEST(TestPlannerl, testConvertToCellIndex) {
     
     RAstar_planner::RAstarPlannerROS plan;
@@ -51,9 +71,15 @@ TEST(TestPlannerl, testConvertToCellIndex) {
     plan.width = 1.0;
     
     EXPECT_EQ(5, plan.convertToCellIndex(x,y));
-    
 }
 
+
+/**
+ *   @brief  Test conversion to coordinates
+ *
+ *   @param  none
+ *   @return none
+*/
 TEST(TestPlannerl, testConvertToCoord) {
     
     RAstar_planner::RAstarPlannerROS plan;
@@ -68,9 +94,15 @@ TEST(TestPlannerl, testConvertToCoord) {
     plan.convertToCoordinate(index,x,y);
     EXPECT_EQ(2, x);
     EXPECT_EQ(13,y);
-    
 }
 
+
+/**
+ *   @brief  Test finding free neighbors
+ *
+ *   @param  none
+ *   @return none
+*/
 TEST(TestPlannerl, testFindFreeNeighborCell) {
     
     RAstar_planner::RAstarPlannerROS plan;
@@ -95,10 +127,16 @@ TEST(TestPlannerl, testFindFreeNeighborCell) {
     vector <int> test (ints, ints+sizeof(ints)/sizeof(int));
     vector <int> nay;
     nay =  plan.findFreeNeighborCell(id);
-    EXPECT_EQ(test, nay);
-    
+    EXPECT_EQ(test, nay);   
 }
 
+
+/**
+ *   @brief  Test finding path
+ *
+ *   @param  none
+ *   @return none
+*/
 TEST(TestPlannerl, testFindPath) {
     
     RAstar_planner::RAstarPlannerROS plan;
@@ -138,6 +176,13 @@ TEST(TestPlannerl, testFindPath) {
     EXPECT_EQ(test, bpath);
 }
 
+
+/**
+ *   @brief  Test caluclating Heuristic
+ *
+ *   @param  none
+ *   @return none
+*/
 TEST(TestPlannerl, testCalcH) {
     
     RAstar_planner::RAstarPlannerROS plan;
@@ -156,6 +201,12 @@ TEST(TestPlannerl, testCalcH) {
 }
 
 
+/**
+ *   @brief  Test adding cell to open list
+ *
+ *   @param  none
+ *   @return none
+*/
 TEST(TestPlannerl, testAddNToCellOpenList) {
     
     RAstar_planner::RAstarPlannerROS plan;
@@ -175,6 +226,13 @@ TEST(TestPlannerl, testAddNToCellOpenList) {
     EXPECT_EQ(false, OPL.empty());    
 }
 
+
+/**
+ *   @brief  Test start/goal locations being valid
+ *
+ *   @param  none
+ *   @return none
+*/
 TEST(TestPlannerl, testIsStartGoalValid) {
     
     RAstar_planner::RAstarPlannerROS plan;
@@ -218,6 +276,13 @@ TEST(TestPlannerl, testIsStartGoalValid) {
     
 }
 
+
+/**
+ *   @brief  Test getting move costs
+ *
+ *   @param  none
+ *   @return none
+*/
 TEST(TestPlannerl, testGetMoveCost) {
     
     RAstar_planner::RAstarPlannerROS plan;
@@ -231,6 +296,14 @@ TEST(TestPlannerl, testGetMoveCost) {
     EXPECT_EQ(0, d2 - plan.getMoveCost(cell1,cell3));  
     }
 
+
+
+/**
+ *   @brief  Test check if neighbor free
+ *
+ *   @param  none
+ *   @return none
+*/
 TEST(TestPlannerl, testIsFree) {
     
     RAstar_planner::RAstarPlannerROS plan;
@@ -258,6 +331,14 @@ TEST(TestPlannerl, testIsFree) {
     }
 
 
+
+/*
+ *   @brief  unit test entrypoint
+ *  
+ *   @param  number of arguments
+ *   @param  argument character array
+ *   @return integer 0 upon exit success
+*/
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     ros::init(argc, argv, "testAstar");
