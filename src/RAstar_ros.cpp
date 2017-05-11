@@ -196,7 +196,7 @@ ROS_INFO("Got coordinates");
     return false;
   }
 
-  /////////////////////////////////////////////////////////
+
 
   // call global planner
 
@@ -532,9 +532,6 @@ void RAstarPlannerROS::addNeighborCellToOpenList(multiset<cells> & OPL, int neig
 	CP.currentCell=neighborCell; //insert the neighbor cell
 	CP.fCost=g_score[neighborCell]+0;//calculateHCost(neighborCell,goalCell);
 	OPL.insert(CP);
-	//multiset<cells>::iterator it = OPL.lower_bound(CP);
-	//multiset<cells>::iterator it = OPL.upper_bound(CP);
-	//OPL.insert( it, CP  );
 }
 
   /*******************************************************************************
