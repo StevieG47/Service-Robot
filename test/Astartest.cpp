@@ -364,7 +364,7 @@ int main(int argc, char** argv) {
 
     int ret = RUN_ALL_TESTS();
 
-    cont = false;
+    //  cont = false;
 
     // wait the second thread to finish
     th.join();

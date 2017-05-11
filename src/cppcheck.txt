@@ -1,6 +1,0 @@
-[RAstar_ros.cpp:308]: (error) Mismatching allocation and deallocation: g_score
-[RAstar_ros.cpp:217]: (performance) Prefer prefix ++/-- operators for non-primitive types.
-[RAstar_ros.cpp:126]: (style) The function 'makePlan' is never used.
-[RAstar_ros.cpp:274]: (style) The function 'mapToWorld' is never used.
-[RAstar_ros.cpp:324]: (style) The function 'publishPlan' is never used.
-(information) Cppcheck cannot find all the include files (use --check-config for details)

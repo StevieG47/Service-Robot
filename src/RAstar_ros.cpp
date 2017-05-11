@@ -214,7 +214,7 @@ ROS_INFO("make Plan function");
 
     geometry_msgs::PoseStamped last_pose;
     last_pose = *it;
-    it++;
+    ++it;
     for (; it != plan.end(); ++it) {
        path_length += hypot((*it).pose.position.x - last_pose.pose.position.x,
                          (*it).pose.position.y - last_pose.pose.position.y);
@@ -305,7 +305,7 @@ clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
 cout << "Time to generate A* path: " << (diff(time1, time2).tv_sec)*1e3 +
 (diff(time1, time2).tv_nsec)*1e-6 << " microseconds" << endl;
 
-  delete g_score;
+  delete[] g_score;
 
   return bestPath;
 }
