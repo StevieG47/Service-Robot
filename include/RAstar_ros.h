@@ -96,7 +96,7 @@ namespace RAstar_planner {
   
 class RAstarPlannerROS : public nav_core::BaseGlobalPlanner {
 public:
-  
+  bool* OGM;  
   RAstarPlannerROS (ros::NodeHandle &); //this constructor is may be not needed
   RAstarPlannerROS ();
   RAstarPlannerROS(std::string name, costmap_2d::Costmap2DROS* costmap_ros);

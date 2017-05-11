@@ -226,7 +226,23 @@ add_library(relaxed_astar_lib src/RAstar_ros.cpp)
 if(CATKIN_ENABLE_TESTING)
   find_package(rostest REQUIRED)
 
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 --coverage")
+# gtest PluginClass
+  add_rostest_gtest(
+    testAstar
+    test/testAstar.launch
+    test/Astartest.cpp
+    test/testhelper.cpp
+    src/RAstar_ros.cpp
+  )
+  target_link_libraries(
+    testAstar
+    ${catkin_LIBRARIES}
+  )
+  add_dependencies(
+    testAstar
+    navigation
+    ${catkin_EXPORTED_TARGETS}
+  )
 
   # gtest soundcontrol class
   add_rostest_gtest(
