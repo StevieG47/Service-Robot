@@ -1,5 +1,6 @@
 # Service Robot
 [![Build Status](https://travis-ci.org/StevieG47/Service-Robot.svg?branch=master)](https://travis-ci.org/StevieG47/Service-Robot)
+[![Coverage Status](https://coveralls.io/repos/github/StevieG47/Service-Robot/badge.svg?branch=master)](https://coveralls.io/github/StevieG47/Service-Robot?branch=master)
 
 ## Overview
 This is an indoor service robot project which can take simple voice commands from the end user, and navigate autonomously to perform a required task. This indoor service robot is implemented in ROS Gazebo simulation environment using the TurtleBot as the base platform.

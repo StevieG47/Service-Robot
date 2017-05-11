@@ -226,6 +226,8 @@ add_library(relaxed_astar_lib src/RAstar_ros.cpp)
 if(CATKIN_ENABLE_TESTING)
   find_package(rostest REQUIRED)
 
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 --coverage")
+
   # gtest soundcontrol class
   add_rostest_gtest(
     testsoundcontrol
