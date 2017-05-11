@@ -18,7 +18,6 @@
 
 <!--Astar one -->
 <include file="$(find servicebot)/launch/move_base.launch.xml"/> 
-
 <!-- default one -->
 <!--  <include file="$(find turtlebot_navigation)/launch/includes/move_base.launch.xml"/> -->
 
