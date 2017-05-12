@@ -119,7 +119,6 @@ void RAstarPlannerROS::initialize(std::string name,
     for (unsigned int iy = 0; iy < costmap_->getSizeInCellsY(); iy++) {
       for (unsigned int ix = 0; ix < costmap_->getSizeInCellsX(); ix++) {
         unsigned int cost = static_cast<int>(costmap_->getCost(ix, iy));
-        
         if (cost == 0)
           OGM[iy*width+ix] = true;
         else
@@ -541,8 +540,7 @@ bool RAstarPlannerROS::isStartAndGoalCellsValid(int startCell, int goalCell) {
     bool isvalid = true;
     bool isFreeStartCell = isFree(startCell);
     bool isFreeGoalCell = isFree(goalCell);
-    if (startCell == goalCell) {
-    
+    if (startCell == goalCell) {    
     isvalid = false;
     } else  {
       if (!isFreeStartCell && !isFreeGoalCell) {
