@@ -245,7 +245,7 @@ To build and run the test:
 ```bash
 cd ~/catkin_ws
 source ./devel/setup.bash
-catkin_make run_tests_servicebot
+catkin_make run_tests
 ```
 
 
