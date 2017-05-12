@@ -38,15 +38,14 @@
 #include <sstream>
 #include "RAstar_ros.h"
 
-void spinThread(bool *cont) {
+void processThread(void) {
     ros::Rate loop_rate(10);
 
-    while (ros::ok() && *cont) {
+    while (ros::ok()) {
         ros::spinOnce();
         loop_rate.sleep();
     }
 }
-
 
 /**
  *   @brief  Test cells inside map
@@ -357,14 +356,12 @@ int main(int argc, char** argv) {
     ros::init(argc, argv, "testAstar");
     ros::NodeHandle nh;
 
-    bool cont = true;
-
     // spawn another thread
-    boost::thread th(spinThread, &cont);
+    boost::thread th(processThread);
 
     int ret = RUN_ALL_TESTS();
 
-    //  cont = false;
+    ros::shutdown();
 
     // wait the second thread to finish
     th.join();

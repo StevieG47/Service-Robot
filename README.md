@@ -3,7 +3,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/StevieG47/Service-Robot/badge.svg?branch=master)](https://coveralls.io/github/StevieG47/Service-Robot?branch=master)
 
 ## Overview
-This is an indoor service robot project which can take simple voice commands from the end user, and navigate autonomously to perform a required task. This indoor service robot is implemented in ROS Gazebo simulation environment using the TurtleBot as the base platform.
+This is an indoor service robot project which can take simple voice commands from the end user, and navigate autonomously to perform a required task. This indoor service robot is implemented in ROS Gazebo simulation environment using the TurtleBot as the base platform. A custom global planner was written as a plugin, and uses the A* algorithm for planning. SLAM was done on the environment to get a map for navigation. 
 
 ## Authors
 - Steven Gambino
@@ -242,6 +242,9 @@ because database is small, unwanted actions could be triggered.
 
 2. Navigation
 
+    - A global planner was written as a plugin to use a custom A* algorithm. This replaces the default global planner. The local DWA planner has issues with dynamic obstacles with this global planner. 
+
+    - Assumes a map of the environment is known. Mapping was done previously for this environment, so for a new world the same will have to be done. 
 ## Developer Documentation
 
 [Doxygen Document](https://github.com/StevieG47/Service-Robot/tree/master/doc)
