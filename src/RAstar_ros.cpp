@@ -76,6 +76,17 @@ RAstarPlannerROS::RAstarPlannerROS() {
 }
 RAstarPlannerROS::RAstarPlannerROS(ros::NodeHandle &nh) {
   ROSNodeHandle = nh;
+  originX = 0;
+  originY = 0;
+  resolution = 0;
+  costmap_ros_ = NULL;
+  step_size_ = 0;
+  min_dist_from_robot_ = 0;
+  costmap_ = NULL;
+  initialized_ = false;
+  width = 0;
+  height = 0;
+  OGM = NULL;
 }
 
 RAstarPlannerROS::RAstarPlannerROS(std::string name,
@@ -108,7 +119,7 @@ void RAstarPlannerROS::initialize(std::string name,
     for (unsigned int iy = 0; iy < costmap_->getSizeInCellsY(); iy++) {
       for (unsigned int ix = 0; ix < costmap_->getSizeInCellsX(); ix++) {
         unsigned int cost = static_cast<int>(costmap_->getCost(ix, iy));
-        // cout<<cost;
+        
         if (cost == 0)
           OGM[iy*width+ix] = true;
         else
@@ -220,7 +231,7 @@ ROS_INFO("make Plan function");
                          (*it).pose.position.y - last_pose.pose.position.y);
        last_pose = *it;
     }
-    cout << "The global path length: " << path_length << " meters" << endl;
+    ROS_INFO_STREAM("The global path length: " << path_length << " meters");
 
       // publish the plan
 
@@ -302,8 +313,8 @@ clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
 clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
     // ROS_INFO("CLOCK2");
 
-cout << "Time to generate A* path: " << (diff(time1, time2).tv_sec)*1e3 +
-(diff(time1, time2).tv_nsec)*1e-6 << " microseconds" << endl;
+ROS_INFO_STREAM("Time to generate A* path: " << (diff(time1, time2).tv_sec)*1e3 +
+(diff(time1, time2).tv_nsec)*1e-6 << " microseconds");
 
   delete[] g_score;
 
@@ -406,7 +417,7 @@ vector<int> RAstarPlannerROS::findPath(int startCell,
                 return   bestPath;
         } else {
                 // ROS_INFO("No path");
-                cout << "Failure to find a path !" << endl;
+                ROS_INFO_STREAM("Failure to find a path !");
                 return emptyPath;
         }
 }
@@ -531,27 +542,22 @@ bool RAstarPlannerROS::isStartAndGoalCellsValid(int startCell, int goalCell) {
     bool isFreeStartCell = isFree(startCell);
     bool isFreeGoalCell = isFree(goalCell);
     if (startCell == goalCell) {
-    // cout << "The Start and the Goal cells are the same..." << endl;
+    
     isvalid = false;
     } else  {
       if (!isFreeStartCell && !isFreeGoalCell) {
-      // cout << "The start and goal cells are obstacle positions" << endl;
         isvalid = false;
       } else {
         if (!isFreeStartCell) {
-        // cout << "The start is an obstacle..." << endl;
         isvalid = false;
         } else {
             if (!isFreeGoalCell)  {
-              // cout << "The goal cell is an obstacle..." << endl;
               isvalid = false;
             } else {
             if (findFreeNeighborCell(goalCell).size() == 0)  {
-              // cout << "The goal cell is encountred by obstacles."<< endl;
               isvalid = false;
               } else {
                   if (findFreeNeighborCell(startCell).size() == 0) {
-              // cout << "The start cell is encountred by obstacles"<< endl;
                   isvalid = false;
                 }
               }
