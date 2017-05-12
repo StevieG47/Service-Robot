@@ -247,4 +247,4 @@ because database is small, unwanted actions could be triggered.
     - Assumes a map of the environment is known. Mapping was done previously for this environment, so for a new world the same will have to be done. 
 ## Developer Documentation
 
-[Doxygen Document](https://github.com/StevieG47/Service-Robot/tree/master/doc)
+[Doxygen Document](http://htmlpreview.github.io/?https://github.com/StevieG47/Service-Robot/blob/master/docs/html/index.html)
