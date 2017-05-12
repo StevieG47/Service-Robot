@@ -18,9 +18,6 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   tf
   nav_core
-  sensor_msgs
-  cv_bridge
-  image_transport
   base_local_planner
   actionlib_msgs
 )
