@@ -1,0 +1,564 @@
+\hypertarget{Astartest_8cpp}{\section{test/\-Astartest.cpp File Reference}
+\label{Astartest_8cpp}\index{test/\-Astartest.\-cpp@{test/\-Astartest.\-cpp}}
+}
+
+
+Implementation of unit test for Global planner class.  
+
+
+{\ttfamily \#include $<$ros/ros.\-h$>$}\\*
+{\ttfamily \#include $<$ros/package.\-h$>$}\\*
+{\ttfamily \#include $<$std\-\_\-msgs/\-String.\-h$>$}\\*
+{\ttfamily \#include $<$gtest/gtest.\-h$>$}\\*
+{\ttfamily \#include $<$sstream$>$}\\*
+{\ttfamily \#include \char`\"{}R\-Astar\-\_\-ros.\-h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{Astartest_8cpp_abee919b3b96d4d58ae9a6c4952b67c22}{process\-Thread} (void)
+\item 
+\hyperlink{Astartest_8cpp_afa2d1212e40cdea89959311396dbbcb3}{T\-E\-S\-T} (Test\-Plannerl, test\-Is\-Cell\-Inside\-Map)
+\begin{DoxyCompactList}\small\item\em Test cells inside map. \end{DoxyCompactList}\item 
+\hyperlink{Astartest_8cpp_a4b06befad6ef647392cbe76e0690caee}{T\-E\-S\-T} (Test\-Plannerl, testget\-Coord)
+\begin{DoxyCompactList}\small\item\em Test getting coordinates. \end{DoxyCompactList}\item 
+\hyperlink{Astartest_8cpp_a2559939cc4a46022874e6cb0778311f9}{T\-E\-S\-T} (Test\-Plannerl, test\-Convert\-To\-Cell\-Index)
+\begin{DoxyCompactList}\small\item\em Test conversion to cell index. \end{DoxyCompactList}\item 
+\hyperlink{Astartest_8cpp_a017729d9c9f823cd24730fd164c0e7ae}{T\-E\-S\-T} (Test\-Plannerl, test\-Convert\-To\-Coord)
+\begin{DoxyCompactList}\small\item\em Test conversion to coordinates. \end{DoxyCompactList}\item 
+\hyperlink{Astartest_8cpp_aca99580f248c89af4be9e1dc621605d8}{T\-E\-S\-T} (Test\-Plannerl, test\-Find\-Free\-Neighbor\-Cell)
+\begin{DoxyCompactList}\small\item\em Test finding free neighbors. \end{DoxyCompactList}\item 
+\hyperlink{Astartest_8cpp_ac97ddec1108583e772abbca288883b45}{T\-E\-S\-T} (Test\-Plannerl, test\-Find\-Path)
+\begin{DoxyCompactList}\small\item\em Test finding path. \end{DoxyCompactList}\item 
+\hyperlink{Astartest_8cpp_a20bcbd250731b75b61a6079b5fc9a829}{T\-E\-S\-T} (Test\-Plannerl, test\-Calc\-H)
+\begin{DoxyCompactList}\small\item\em Test caluclating Heuristic. \end{DoxyCompactList}\item 
+\hyperlink{Astartest_8cpp_ad8b52a8182accfdeac57333cfb8585c1}{T\-E\-S\-T} (Test\-Plannerl, test\-Add\-N\-To\-Cell\-Open\-List)
+\begin{DoxyCompactList}\small\item\em Test adding cell to open list. \end{DoxyCompactList}\item 
+\hyperlink{Astartest_8cpp_a9dbb5f53b0db51f843a776dd25bd5bff}{T\-E\-S\-T} (Test\-Plannerl, test\-Is\-Start\-Goal\-Valid)
+\begin{DoxyCompactList}\small\item\em Test start/goal locations being valid. \end{DoxyCompactList}\item 
+\hyperlink{Astartest_8cpp_a1c3e4038a3984ade31c1934ab18ac309}{T\-E\-S\-T} (Test\-Plannerl, test\-Get\-Move\-Cost)
+\begin{DoxyCompactList}\small\item\em Test getting move costs. \end{DoxyCompactList}\item 
+\hyperlink{Astartest_8cpp_a0e3e72da2a1705b4eac79036dd707192}{T\-E\-S\-T} (Test\-Plannerl, test\-Is\-Free)
+\begin{DoxyCompactList}\small\item\em Test check if neighbor free. \end{DoxyCompactList}\item 
+int \hyperlink{Astartest_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implementation of unit test for Global planner class. This file contains implementation of unit test for Global Planner class
+
+\begin{DoxyAuthor}{Author}
+Huei Tzu Tsai \par
+ Steven Gambino 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+05/10/2017 
+\end{DoxyDate}
+
+
+\subsection{Function Documentation}
+\hypertarget{Astartest_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{\index{Astartest.\-cpp@{Astartest.\-cpp}!main@{main}}
+\index{main@{main}!Astartest.cpp@{Astartest.\-cpp}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}}\label{Astartest_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}
+
+\begin{DoxyCode}
+354                                 \{
+355     ::testing::InitGoogleTest(&argc, argv);
+356     ros::init(argc, argv, \textcolor{stringliteral}{"testAstar"});
+357     ros::NodeHandle nh;
+358 
+359     \textcolor{comment}{// spawn another thread}
+360     boost::thread th(\hyperlink{Astartest_8cpp_abee919b3b96d4d58ae9a6c4952b67c22}{processThread});
+361 
+362     \textcolor{keywordtype}{int} ret = RUN\_ALL\_TESTS();
+363 
+364     ros::shutdown();
+365 
+366     \textcolor{comment}{// wait the second thread to finish}
+367     th.join();
+368 
+369     \textcolor{keywordflow}{return} ret;
+370 \}
+\end{DoxyCode}
+\hypertarget{Astartest_8cpp_abee919b3b96d4d58ae9a6c4952b67c22}{\index{Astartest.\-cpp@{Astartest.\-cpp}!process\-Thread@{process\-Thread}}
+\index{process\-Thread@{process\-Thread}!Astartest.cpp@{Astartest.\-cpp}}
+\subsubsection[{process\-Thread}]{\setlength{\rightskip}{0pt plus 5cm}void process\-Thread (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{Astartest_8cpp_abee919b3b96d4d58ae9a6c4952b67c22}
+
+\begin{DoxyCode}
+41                          \{
+42     ros::Rate loop\_rate(10);
+43 
+44     \textcolor{keywordflow}{while} (ros::ok()) \{
+45         ros::spinOnce();
+46         loop\_rate.sleep();
+47     \}
+48 \}
+\end{DoxyCode}
+\hypertarget{Astartest_8cpp_afa2d1212e40cdea89959311396dbbcb3}{\index{Astartest.\-cpp@{Astartest.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!Astartest.cpp@{Astartest.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Plannerl}]{, }
+\item[{test\-Is\-Cell\-Inside\-Map}]{}
+\end{DoxyParamCaption}
+)}}\label{Astartest_8cpp_afa2d1212e40cdea89959311396dbbcb3}
+
+
+Test cells inside map. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+56                                         \{
+57     \hyperlink{classRAstar__planner_1_1RAstarPlannerROS}{RAstar\_planner::RAstarPlannerROS} plan;
+58     \textcolor{keywordtype}{float} x = 1.0;
+59     \textcolor{keywordtype}{float} y = 1.0;
+60     plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_accbb5d01b9d9630eb906c71fb255dd0d}{width} = 10;
+61     plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_ab200f89722ca863dff4daf8ea25fd910}{height} = 10;
+62     plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_a651c37170c82d3b116961a9ba1ccea6e}{resolution} = 5;
+63 
+64     EXPECT\_EQ(\textcolor{keyword}{true}, plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_a1d3f1b7aed836e648645dd696823193b}{isCellInsideMap}(x, y));
+65 \}
+\end{DoxyCode}
+\hypertarget{Astartest_8cpp_a4b06befad6ef647392cbe76e0690caee}{\index{Astartest.\-cpp@{Astartest.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!Astartest.cpp@{Astartest.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Plannerl}]{, }
+\item[{testget\-Coord}]{}
+\end{DoxyParamCaption}
+)}}\label{Astartest_8cpp_a4b06befad6ef647392cbe76e0690caee}
+
+
+Test getting coordinates. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+74                                  \{
+75     \hyperlink{classRAstar__planner_1_1RAstarPlannerROS}{RAstar\_planner::RAstarPlannerROS} plan;
+76 
+77     \textcolor{keywordtype}{float} x = 5.0;
+78     \textcolor{keywordtype}{float} y = 7.0;
+79     plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_ad2259dddb7800340bc6d5f89ebc4186b}{originX} = 2.0;
+80     plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_a94427d193482b1c34b3db7ae2bfb8155}{originY} = 3.0;
+81     plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_abbc4c3daf28590f0d5e45c8227b7ff9e}{getCorrdinate}(x, y);
+82 
+83     EXPECT\_EQ(3.0, x);
+84     EXPECT\_EQ(4.0, y);
+85 \}
+\end{DoxyCode}
+\hypertarget{Astartest_8cpp_a2559939cc4a46022874e6cb0778311f9}{\index{Astartest.\-cpp@{Astartest.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!Astartest.cpp@{Astartest.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Plannerl}]{, }
+\item[{test\-Convert\-To\-Cell\-Index}]{}
+\end{DoxyParamCaption}
+)}}\label{Astartest_8cpp_a2559939cc4a46022874e6cb0778311f9}
+
+
+Test conversion to cell index. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+94                                            \{
+95     \hyperlink{classRAstar__planner_1_1RAstarPlannerROS}{RAstar\_planner::RAstarPlannerROS} plan;
+96 
+97     \textcolor{keywordtype}{float} x = 20.0;
+98     \textcolor{keywordtype}{float} y = 30.0;
+99     plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_a651c37170c82d3b116961a9ba1ccea6e}{resolution} = 10.0;
+100     plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_accbb5d01b9d9630eb906c71fb255dd0d}{width} = 1.0;
+101 
+102     EXPECT\_EQ(5, plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_a50f7adc635522b9ea7f5348870b7ca6e}{convertToCellIndex}(x, y));
+103 \}
+\end{DoxyCode}
+\hypertarget{Astartest_8cpp_a017729d9c9f823cd24730fd164c0e7ae}{\index{Astartest.\-cpp@{Astartest.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!Astartest.cpp@{Astartest.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Plannerl}]{, }
+\item[{test\-Convert\-To\-Coord}]{}
+\end{DoxyParamCaption}
+)}}\label{Astartest_8cpp_a017729d9c9f823cd24730fd164c0e7ae}
+
+
+Test conversion to coordinates. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+112                                        \{
+113     \hyperlink{classRAstar__planner_1_1RAstarPlannerROS}{RAstar\_planner::RAstarPlannerROS} plan;
+114 
+115     \textcolor{keywordtype}{float} x = 10.0;
+116     \textcolor{keywordtype}{float} y = 10.0;
+117     plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_a651c37170c82d3b116961a9ba1ccea6e}{resolution} = 5.0;
+118     \textcolor{keywordtype}{int} index = 10;
+119     plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_ad2259dddb7800340bc6d5f89ebc4186b}{originX} = 2.0;
+120     plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_a94427d193482b1c34b3db7ae2bfb8155}{originY} = 3.0;
+121     plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_accbb5d01b9d9630eb906c71fb255dd0d}{width} = 5.0;
+122     plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_a1046296d428b694e517ef25cac423846}{convertToCoordinate}(index, x, y);
+123     EXPECT\_EQ(2, x);
+124     EXPECT\_EQ(13, y);
+125 \}
+\end{DoxyCode}
+\hypertarget{Astartest_8cpp_aca99580f248c89af4be9e1dc621605d8}{\index{Astartest.\-cpp@{Astartest.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!Astartest.cpp@{Astartest.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Plannerl}]{, }
+\item[{test\-Find\-Free\-Neighbor\-Cell}]{}
+\end{DoxyParamCaption}
+)}}\label{Astartest_8cpp_aca99580f248c89af4be9e1dc621605d8}
+
+
+Test finding free neighbors. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+134                                              \{
+135     \hyperlink{classRAstar__planner_1_1RAstarPlannerROS}{RAstar\_planner::RAstarPlannerROS} plan;
+136     plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_accbb5d01b9d9630eb906c71fb255dd0d}{width} = 3.0;
+137     plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_ab200f89722ca863dff4daf8ea25fd910}{height} = 3.0;
+138     \textcolor{keywordtype}{int} \textcolor{keywordtype}{id} = 4;
+139     \textcolor{keywordtype}{int} mapSize = plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_accbb5d01b9d9630eb906c71fb255dd0d}{width}*plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_ab200f89722ca863dff4daf8ea25fd910}{height};
+140     plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_a873e16d6355ad94a276f4795bb450141}{OGM} = \textcolor{keyword}{new} \textcolor{keywordtype}{bool}[mapSize];
+141     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} iy = 0; iy < plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_ab200f89722ca863dff4daf8ea25fd910}{height}; iy++) \{
+142       \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} ix = 0; ix < plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_accbb5d01b9d9630eb906c71fb255dd0d}{width}; ix++) \{
+143        \textcolor{keywordtype}{int} cost = 0;
+144 
+145         \textcolor{keywordflow}{if} (cost == 0) \{
+146           plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_a873e16d6355ad94a276f4795bb450141}{OGM}[iy*plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_accbb5d01b9d9630eb906c71fb255dd0d}{width}+ix] = \textcolor{keyword}{true};
+147          \}
+148        \}
+149     \}
+150 
+151     \textcolor{keywordtype}{int} ints[] = \{0, 1, 2, 3, 5, 6, 7, 8\};
+152     vector <int> test (ints, ints+\textcolor{keyword}{sizeof}(ints)/\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}));
+153     vector <int> nay;
+154     nay =  plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_a1923be37fd592c26b7862a694aaa1cd4}{findFreeNeighborCell}(\textcolor{keywordtype}{id});
+155     EXPECT\_EQ(test, nay);
+156 \}
+\end{DoxyCode}
+\hypertarget{Astartest_8cpp_ac97ddec1108583e772abbca288883b45}{\index{Astartest.\-cpp@{Astartest.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!Astartest.cpp@{Astartest.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Plannerl}]{, }
+\item[{test\-Find\-Path}]{}
+\end{DoxyParamCaption}
+)}}\label{Astartest_8cpp_ac97ddec1108583e772abbca288883b45}
+
+
+Test finding path. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+165                                  \{
+166     \hyperlink{classRAstar__planner_1_1RAstarPlannerROS}{RAstar\_planner::RAstarPlannerROS} plan;
+167     plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_accbb5d01b9d9630eb906c71fb255dd0d}{width} = 5.0;
+168     plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_ab200f89722ca863dff4daf8ea25fd910}{height} = 5.0;
+169     \textcolor{comment}{// plan.width2 = 10.0;}
+170     \textcolor{comment}{// plan.height2 = 10.0;}
+171     \textcolor{keywordtype}{float} infinity = std::numeric\_limits< float >::infinity();
+172     \textcolor{keywordtype}{int} startCell = 1;
+173     \textcolor{keywordtype}{int} endCell = 23;
+174     \textcolor{keywordtype}{int} mapSize = plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_accbb5d01b9d9630eb906c71fb255dd0d}{width}*plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_ab200f89722ca863dff4daf8ea25fd910}{height};
+175     \textcolor{comment}{// plan.OGM;}
+176     plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_a873e16d6355ad94a276f4795bb450141}{OGM} = \textcolor{keyword}{new} \textcolor{keywordtype}{bool}[mapSize];
+177     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} iy = 0; iy < plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_ab200f89722ca863dff4daf8ea25fd910}{height}; iy++) \{
+178       \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} ix = 0; ix < plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_accbb5d01b9d9630eb906c71fb255dd0d}{width}; ix++) \{
+179        \textcolor{keywordtype}{int} cost = 0;
+180 
+181        \textcolor{keywordflow}{if} (cost == 0) \{
+182           plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_a873e16d6355ad94a276f4795bb450141}{OGM}[iy*plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_accbb5d01b9d9630eb906c71fb255dd0d}{width}+ix] = \textcolor{keyword}{true};
+183           \textcolor{comment}{// ROS\_INFO\_STREAM("OGM["<<iy*plan.width+ix<<"]}
+184             \textcolor{comment}{//=" << plan.OGM[iy*plan.width+ix]);}
+185           \}
+186        \}
+187     \}
+188     \textcolor{comment}{// ROS\_INFO\_STREAM("OGM[0] = " << plan.OGM[0]);}
+189     \textcolor{keywordtype}{float} *g\_score = \textcolor{keyword}{new} \textcolor{keywordtype}{float}[mapSize];
+190     \textcolor{keywordflow}{for} (uint i = 0; i < mapSize; i++)
+191          g\_score[i] = infinity;
+192 
+193     \textcolor{keywordtype}{int} ints[] = \{1, 6, 11, 17, 23\};
+194     vector <int> test (ints, ints+\textcolor{keyword}{sizeof}(ints)/\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}));
+195     vector<int> bpath;
+196     \textcolor{comment}{// ROS\_INFO("bpath1");}
+197     bpath =  plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_af76635e270a26e8e3da8fa9a9c228377}{findPath}(startCell, endCell, g\_score);
+198     \textcolor{comment}{// ROS\_INFO("bpath2");}
+199     EXPECT\_EQ(test, bpath);
+200 \}
+\end{DoxyCode}
+\hypertarget{Astartest_8cpp_a20bcbd250731b75b61a6079b5fc9a829}{\index{Astartest.\-cpp@{Astartest.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!Astartest.cpp@{Astartest.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Plannerl}]{, }
+\item[{test\-Calc\-H}]{}
+\end{DoxyParamCaption}
+)}}\label{Astartest_8cpp_a20bcbd250731b75b61a6079b5fc9a829}
+
+
+Test caluclating Heuristic. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+209                               \{
+210     \hyperlink{classRAstar__planner_1_1RAstarPlannerROS}{RAstar\_planner::RAstarPlannerROS} plan;
+211     \textcolor{keywordtype}{int} cell = 10;
+212     \textcolor{keywordtype}{int} goal = 30;
+213     \textcolor{keywordtype}{float} dist = 4.0;
+214 
+215     \textcolor{keywordtype}{int} cell2 = 10;
+216     \textcolor{keywordtype}{int} goal2 = 33;
+217     \textcolor{keywordtype}{float} dist2 = 7.0;
+218     plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_accbb5d01b9d9630eb906c71fb255dd0d}{width} = 5.0;
+219     \textcolor{keywordtype}{float} H = plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_a723d289d6debbf185e8a0e8430a0a4d7}{calculateHCost}(cell, goal);
+220     \textcolor{keywordtype}{float} H2 = plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_a723d289d6debbf185e8a0e8430a0a4d7}{calculateHCost}(cell2, goal2);
+221     EXPECT\_EQ(dist, H);
+222     EXPECT\_EQ(dist2, H2);
+223 \}
+\end{DoxyCode}
+\hypertarget{Astartest_8cpp_ad8b52a8182accfdeac57333cfb8585c1}{\index{Astartest.\-cpp@{Astartest.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!Astartest.cpp@{Astartest.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Plannerl}]{, }
+\item[{test\-Add\-N\-To\-Cell\-Open\-List}]{}
+\end{DoxyParamCaption}
+)}}\label{Astartest_8cpp_ad8b52a8182accfdeac57333cfb8585c1}
+
+
+Test adding cell to open list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+232                                            \{
+233     \hyperlink{classRAstar__planner_1_1RAstarPlannerROS}{RAstar\_planner::RAstarPlannerROS} plan;
+234     \textcolor{keywordtype}{int} neighborCell = 1;
+235     \textcolor{keywordtype}{int} goalCell = 3;
+236     plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_accbb5d01b9d9630eb906c71fb255dd0d}{width} = 5.0;
+237     plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_ab200f89722ca863dff4daf8ea25fd910}{height} = 5.0;
+238     \textcolor{keywordtype}{int} mapSize = plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_accbb5d01b9d9630eb906c71fb255dd0d}{width}*plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_ab200f89722ca863dff4daf8ea25fd910}{height};
+239     \textcolor{keywordtype}{float} infinity = std::numeric\_limits< float >::infinity();
+240     \textcolor{keywordtype}{float} *g\_score = \textcolor{keyword}{new} \textcolor{keywordtype}{float}[mapSize];
+241     \textcolor{keywordflow}{for} (uint i = 0; i < mapSize; i++)
+242         g\_score[i] = 5;
+243     multiset<cells> OPL;
+244 
+245     EXPECT\_EQ(\textcolor{keyword}{true}, OPL.empty());
+246     plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_a16d9f8d214db7aa9c42faade56580b83}{addNeighborCellToOpenList}(OPL, neighborCell, goalCell, g\_score);
+247     EXPECT\_EQ(\textcolor{keyword}{false}, OPL.empty());
+248 \}
+\end{DoxyCode}
+\hypertarget{Astartest_8cpp_a9dbb5f53b0db51f843a776dd25bd5bff}{\index{Astartest.\-cpp@{Astartest.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!Astartest.cpp@{Astartest.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Plannerl}]{, }
+\item[{test\-Is\-Start\-Goal\-Valid}]{}
+\end{DoxyParamCaption}
+)}}\label{Astartest_8cpp_a9dbb5f53b0db51f843a776dd25bd5bff}
+
+
+Test start/goal locations being valid. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+257                                          \{
+258     \hyperlink{classRAstar__planner_1_1RAstarPlannerROS}{RAstar\_planner::RAstarPlannerROS} plan;
+259     \textcolor{keywordtype}{int} start1 = 10;
+260     \textcolor{keywordtype}{int} goal1 = 10;
+261 
+262     \textcolor{keywordtype}{int} start2 = 90;
+263     \textcolor{keywordtype}{int} goal2 = 91;
+264 
+265     \textcolor{keywordtype}{int} start3 = 90;
+266     \textcolor{keywordtype}{int} goal3 = 10;
+267 
+268     \textcolor{keywordtype}{int} start4 = 10;
+269     \textcolor{keywordtype}{int} goal4 = 90;
+270 
+271     \textcolor{keywordtype}{int} start5 = 10;
+272     \textcolor{keywordtype}{int} goal5 = 11;
+273 
+274     plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_accbb5d01b9d9630eb906c71fb255dd0d}{width} = 5;
+275     plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_ab200f89722ca863dff4daf8ea25fd910}{height} = 5;
+276     \textcolor{keywordtype}{int} mapSize = plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_accbb5d01b9d9630eb906c71fb255dd0d}{width}*plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_ab200f89722ca863dff4daf8ea25fd910}{height};
+277     plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_a873e16d6355ad94a276f4795bb450141}{OGM} = \textcolor{keyword}{new} \textcolor{keywordtype}{bool}[mapSize];
+278     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} iy = 0; iy < plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_ab200f89722ca863dff4daf8ea25fd910}{height}; iy++) \{
+279       \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} ix = 0; ix < plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_accbb5d01b9d9630eb906c71fb255dd0d}{width}; ix++) \{
+280        \textcolor{keywordtype}{int} cost = 0;
+281 
+282         \textcolor{keywordflow}{if} (cost == 0) \{
+283           plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_a873e16d6355ad94a276f4795bb450141}{OGM}[iy*plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_accbb5d01b9d9630eb906c71fb255dd0d}{width}+ix] = \textcolor{keyword}{true};
+284          \}
+285        \}
+286     \}
+287 
+288     EXPECT\_EQ(\textcolor{keyword}{false}, plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_a6c34ac7de619dc756a8598f8e81bfaac}{isStartAndGoalCellsValid}(start1, goal1));
+289     EXPECT\_EQ(\textcolor{keyword}{false}, plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_a6c34ac7de619dc756a8598f8e81bfaac}{isStartAndGoalCellsValid}(start2, goal2));
+290     EXPECT\_EQ(\textcolor{keyword}{false}, plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_a6c34ac7de619dc756a8598f8e81bfaac}{isStartAndGoalCellsValid}(start3, goal3));
+291     EXPECT\_EQ(\textcolor{keyword}{false}, plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_a6c34ac7de619dc756a8598f8e81bfaac}{isStartAndGoalCellsValid}(start4, goal4));
+292     EXPECT\_EQ(\textcolor{keyword}{true} , plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_a6c34ac7de619dc756a8598f8e81bfaac}{isStartAndGoalCellsValid}(start5, goal5));
+293 \}
+\end{DoxyCode}
+\hypertarget{Astartest_8cpp_a1c3e4038a3984ade31c1934ab18ac309}{\index{Astartest.\-cpp@{Astartest.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!Astartest.cpp@{Astartest.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Plannerl}]{, }
+\item[{test\-Get\-Move\-Cost}]{}
+\end{DoxyParamCaption}
+)}}\label{Astartest_8cpp_a1c3e4038a3984ade31c1934ab18ac309}
+
+
+Test getting move costs. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+302                                     \{
+303     \hyperlink{classRAstar__planner_1_1RAstarPlannerROS}{RAstar\_planner::RAstarPlannerROS} plan;
+304     \textcolor{keywordtype}{int} cell1 = 1;
+305     \textcolor{keywordtype}{int} cell2 = 2;
+306     \textcolor{keywordtype}{int} cell3 = 5;
+307     plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_accbb5d01b9d9630eb906c71fb255dd0d}{width} = 5.0;
+308     \textcolor{keywordtype}{float} d1 = 1;
+309     \textcolor{keywordtype}{float} d2 = 1.4;
+310     EXPECT\_EQ(d1, plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_a2835ea7684c39af99ce0f6acdb6b16ac}{getMoveCost}(cell1, cell2));
+311     EXPECT\_EQ(0, d2 - plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_a2835ea7684c39af99ce0f6acdb6b16ac}{getMoveCost}(cell1, cell3));
+312     \}
+\end{DoxyCode}
+\hypertarget{Astartest_8cpp_a0e3e72da2a1705b4eac79036dd707192}{\index{Astartest.\-cpp@{Astartest.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!Astartest.cpp@{Astartest.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Plannerl}]{, }
+\item[{test\-Is\-Free}]{}
+\end{DoxyParamCaption}
+)}}\label{Astartest_8cpp_a0e3e72da2a1705b4eac79036dd707192}
+
+
+Test check if neighbor free. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+322                                \{
+323     \hyperlink{classRAstar__planner_1_1RAstarPlannerROS}{RAstar\_planner::RAstarPlannerROS} plan;
+324     \textcolor{keywordtype}{int} \textcolor{keywordtype}{id} = 1;
+325     \textcolor{keywordtype}{int} i = 2;
+326     \textcolor{keywordtype}{int} j = 5;
+327     plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_accbb5d01b9d9630eb906c71fb255dd0d}{width} = 5.0;
+328     plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_ab200f89722ca863dff4daf8ea25fd910}{height} = 5.0;
+329     \textcolor{keywordtype}{int} mapSize = plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_accbb5d01b9d9630eb906c71fb255dd0d}{width}*plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_ab200f89722ca863dff4daf8ea25fd910}{height};
+330     plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_a873e16d6355ad94a276f4795bb450141}{OGM} = \textcolor{keyword}{new} \textcolor{keywordtype}{bool}[mapSize];
+331     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} iy = 0; iy < plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_ab200f89722ca863dff4daf8ea25fd910}{height}; iy++) \{
+332       \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} ix = 0; ix < plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_accbb5d01b9d9630eb906c71fb255dd0d}{width}; ix++) \{
+333        \textcolor{keywordtype}{int} cost = 0;
+334 
+335         \textcolor{keywordflow}{if} (cost == 0) \{
+336           plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_a873e16d6355ad94a276f4795bb450141}{OGM}[iy*plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_accbb5d01b9d9630eb906c71fb255dd0d}{width}+ix] = \textcolor{keyword}{true};
+337         \}
+338        \}
+339     \}
+340     plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_a873e16d6355ad94a276f4795bb450141}{OGM}[id] = \textcolor{keyword}{false};
+341     EXPECT\_EQ(\textcolor{keyword}{true}, plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_a2993e43fb09446c21df27735986e13c1}{isFree}(i, j));
+342     EXPECT\_EQ(\textcolor{keyword}{false}, plan.\hyperlink{classRAstar__planner_1_1RAstarPlannerROS_a2993e43fb09446c21df27735986e13c1}{isFree}(\textcolor{keywordtype}{id}));
+343     \}
+\end{DoxyCode}

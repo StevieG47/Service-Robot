@@ -1,0 +1,568 @@
+\hypertarget{testnavigation_8cpp}{\section{test/testnavigation.cpp File Reference}
+\label{testnavigation_8cpp}\index{test/testnavigation.\-cpp@{test/testnavigation.\-cpp}}
+}
+
+
+Implementation of unit test for \hyperlink{classNavigation}{Navigation} class.  
+
+
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$ros/ros.\-h$>$}\\*
+{\ttfamily \#include $<$std\-\_\-msgs/\-String.\-h$>$}\\*
+{\ttfamily \#include $<$geometry\-\_\-msgs/\-Pose.\-h$>$}\\*
+{\ttfamily \#include $<$geometry\-\_\-msgs/\-Twist.\-h$>$}\\*
+{\ttfamily \#include $<$actionlib\-\_\-msgs/\-Goal\-I\-D.\-h$>$}\\*
+{\ttfamily \#include $<$gtest/gtest.\-h$>$}\\*
+{\ttfamily \#include $<$boost/thread.\-hpp$>$}\\*
+{\ttfamily \#include \char`\"{}testhelper.\-hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}navigation.\-hpp\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{testnavigation_8cpp_abee919b3b96d4d58ae9a6c4952b67c22}{process\-Thread} (void)
+\begin{DoxyCompactList}\small\item\em spin thread to process callbacks \end{DoxyCompactList}\item 
+\hyperlink{testnavigation_8cpp_a02857dc60b6588d3e44f3e178793d7bb}{T\-E\-S\-T} (Test\-Navigation, test\-Init)
+\begin{DoxyCompactList}\small\item\em Verify initialization in \hyperlink{classNavigation}{Navigation} class. \end{DoxyCompactList}\item 
+\hyperlink{testnavigation_8cpp_a2f7f9d76243b0eaf1cfaf5ee6ad9f6a0}{T\-E\-S\-T} (Test\-Navigation, test\-Move\-To\-Func)
+\begin{DoxyCompactList}\small\item\em Verify move\-To function in \hyperlink{classNavigation}{Navigation} class. \end{DoxyCompactList}\item 
+\hyperlink{testnavigation_8cpp_a9a1d27896886ef291584387507988107}{T\-E\-S\-T} (Test\-Navigation, test\-Cancel\-Move\-Func)
+\begin{DoxyCompactList}\small\item\em Verify cancel\-Move function in \hyperlink{classNavigation}{Navigation} class. \end{DoxyCompactList}\item 
+\hyperlink{testnavigation_8cpp_aec42f1cbe1c65515ce245e7cca1270b2}{T\-E\-S\-T} (Test\-Navigation, test\-Forward\-Func)
+\begin{DoxyCompactList}\small\item\em Verify forward function in \hyperlink{classNavigation}{Navigation} class. \end{DoxyCompactList}\item 
+\hyperlink{testnavigation_8cpp_a5eed7ec3690add27bf96e345b8b45d2f}{T\-E\-S\-T} (Test\-Navigation, test\-Backward\-Func)
+\begin{DoxyCompactList}\small\item\em Verify backward function in \hyperlink{classNavigation}{Navigation} class. \end{DoxyCompactList}\item 
+\hyperlink{testnavigation_8cpp_a0538caa3e5acd4486df960ce728b4237}{T\-E\-S\-T} (Test\-Navigation, test\-Turn\-Left\-Func)
+\begin{DoxyCompactList}\small\item\em Verify turn left function in \hyperlink{classNavigation}{Navigation} class. \end{DoxyCompactList}\item 
+\hyperlink{testnavigation_8cpp_a2e22460ce5bc3ad12f7728f067ea0123}{T\-E\-S\-T} (Test\-Navigation, test\-Turn\-Right\-Func)
+\begin{DoxyCompactList}\small\item\em Verify turn right function in \hyperlink{classNavigation}{Navigation} class. \end{DoxyCompactList}\item 
+int \hyperlink{testnavigation_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implementation of unit test for \hyperlink{classNavigation}{Navigation} class. This file contains implementation of unit test for \hyperlink{classNavigation}{Navigation} class
+
+\begin{DoxyAuthor}{Author}
+Huei Tzu Tsai \par
+ Steven Gambino 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+05/08/2017 
+\end{DoxyDate}
+
+
+\subsection{Function Documentation}
+\hypertarget{testnavigation_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{\index{testnavigation.\-cpp@{testnavigation.\-cpp}!main@{main}}
+\index{main@{main}!testnavigation.cpp@{testnavigation.\-cpp}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}}\label{testnavigation_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}
+
+\begin{DoxyCode}
+413                                 \{
+414     ::testing::InitGoogleTest(&argc, argv);
+415     ros::init(argc, argv, \textcolor{stringliteral}{"testnavigation"});
+416     ros::NodeHandle nh;
+417 
+418     \textcolor{comment}{// spawn another thread}
+419     boost::thread th(\hyperlink{testnavigation_8cpp_abee919b3b96d4d58ae9a6c4952b67c22}{processThread});
+420 
+421     \textcolor{keywordtype}{int} ret = RUN\_ALL\_TESTS();
+422 
+423     ros::shutdown();
+424 
+425     \textcolor{comment}{// wait the second thread to finish}
+426     th.join();
+427 
+428     \textcolor{keywordflow}{return} ret;
+429 \}
+\end{DoxyCode}
+\hypertarget{testnavigation_8cpp_abee919b3b96d4d58ae9a6c4952b67c22}{\index{testnavigation.\-cpp@{testnavigation.\-cpp}!process\-Thread@{process\-Thread}}
+\index{process\-Thread@{process\-Thread}!testnavigation.cpp@{testnavigation.\-cpp}}
+\subsubsection[{process\-Thread}]{\setlength{\rightskip}{0pt plus 5cm}void process\-Thread (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{testnavigation_8cpp_abee919b3b96d4d58ae9a6c4952b67c22}
+
+
+spin thread to process callbacks 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+53                          \{
+54     ros::Rate loop\_rate(10);
+55 
+56     \textcolor{keywordflow}{while} (ros::ok()) \{
+57         ros::spinOnce();
+58         loop\_rate.sleep();
+59     \}
+60 \}
+\end{DoxyCode}
+\hypertarget{testnavigation_8cpp_a02857dc60b6588d3e44f3e178793d7bb}{\index{testnavigation.\-cpp@{testnavigation.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testnavigation.cpp@{testnavigation.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Navigation}]{, }
+\item[{test\-Init}]{}
+\end{DoxyParamCaption}
+)}}\label{testnavigation_8cpp_a02857dc60b6588d3e44f3e178793d7bb}
+
+
+Verify initialization in \hyperlink{classNavigation}{Navigation} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+69                                \{
+70     ros::NodeHandle n;
+71     \hyperlink{classTestHelper}{TestHelper} testItem;
+72     std\_msgs::String msg;
+73     \hyperlink{classNavigation}{Navigation} navi;
+74 
+75     ros::Rate loop\_rate(2);
+76 
+77     navi.\hyperlink{classNavigation_a216797e927d980c6ae3616894dd5cc22}{initialize}(n);
+78 
+79     \textcolor{comment}{// register to check number of publishers to /mobile\_base/commands/velocity}
+80     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/mobile\_base/commands/velocity"}, 1000,
+81                     &\hyperlink{classTestHelper_a5fecfcf3a265ba49f7c5ab1acb064f06}{TestHelper::testMBCmdVelocityCallback}, &testItem)
+      ;
+82 
+83     \textcolor{comment}{// register to check number of subscribers to /odom topic}
+84     ros::Publisher pub = n.advertise<nav\_msgs::Odometry>(\textcolor{stringliteral}{"/odom"}, 1000);
+85 
+86     loop\_rate.sleep();
+87 
+88     EXPECT\_EQ(1, sub.getNumPublishers());
+89     EXPECT\_EQ(1, pub.getNumSubscribers());
+90 \}
+\end{DoxyCode}
+\hypertarget{testnavigation_8cpp_a2f7f9d76243b0eaf1cfaf5ee6ad9f6a0}{\index{testnavigation.\-cpp@{testnavigation.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testnavigation.cpp@{testnavigation.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Navigation}]{, }
+\item[{test\-Move\-To\-Func}]{}
+\end{DoxyParamCaption}
+)}}\label{testnavigation_8cpp_a2f7f9d76243b0eaf1cfaf5ee6ad9f6a0}
+
+
+Verify move\-To function in \hyperlink{classNavigation}{Navigation} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+99                                      \{
+100     ros::NodeHandle n;
+101     \hyperlink{classTestHelper}{TestHelper} testItem;
+102     \hyperlink{classNavigation}{Navigation} navi;
+103     std\_msgs::String msg;
+104 
+105     ros::Rate loop\_rate(2);
+106 
+107     ros::Subscriber subMBGoal = n.subscribe(\textcolor{stringliteral}{"/move\_base/goal"}, 1000,
+108                     &\hyperlink{classTestHelper_a21129fa567d2c7b386928240c022f587}{TestHelper::testMoveBaseGoalCallback}, &testItem);
+109 
+110     ros::Subscriber subMBCancel = n.subscribe(\textcolor{stringliteral}{"/move\_base/cancel"}, 1000,
+111                     &\hyperlink{classTestHelper_a7b581728a4a731facdcc5b672362372f}{TestHelper::testMoveBaseCancelCallback}, &
+      testItem);
+112 
+113     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"subMBGoal: number of publisher = "}
+114                      << subMBGoal.getNumPublishers());
+115     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"subMBCancel: number of publisher = "}
+116                      << subMBCancel.getNumPublishers());
+117 
+118     geometry\_msgs::Pose expGoal;
+119     expGoal.position.x = -5;
+120     expGoal.position.y = -11;
+121     expGoal.position.z = 0.0;
+122     expGoal.orientation.x = 0.0;
+123     expGoal.orientation.y = 0.0;
+124     expGoal.orientation.z = 0.950;
+125     expGoal.orientation.w = 0.312;
+126 
+127     \textcolor{comment}{// test move to command}
+128     navi.\hyperlink{classNavigation_a4a7991879f730a28e63a8cdd4a3f7689}{moveTo}(expGoal);
+129 
+130     \textcolor{comment}{// allow callback to process}
+131     loop\_rate.sleep();
+132 
+133     geometry\_msgs::Pose actGoal = testItem.\hyperlink{classTestHelper_a095ebfa14c22f6057c1385a70f65b9b6}{pos};
+134 
+135     \textcolor{comment}{// confirm goal pose is expected}
+136     EXPECT\_EQ(0, std::memcmp(&expGoal, &actGoal, \textcolor{keyword}{sizeof}(expGoal)));
+137 \}
+\end{DoxyCode}
+\hypertarget{testnavigation_8cpp_a9a1d27896886ef291584387507988107}{\index{testnavigation.\-cpp@{testnavigation.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testnavigation.cpp@{testnavigation.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Navigation}]{, }
+\item[{test\-Cancel\-Move\-Func}]{}
+\end{DoxyParamCaption}
+)}}\label{testnavigation_8cpp_a9a1d27896886ef291584387507988107}
+
+
+Verify cancel\-Move function in \hyperlink{classNavigation}{Navigation} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+146                                          \{
+147     ros::NodeHandle n;
+148     \hyperlink{classTestHelper}{TestHelper} testItem;
+149     \hyperlink{classNavigation}{Navigation} navi;
+150     std\_msgs::String msg;
+151 
+152     ros::Rate loop\_rate(2);
+153 
+154     ros::Subscriber subMBGoal = n.subscribe(\textcolor{stringliteral}{"/move\_base/goal"}, 1000,
+155                         &\hyperlink{classTestHelper_a21129fa567d2c7b386928240c022f587}{TestHelper::testMoveBaseGoalCallback}, &
+      testItem);
+156 
+157     ros::Subscriber subMBCancel = n.subscribe(\textcolor{stringliteral}{"/move\_base/cancel"}, 1000,
+158                         &\hyperlink{classTestHelper_a7b581728a4a731facdcc5b672362372f}{TestHelper::testMoveBaseCancelCallback}, &
+      testItem);
+159 
+160     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"subMBGoal: number of publisher = "}
+161                      << subMBGoal.getNumPublishers());
+162     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"subMBCancel: number of publisher = "}
+163                      << subMBCancel.getNumPublishers());
+164 
+165     geometry\_msgs::Pose expGoal;
+166     expGoal.position.x = -5;
+167     expGoal.position.y = -11;
+168     expGoal.position.z = 0.0;
+169     expGoal.orientation.x = 0.0;
+170     expGoal.orientation.y = 0.0;
+171     expGoal.orientation.z = 0.950;
+172     expGoal.orientation.w = 0.312;
+173 
+174     navi.\hyperlink{classNavigation_a4a7991879f730a28e63a8cdd4a3f7689}{moveTo}(expGoal);
+175 
+176     \textcolor{comment}{// allow mpveTo to process}
+177     loop\_rate.sleep();
+178 
+179     \textcolor{comment}{// test cancel move function}
+180     navi.\hyperlink{classNavigation_a658e2b394bd862802c7ea0ef3a6b34e1}{cancelMove}();
+181 
+182     \textcolor{comment}{// allow callback to process}
+183     loop\_rate.sleep();
+184 
+185     \textcolor{comment}{// confirm goal ID is cancelled}
+186     EXPECT\_STREQ(testItem.\hyperlink{classTestHelper_a3d1422616cebc2df38b8766f42864f43}{goalID}.c\_str(), testItem.\hyperlink{classTestHelper_afc27bc11999e9ca916e1983f2355a69e}{cancelID}.c\_str());
+187 \}
+\end{DoxyCode}
+\hypertarget{testnavigation_8cpp_aec42f1cbe1c65515ce245e7cca1270b2}{\index{testnavigation.\-cpp@{testnavigation.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testnavigation.cpp@{testnavigation.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Navigation}]{, }
+\item[{test\-Forward\-Func}]{}
+\end{DoxyParamCaption}
+)}}\label{testnavigation_8cpp_aec42f1cbe1c65515ce245e7cca1270b2}
+
+
+Verify forward function in \hyperlink{classNavigation}{Navigation} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+196                                       \{
+197     ros::NodeHandle n;
+198     \hyperlink{classTestHelper}{TestHelper} testItem;
+199     \hyperlink{classNavigation}{Navigation} navi;
+200     std\_msgs::String msg;
+201 
+202     ros::Rate loop\_rate(2);
+203 
+204     navi.\hyperlink{classNavigation_a216797e927d980c6ae3616894dd5cc22}{initialize}(n);
+205 
+206     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/mobile\_base/commands/velocity"}, 1000,
+207                         &\hyperlink{classTestHelper_a5fecfcf3a265ba49f7c5ab1acb064f06}{TestHelper::testMBCmdVelocityCallback}, &
+      testItem);
+208 
+209     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"sub: number of publisher = "} << sub.getNumPublishers());
+210 
+211     \textcolor{comment}{// test move forward}
+212     navi.\hyperlink{classNavigation_a5b2dca2ac010096b68146dcb00c7259c}{forward}();
+213 
+214     \textcolor{comment}{// allow callback to process}
+215     loop\_rate.sleep();
+216 
+217     geometry\_msgs::Twist expTwist;
+218     expTwist.linear.x = 0.3;
+219     expTwist.linear.y = 0.0;
+220     expTwist.linear.z = 0.0;
+221     expTwist.angular.x = 0.0;
+222     expTwist.angular.y = 0.0;
+223     expTwist.angular.z = 0.0;
+224 
+225     geometry\_msgs::Twist actTwist = testItem.\hyperlink{classTestHelper_a78a826fd3e1a4bc10adc910cde81668d}{twist};
+226 
+227     \textcolor{comment}{// confirm velocity is expected}
+228     EXPECT\_EQ(0, std::memcmp(&expTwist, &actTwist, \textcolor{keyword}{sizeof}(expTwist)));
+229 
+230     \textcolor{comment}{// test stop}
+231     navi.\hyperlink{classNavigation_acf42139316bfa03b2750effa63f6bcd0}{stop}();
+232 
+233     \textcolor{comment}{// allow callback to process}
+234     loop\_rate.sleep();
+235 
+236     expTwist.linear.x = 0.0;
+237     actTwist = testItem.\hyperlink{classTestHelper_a78a826fd3e1a4bc10adc910cde81668d}{twist};
+238 
+239     \textcolor{comment}{// confirm velocity is 0}
+240     EXPECT\_EQ(0, std::memcmp(&expTwist, &actTwist, \textcolor{keyword}{sizeof}(expTwist)));
+241 \}
+\end{DoxyCode}
+\hypertarget{testnavigation_8cpp_a5eed7ec3690add27bf96e345b8b45d2f}{\index{testnavigation.\-cpp@{testnavigation.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testnavigation.cpp@{testnavigation.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Navigation}]{, }
+\item[{test\-Backward\-Func}]{}
+\end{DoxyParamCaption}
+)}}\label{testnavigation_8cpp_a5eed7ec3690add27bf96e345b8b45d2f}
+
+
+Verify backward function in \hyperlink{classNavigation}{Navigation} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+251                                        \{
+252     ros::NodeHandle n;
+253     \hyperlink{classTestHelper}{TestHelper} testItem;
+254     \hyperlink{classNavigation}{Navigation} navi;
+255     std\_msgs::String msg;
+256 
+257     ros::Rate loop\_rate(2);
+258 
+259     navi.\hyperlink{classNavigation_a216797e927d980c6ae3616894dd5cc22}{initialize}(n);
+260 
+261     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/mobile\_base/commands/velocity"}, 1000,
+262                         &\hyperlink{classTestHelper_a5fecfcf3a265ba49f7c5ab1acb064f06}{TestHelper::testMBCmdVelocityCallback}, &
+      testItem);
+263 
+264     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"sub: number of publisher = "} << sub.getNumPublishers());
+265 
+266     \textcolor{comment}{// test move backward}
+267     navi.\hyperlink{classNavigation_a44dda6e7326e9ac378d8af5eb9a4ff49}{backward}();
+268 
+269     \textcolor{comment}{// allow callback to process}
+270     loop\_rate.sleep();
+271 
+272     geometry\_msgs::Twist expTwist;
+273     expTwist.linear.x = -0.3;
+274     expTwist.linear.y = 0.0;
+275     expTwist.linear.z = 0.0;
+276     expTwist.angular.x = 0.0;
+277     expTwist.angular.y = 0.0;
+278     expTwist.angular.z = 0.0;
+279 
+280     geometry\_msgs::Twist actTwist = testItem.\hyperlink{classTestHelper_a78a826fd3e1a4bc10adc910cde81668d}{twist};
+281 
+282     \textcolor{comment}{// confirm velocity is expected}
+283     EXPECT\_EQ(0, std::memcmp(&expTwist, &actTwist, \textcolor{keyword}{sizeof}(expTwist)));
+284 
+285     \textcolor{comment}{// test stop}
+286     navi.\hyperlink{classNavigation_acf42139316bfa03b2750effa63f6bcd0}{stop}();
+287 
+288     \textcolor{comment}{// allow callback to process}
+289     loop\_rate.sleep();
+290 
+291     expTwist.linear.x = 0.0;
+292     actTwist = testItem.\hyperlink{classTestHelper_a78a826fd3e1a4bc10adc910cde81668d}{twist};
+293 
+294     \textcolor{comment}{// confirm velocity is 0}
+295     EXPECT\_EQ(0, std::memcmp(&expTwist, &actTwist, \textcolor{keyword}{sizeof}(expTwist)));
+296 \}
+\end{DoxyCode}
+\hypertarget{testnavigation_8cpp_a0538caa3e5acd4486df960ce728b4237}{\index{testnavigation.\-cpp@{testnavigation.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testnavigation.cpp@{testnavigation.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Navigation}]{, }
+\item[{test\-Turn\-Left\-Func}]{}
+\end{DoxyParamCaption}
+)}}\label{testnavigation_8cpp_a0538caa3e5acd4486df960ce728b4237}
+
+
+Verify turn left function in \hyperlink{classNavigation}{Navigation} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+305                                        \{
+306     ros::NodeHandle n;
+307     \hyperlink{classTestHelper}{TestHelper} testItem;
+308     \hyperlink{classNavigation}{Navigation} navi;
+309     std\_msgs::String msg;
+310 
+311     ros::Rate loop\_rate(1);
+312 
+313     navi.\hyperlink{classNavigation_a216797e927d980c6ae3616894dd5cc22}{initialize}(n);
+314 
+315     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/mobile\_base/commands/velocity"}, 1000,
+316                         &\hyperlink{classTestHelper_a5fecfcf3a265ba49f7c5ab1acb064f06}{TestHelper::testMBCmdVelocityCallback}, &
+      testItem);
+317 
+318     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"sub: number of publisher = "} << sub.getNumPublishers());
+319 
+320     \textcolor{comment}{// test turn left}
+321     navi.\hyperlink{classNavigation_ab0f6a2a6c5835df96c242182026d43b8}{turnLeft}();
+322 
+323     \textcolor{comment}{// allow callback to process}
+324     loop\_rate.sleep();
+325 
+326     geometry\_msgs::Twist expTwist;
+327     expTwist.linear.x = 0.0;
+328     expTwist.linear.y = 0.0;
+329     expTwist.linear.z = 0.0;
+330     expTwist.angular.x = 0.0;
+331     expTwist.angular.y = 0.0;
+332     expTwist.angular.z = 0.3;
+333 
+334     geometry\_msgs::Twist actTwist = testItem.\hyperlink{classTestHelper_a78a826fd3e1a4bc10adc910cde81668d}{twist};
+335 
+336     \textcolor{comment}{// confirm velocity is expected}
+337     EXPECT\_EQ(0, std::memcmp(&expTwist, &actTwist, \textcolor{keyword}{sizeof}(expTwist)));
+338 
+339     \textcolor{comment}{// test stop}
+340     navi.\hyperlink{classNavigation_acf42139316bfa03b2750effa63f6bcd0}{stop}();
+341 
+342     \textcolor{comment}{// allow callback to process}
+343     loop\_rate.sleep();
+344 
+345     expTwist.angular.z = 0.0;
+346     actTwist = testItem.\hyperlink{classTestHelper_a78a826fd3e1a4bc10adc910cde81668d}{twist};
+347 
+348     \textcolor{comment}{// confirm velocity is 0}
+349     EXPECT\_EQ(0, std::memcmp(&expTwist, &actTwist, \textcolor{keyword}{sizeof}(expTwist)));
+350 \}
+\end{DoxyCode}
+\hypertarget{testnavigation_8cpp_a2e22460ce5bc3ad12f7728f067ea0123}{\index{testnavigation.\-cpp@{testnavigation.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testnavigation.cpp@{testnavigation.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Navigation}]{, }
+\item[{test\-Turn\-Right\-Func}]{}
+\end{DoxyParamCaption}
+)}}\label{testnavigation_8cpp_a2e22460ce5bc3ad12f7728f067ea0123}
+
+
+Verify turn right function in \hyperlink{classNavigation}{Navigation} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+358                                         \{
+359     ros::NodeHandle n;
+360     \hyperlink{classTestHelper}{TestHelper} testItem;
+361     \hyperlink{classNavigation}{Navigation} navi;
+362     std\_msgs::String msg;
+363 
+364     ros::Rate loop\_rate(1);
+365 
+366     navi.\hyperlink{classNavigation_a216797e927d980c6ae3616894dd5cc22}{initialize}(n);
+367 
+368     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/mobile\_base/commands/velocity"}, 1000,
+369                         &\hyperlink{classTestHelper_a5fecfcf3a265ba49f7c5ab1acb064f06}{TestHelper::testMBCmdVelocityCallback}, &
+      testItem);
+370 
+371     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"sub: number of publisher = "} << sub.getNumPublishers());
+372 
+373     \textcolor{comment}{// test turn right}
+374     navi.\hyperlink{classNavigation_a8ed07aa7844ee0b7cb2724531666725e}{turnRight}();
+375 
+376     \textcolor{comment}{// allow callback to process}
+377     loop\_rate.sleep();
+378 
+379     geometry\_msgs::Twist expTwist;
+380     expTwist.linear.x = 0.0;
+381     expTwist.linear.y = 0.0;
+382     expTwist.linear.z = 0.0;
+383     expTwist.angular.x = 0.0;
+384     expTwist.angular.y = 0.0;
+385     expTwist.angular.z = -0.3;
+386 
+387     geometry\_msgs::Twist actTwist = testItem.\hyperlink{classTestHelper_a78a826fd3e1a4bc10adc910cde81668d}{twist};
+388 
+389     \textcolor{comment}{// confirm velocity is expected}
+390     EXPECT\_EQ(0, std::memcmp(&expTwist, &actTwist, \textcolor{keyword}{sizeof}(expTwist)));
+391 
+392     \textcolor{comment}{// test stop}
+393     navi.\hyperlink{classNavigation_acf42139316bfa03b2750effa63f6bcd0}{stop}();
+394 
+395     \textcolor{comment}{// allow callback to process}
+396     loop\_rate.sleep();
+397 
+398     expTwist.angular.z = 0.0;
+399     actTwist = testItem.\hyperlink{classTestHelper_a78a826fd3e1a4bc10adc910cde81668d}{twist};
+400 
+401     \textcolor{comment}{// confirm velocity is 0}
+402     EXPECT\_EQ(0, std::memcmp(&expTwist, &actTwist, \textcolor{keyword}{sizeof}(expTwist)));
+403 \}
+\end{DoxyCode}

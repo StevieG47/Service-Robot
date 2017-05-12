@@ -1,0 +1,48 @@
+\hypertarget{navigation_8hpp}{\section{include/navigation.hpp File Reference}
+\label{navigation_8hpp}\index{include/navigation.\-hpp@{include/navigation.\-hpp}}
+}
+
+
+Definition of class \hyperlink{classNavigation}{Navigation}.  
+
+
+{\ttfamily \#include $<$ros/ros.\-h$>$}\\*
+{\ttfamily \#include $<$ros/timer.\-h$>$}\\*
+{\ttfamily \#include $<$geometry\-\_\-msgs/\-Twist.\-h$>$}\\*
+{\ttfamily \#include $<$nav\-\_\-msgs/\-Odometry.\-h$>$}\\*
+{\ttfamily \#include $<$move\-\_\-base\-\_\-msgs/\-Move\-Base\-Action.\-h$>$}\\*
+{\ttfamily \#include $<$actionlib/client/simple\-\_\-action\-\_\-client.\-h$>$}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classNavigation}{Navigation}
+\begin{DoxyCompactList}\small\item\em Class definition of \hyperlink{classNavigation}{Navigation} class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \\*
+actionlib\-::\-Simple\-Action\-Client\\*
+$<$ move\-\_\-base\-\_\-msgs\-::\-Move\-Base\-Action $>$ \hyperlink{navigation_8hpp_afdc6f98c8d753590d391314d538fa76d}{Move\-Base\-Client}
+\begin{DoxyCompactList}\small\item\em Actionlib client of Mobilebase. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Definition of class \hyperlink{classNavigation}{Navigation}. This file contains definitions of class \hyperlink{classNavigation}{Navigation} which navigates robot to pre-\/defined locations and controls robot's movements to go forward, backward, turn left or right, or stop
+
+\begin{DoxyAuthor}{Author}
+Huei Tzu Tsai \par
+ Steven Gambino 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+04/28/2017 
+\end{DoxyDate}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{navigation_8hpp_afdc6f98c8d753590d391314d538fa76d}{\index{navigation.\-hpp@{navigation.\-hpp}!Move\-Base\-Client@{Move\-Base\-Client}}
+\index{Move\-Base\-Client@{Move\-Base\-Client}!navigation.hpp@{navigation.\-hpp}}
+\subsubsection[{Move\-Base\-Client}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Move\-Base\-Client}}}\label{navigation_8hpp_afdc6f98c8d753590d391314d538fa76d}
+
+
+Actionlib client of Mobilebase. 
+

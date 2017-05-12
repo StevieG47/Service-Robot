@@ -1,0 +1,920 @@
+\hypertarget{testaction_8cpp}{\section{test/testaction.cpp File Reference}
+\label{testaction_8cpp}\index{test/testaction.\-cpp@{test/testaction.\-cpp}}
+}
+
+
+Implementation of unit test for \hyperlink{classAction}{Action} class.  
+
+
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$ros/ros.\-h$>$}\\*
+{\ttfamily \#include $<$ros/package.\-h$>$}\\*
+{\ttfamily \#include $<$std\-\_\-msgs/\-String.\-h$>$}\\*
+{\ttfamily \#include $<$gtest/gtest.\-h$>$}\\*
+{\ttfamily \#include $<$sound\-\_\-play/\-Sound\-Request.\-h$>$}\\*
+{\ttfamily \#include $<$sstream$>$}\\*
+{\ttfamily \#include $<$boost/thread.\-hpp$>$}\\*
+{\ttfamily \#include \char`\"{}testhelper.\-hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}action.\-hpp\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{testaction_8cpp_abee919b3b96d4d58ae9a6c4952b67c22}{process\-Thread} (void)
+\begin{DoxyCompactList}\small\item\em spin thread to process callbacks \end{DoxyCompactList}\item 
+\hyperlink{testaction_8cpp_a84dfba2009e5f8bfbb2a705059136a0e}{T\-E\-S\-T} (Test\-Action, test\-Init)
+\begin{DoxyCompactList}\small\item\em Verify initialization in \hyperlink{classAction}{Action} class. \end{DoxyCompactList}\item 
+\hyperlink{testaction_8cpp_ac01f44b1f4b5c22f8face4de23ccb39b}{T\-E\-S\-T} (Test\-Action, test\-Name\-Action)
+\begin{DoxyCompactList}\small\item\em Verify name action in \hyperlink{classAction}{Action} class. \end{DoxyCompactList}\item 
+\hyperlink{testaction_8cpp_a0fe43f9b767629f2e54446c891b787de}{T\-E\-S\-T} (Test\-Action, test\-Time\-Action)
+\begin{DoxyCompactList}\small\item\em Verify time action in \hyperlink{classAction}{Action} class. \end{DoxyCompactList}\item 
+\hyperlink{testaction_8cpp_a9e8b935ceed17a0ad3d5d8fb37759773}{T\-E\-S\-T} (Test\-Action, test\-Play\-Music\-Action)
+\begin{DoxyCompactList}\small\item\em Verify play music action in \hyperlink{classAction}{Action} class. \end{DoxyCompactList}\item 
+\hyperlink{testaction_8cpp_aacf5d0c14a23fe6490b74f91d88f4709}{T\-E\-S\-T} (Test\-Action, test\-Play\-Music\-File\-Action)
+\begin{DoxyCompactList}\small\item\em Verify play music action with music path arg in \hyperlink{classAction}{Action} class. \end{DoxyCompactList}\item 
+\hyperlink{testaction_8cpp_a96897c5579140c730dfcab2d80b8c601}{T\-E\-S\-T} (Test\-Action, test\-Stop\-Play\-Music\-Action)
+\begin{DoxyCompactList}\small\item\em Verify stop music in \hyperlink{classAction}{Action} class. \end{DoxyCompactList}\item 
+\hyperlink{testaction_8cpp_aa22fc874fbd04f78218fc1c5575ec2e5}{T\-E\-S\-T} (Test\-Action, test\-Move\-To\-Action)
+\begin{DoxyCompactList}\small\item\em Verify move to in \hyperlink{classAction}{Action} class. \end{DoxyCompactList}\item 
+\hyperlink{testaction_8cpp_acb7934e479c20f0ef74de844a6316e9c}{T\-E\-S\-T} (Test\-Action, test\-Stop\-Moving\-To\-Action)
+\begin{DoxyCompactList}\small\item\em Verify stop moving to in \hyperlink{classAction}{Action} class. \end{DoxyCompactList}\item 
+\hyperlink{testaction_8cpp_a2f628d0df656268b12857452b5ab5fe6}{T\-E\-S\-T} (Test\-Action, test\-Come\-Back\-Action)
+\begin{DoxyCompactList}\small\item\em Verify come back in \hyperlink{classAction}{Action} class. \end{DoxyCompactList}\item 
+\hyperlink{testaction_8cpp_ac3880d777c174d4fd971cb7bb000ce77}{T\-E\-S\-T} (Test\-Action, test\-Forward\-Action)
+\begin{DoxyCompactList}\small\item\em Verify forward in \hyperlink{classAction}{Action} class. \end{DoxyCompactList}\item 
+\hyperlink{testaction_8cpp_a563382317e6cdaf51356c786a4443e1b}{T\-E\-S\-T} (Test\-Action, test\-Backward\-Action)
+\begin{DoxyCompactList}\small\item\em Verify backward in \hyperlink{classAction}{Action} class. \end{DoxyCompactList}\item 
+\hyperlink{testaction_8cpp_a085555354a3d2406661d93489eabd631}{T\-E\-S\-T} (Test\-Action, test\-Turn\-Left\-Action)
+\begin{DoxyCompactList}\small\item\em Verify turn left in \hyperlink{classAction}{Action} class. \end{DoxyCompactList}\item 
+\hyperlink{testaction_8cpp_ac1f94a6541f2a5efd4ecddf736f5d293}{T\-E\-S\-T} (Test\-Action, test\-Turn\-Right\-Action)
+\begin{DoxyCompactList}\small\item\em Verify turn right in \hyperlink{classAction}{Action} class. \end{DoxyCompactList}\item 
+\hyperlink{testaction_8cpp_a0e570f6c756ed4e102d50946f88479b8}{T\-E\-S\-T} (Test\-Action, test\-Stop\-Move\-Action)
+\begin{DoxyCompactList}\small\item\em Verify stop move in \hyperlink{classAction}{Action} class. \end{DoxyCompactList}\item 
+int \hyperlink{testaction_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implementation of unit test for \hyperlink{classAction}{Action} class. This file contains implementation of unit test for \hyperlink{classAction}{Action} class
+
+\begin{DoxyAuthor}{Author}
+Huei Tzu Tsai \par
+ Steven Gambino 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+05/08/2017 
+\end{DoxyDate}
+
+
+\subsection{Function Documentation}
+\hypertarget{testaction_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{\index{testaction.\-cpp@{testaction.\-cpp}!main@{main}}
+\index{main@{main}!testaction.cpp@{testaction.\-cpp}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}}\label{testaction_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}
+
+\begin{DoxyCode}
+637                                 \{
+638     ::testing::InitGoogleTest(&argc, argv);
+639     ros::init(argc, argv, \textcolor{stringliteral}{"testaction"});
+640     ros::NodeHandle nh;
+641 
+642     \textcolor{comment}{// spawn another thread}
+643     boost::thread th(\hyperlink{testaction_8cpp_abee919b3b96d4d58ae9a6c4952b67c22}{processThread});
+644 
+645     \textcolor{keywordtype}{int} ret = RUN\_ALL\_TESTS();
+646 
+647     ros::shutdown();
+648 
+649     \textcolor{comment}{// wait the second thread to finish}
+650     th.join();
+651 
+652     \textcolor{keywordflow}{return} ret;
+653 \}
+\end{DoxyCode}
+\hypertarget{testaction_8cpp_abee919b3b96d4d58ae9a6c4952b67c22}{\index{testaction.\-cpp@{testaction.\-cpp}!process\-Thread@{process\-Thread}}
+\index{process\-Thread@{process\-Thread}!testaction.cpp@{testaction.\-cpp}}
+\subsubsection[{process\-Thread}]{\setlength{\rightskip}{0pt plus 5cm}void process\-Thread (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{testaction_8cpp_abee919b3b96d4d58ae9a6c4952b67c22}
+
+
+spin thread to process callbacks 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+53                          \{
+54     ros::Rate loop\_rate(10);
+55 
+56     \textcolor{keywordflow}{while} (ros::ok()) \{
+57         ros::spinOnce();
+58         loop\_rate.sleep();
+59     \}
+60 \}
+\end{DoxyCode}
+\hypertarget{testaction_8cpp_a84dfba2009e5f8bfbb2a705059136a0e}{\index{testaction.\-cpp@{testaction.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testaction.cpp@{testaction.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Action}]{, }
+\item[{test\-Init}]{}
+\end{DoxyParamCaption}
+)}}\label{testaction_8cpp_a84dfba2009e5f8bfbb2a705059136a0e}
+
+
+Verify initialization in \hyperlink{classAction}{Action} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+69                            \{
+70     ros::NodeHandle n;
+71     \hyperlink{classTestHelper}{TestHelper} testItem;
+72     std\_msgs::String msg;
+73     \hyperlink{classAction}{Action} act;
+74 
+75     ros::Rate loop\_rate(2);
+76 
+77     act.\hyperlink{classAction_a43b331fb5dcad4544e9983cef0eb1532}{initialize}(n);
+78 
+79     \textcolor{comment}{// register to check number of publishers to}
+80     \textcolor{comment}{// /mobile\_base/commands/velocity topic}
+81     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/mobile\_base/commands/velocity"}, 1000,
+82                                       &\hyperlink{classTestHelper_a5fecfcf3a265ba49f7c5ab1acb064f06}{TestHelper::testMBCmdVelocityCallback}
+      ,
+83                                       &testItem);
+84 
+85     \textcolor{comment}{// register to check number of subscribers to /odom topic}
+86     ros::Publisher pub = n.advertise<nav\_msgs::Odometry>(\textcolor{stringliteral}{"/odom"}, 1000);
+87 
+88     loop\_rate.sleep();
+89 
+90     EXPECT\_EQ(1, sub.getNumPublishers());
+91     EXPECT\_EQ(1, pub.getNumSubscribers());
+92 \}
+\end{DoxyCode}
+\hypertarget{testaction_8cpp_ac01f44b1f4b5c22f8face4de23ccb39b}{\index{testaction.\-cpp@{testaction.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testaction.cpp@{testaction.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Action}]{, }
+\item[{test\-Name\-Action}]{}
+\end{DoxyParamCaption}
+)}}\label{testaction_8cpp_ac01f44b1f4b5c22f8face4de23ccb39b}
+
+
+Verify name action in \hyperlink{classAction}{Action} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+101                                  \{
+102     ros::NodeHandle n;
+103     \hyperlink{classTestHelper}{TestHelper} testItem;
+104     std\_msgs::String msg;
+105     \hyperlink{classAction}{Action} act;
+106 
+107     ros::Rate loop\_rate(2);
+108 
+109     \textcolor{comment}{// Subscribe topic /robotsound to verify commands sent from Action class}
+110     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/robotsound"}, 1000,
+111                                       &\hyperlink{classTestHelper_ac1ffd4f4c1e2668f817a229212a8c904}{TestHelper::testRobotSoundCallback}
+      ,
+112                                       &testItem);
+113 
+114     \textcolor{comment}{// test name action}
+115     act.\hyperlink{classAction_a26d6a276da57703cc18ff7f62e10f582}{execute}(\hyperlink{classAction_ab5ece0fcaae0e78adfa0f7b36893401ea74ee75d4ee7d6c38821b7778e4cf312d}{Action::ACT\_NAME});
+116 
+117     \textcolor{comment}{// allow callback to process}
+118     loop\_rate.sleep();
+119 
+120     EXPECT\_EQ(sound\_play::SoundRequest::SAY, testItem.\hyperlink{classTestHelper_a299ac5a385d8e910a22980601f9ad4c4}{snd});
+121     EXPECT\_EQ(sound\_play::SoundRequest::PLAY\_ONCE, testItem.\hyperlink{classTestHelper_ab91e5c0bcd313b9e629b389bbecabb90}{sndCmd});
+122     EXPECT\_STREQ(\textcolor{stringliteral}{"my name is servicebot"}, testItem.\hyperlink{classTestHelper_ad5acc4b246653a6c073c6dc100344a86}{cmd}.c\_str());
+123 \}
+\end{DoxyCode}
+\hypertarget{testaction_8cpp_a0fe43f9b767629f2e54446c891b787de}{\index{testaction.\-cpp@{testaction.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testaction.cpp@{testaction.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Action}]{, }
+\item[{test\-Time\-Action}]{}
+\end{DoxyParamCaption}
+)}}\label{testaction_8cpp_a0fe43f9b767629f2e54446c891b787de}
+
+
+Verify time action in \hyperlink{classAction}{Action} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+132                                  \{
+133     ros::NodeHandle n;
+134     \hyperlink{classTestHelper}{TestHelper} testItem;
+135     std\_msgs::String msg;
+136     \hyperlink{classAction}{Action} act;
+137 
+138     ros::Rate loop\_rate(2);
+139 
+140     \textcolor{comment}{// Subscribe topic /robotsound to verify commands sent from Action class}
+141     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/robotsound"}, 1000,
+142                                       &\hyperlink{classTestHelper_ac1ffd4f4c1e2668f817a229212a8c904}{TestHelper::testRobotSoundCallback}
+      ,
+143                                       &testItem);
+144 
+145     \textcolor{comment}{// test name action}
+146     act.\hyperlink{classAction_a26d6a276da57703cc18ff7f62e10f582}{execute}(\hyperlink{classAction_ab5ece0fcaae0e78adfa0f7b36893401ea0d985b60ff2ede3b499e31bf513b3d4d}{Action::ACT\_TIME});
+147 
+148     \textcolor{comment}{// allow callback to process}
+149     loop\_rate.sleep();
+150 
+151     EXPECT\_EQ(sound\_play::SoundRequest::SAY, testItem.\hyperlink{classTestHelper_a299ac5a385d8e910a22980601f9ad4c4}{snd});
+152     EXPECT\_EQ(sound\_play::SoundRequest::PLAY\_ONCE, testItem.\hyperlink{classTestHelper_ab91e5c0bcd313b9e629b389bbecabb90}{sndCmd});
+153     EXPECT\_EQ(\textcolor{keyword}{true}, testItem.\hyperlink{classTestHelper_ad5acc4b246653a6c073c6dc100344a86}{cmd}.find(\textcolor{stringliteral}{"time now is"}) != std::string::npos);
+154 \}
+\end{DoxyCode}
+\hypertarget{testaction_8cpp_a9e8b935ceed17a0ad3d5d8fb37759773}{\index{testaction.\-cpp@{testaction.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testaction.cpp@{testaction.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Action}]{, }
+\item[{test\-Play\-Music\-Action}]{}
+\end{DoxyParamCaption}
+)}}\label{testaction_8cpp_a9e8b935ceed17a0ad3d5d8fb37759773}
+
+
+Verify play music action in \hyperlink{classAction}{Action} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+163                                       \{
+164     ros::NodeHandle n;
+165     \hyperlink{classTestHelper}{TestHelper} testItem;
+166     std\_msgs::String msg;
+167     \hyperlink{classAction}{Action} act;
+168 
+169     ros::Rate loop\_rate(2);
+170 
+171     \textcolor{comment}{// Subscribe topic /robotsound to verify commands sent from Action class}
+172     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/robotsound"}, 1000,
+173                                       &\hyperlink{classTestHelper_ac1ffd4f4c1e2668f817a229212a8c904}{TestHelper::testRobotSoundCallback}
+      ,
+174                                       &testItem);
+175 
+176     \textcolor{comment}{// test play music}
+177     act.\hyperlink{classAction_a26d6a276da57703cc18ff7f62e10f582}{execute}(\hyperlink{classAction_ab5ece0fcaae0e78adfa0f7b36893401ea8076549c67d15d4e7592e7e049e95704}{Action::ACT\_PLAYMUSIC});
+178 
+179     \textcolor{comment}{// allow callback to process}
+180     loop\_rate.sleep();
+181 
+182     EXPECT\_EQ(sound\_play::SoundRequest::PLAY\_FILE, testItem.\hyperlink{classTestHelper_a299ac5a385d8e910a22980601f9ad4c4}{snd});
+183     EXPECT\_EQ(sound\_play::SoundRequest::PLAY\_ONCE, testItem.\hyperlink{classTestHelper_ab91e5c0bcd313b9e629b389bbecabb90}{sndCmd});
+184     EXPECT\_STREQ(\hyperlink{soundcontrol_8hpp_a4fe2c7a9c857ffb699946aa401599b75}{DEMO\_MUSIC}, testItem.\hyperlink{classTestHelper_ad5acc4b246653a6c073c6dc100344a86}{cmd}.c\_str());
+185 \}
+\end{DoxyCode}
+\hypertarget{testaction_8cpp_aacf5d0c14a23fe6490b74f91d88f4709}{\index{testaction.\-cpp@{testaction.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testaction.cpp@{testaction.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Action}]{, }
+\item[{test\-Play\-Music\-File\-Action}]{}
+\end{DoxyParamCaption}
+)}}\label{testaction_8cpp_aacf5d0c14a23fe6490b74f91d88f4709}
+
+
+Verify play music action with music path arg in \hyperlink{classAction}{Action} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+194                                           \{
+195     ros::NodeHandle n;
+196     \hyperlink{classTestHelper}{TestHelper} testItem;
+197     std\_msgs::String msg;
+198     \hyperlink{classAction}{Action} act;
+199 
+200     ros::Rate loop\_rate(2);
+201 
+202     \textcolor{comment}{// Subscribe topic /robotsound to verify commands sent from Action class}
+203     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/robotsound"}, 1000,
+204                                       &\hyperlink{classTestHelper_ac1ffd4f4c1e2668f817a229212a8c904}{TestHelper::testRobotSoundCallback}
+      ,
+205                                       &testItem);
+206 
+207     \textcolor{comment}{// get absolute music file path}
+208     std::string path = ros::package::getPath(\textcolor{stringliteral}{"servicebot"});
+209     std::stringstream musicPath;
+210     musicPath << path << \hyperlink{soundcontrol_8hpp_a4fe2c7a9c857ffb699946aa401599b75}{DEMO\_MUSIC};
+211 
+212     \textcolor{comment}{// test play music with music file path}
+213     act.\hyperlink{classAction_a26d6a276da57703cc18ff7f62e10f582}{execute}(\hyperlink{classAction_ab5ece0fcaae0e78adfa0f7b36893401ea8076549c67d15d4e7592e7e049e95704}{Action::ACT\_PLAYMUSIC}, musicPath.str());
+214 
+215     \textcolor{comment}{// allow callback to process}
+216     loop\_rate.sleep();
+217 
+218     EXPECT\_EQ(sound\_play::SoundRequest::PLAY\_FILE, testItem.\hyperlink{classTestHelper_a299ac5a385d8e910a22980601f9ad4c4}{snd});
+219     EXPECT\_EQ(sound\_play::SoundRequest::PLAY\_ONCE, testItem.\hyperlink{classTestHelper_ab91e5c0bcd313b9e629b389bbecabb90}{sndCmd});
+220     EXPECT\_STREQ(musicPath.str().c\_str(), testItem.\hyperlink{classTestHelper_ad5acc4b246653a6c073c6dc100344a86}{cmd}.c\_str());
+221 \}
+\end{DoxyCode}
+\hypertarget{testaction_8cpp_a96897c5579140c730dfcab2d80b8c601}{\index{testaction.\-cpp@{testaction.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testaction.cpp@{testaction.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Action}]{, }
+\item[{test\-Stop\-Play\-Music\-Action}]{}
+\end{DoxyParamCaption}
+)}}\label{testaction_8cpp_a96897c5579140c730dfcab2d80b8c601}
+
+
+Verify stop music in \hyperlink{classAction}{Action} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+230                                           \{
+231     ros::NodeHandle n;
+232     \hyperlink{classTestHelper}{TestHelper} testItem;
+233     std\_msgs::String msg;
+234     \hyperlink{classAction}{Action} act;
+235 
+236     ros::Rate loop\_rate(2);
+237 
+238     \textcolor{comment}{// cubscribe topic /robotsound to verify commands sent from Action class}
+239     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/robotsound"}, 1000,
+240                                       &\hyperlink{classTestHelper_ac1ffd4f4c1e2668f817a229212a8c904}{TestHelper::testRobotSoundCallback}
+      ,
+241                                       &testItem);
+242 
+243     \textcolor{comment}{// get absolute music file path}
+244     std::string path = ros::package::getPath(\textcolor{stringliteral}{"servicebot"});
+245     std::stringstream musicPath;
+246     musicPath << path << \hyperlink{soundcontrol_8hpp_a4fe2c7a9c857ffb699946aa401599b75}{DEMO\_MUSIC};
+247 
+248     \textcolor{comment}{// play music}
+249     act.\hyperlink{classAction_a26d6a276da57703cc18ff7f62e10f582}{execute}(\hyperlink{classAction_ab5ece0fcaae0e78adfa0f7b36893401ea8076549c67d15d4e7592e7e049e95704}{Action::ACT\_PLAYMUSIC}, musicPath.str());
+250 
+251     \textcolor{comment}{// allow callback to process}
+252     loop\_rate.sleep();
+253 
+254     \textcolor{comment}{// test stop play music}
+255     act.\hyperlink{classAction_a26d6a276da57703cc18ff7f62e10f582}{execute}(\hyperlink{classAction_ab5ece0fcaae0e78adfa0f7b36893401eab0aa05686496e740cfafc8679700a020}{Action::ACT\_STOPMUSIC});
+256 
+257     \textcolor{comment}{// allow callback to process}
+258     loop\_rate.sleep();
+259 
+260     EXPECT\_EQ(sound\_play::SoundRequest::PLAY\_STOP, testItem.\hyperlink{classTestHelper_ab91e5c0bcd313b9e629b389bbecabb90}{sndCmd});
+261 \}
+\end{DoxyCode}
+\hypertarget{testaction_8cpp_aa22fc874fbd04f78218fc1c5575ec2e5}{\index{testaction.\-cpp@{testaction.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testaction.cpp@{testaction.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Action}]{, }
+\item[{test\-Move\-To\-Action}]{}
+\end{DoxyParamCaption}
+)}}\label{testaction_8cpp_aa22fc874fbd04f78218fc1c5575ec2e5}
+
+
+Verify move to in \hyperlink{classAction}{Action} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+270                                    \{
+271     ros::NodeHandle n;
+272     \hyperlink{classTestHelper}{TestHelper} testItem;
+273     std\_msgs::String msg;
+274     \hyperlink{classAction}{Action} act;
+275 
+276     ros::Rate loop\_rate(2);
+277 
+278     \textcolor{comment}{// register to check goal topic received by move\_base}
+279     ros::Subscriber subMBGoal = n.subscribe(\textcolor{stringliteral}{"/move\_base/goal"}, 1000,
+280                                       &\hyperlink{classTestHelper_a21129fa567d2c7b386928240c022f587}{TestHelper::testMoveBaseGoalCallback}
+      ,
+281                                       &testItem);
+282 
+283     \textcolor{comment}{// register to check cancel topic received by move\_base}
+284     ros::Subscriber subMBCancel = n.subscribe(\textcolor{stringliteral}{"/move\_base/cancel"}, 1000,
+285                                       &\hyperlink{classTestHelper_a7b581728a4a731facdcc5b672362372f}{TestHelper::testMoveBaseCancelCallback}
+      ,
+286                                       &testItem);
+287 
+288     \textcolor{comment}{// test moving to room a}
+289     act.\hyperlink{classAction_a26d6a276da57703cc18ff7f62e10f582}{execute}(\hyperlink{classAction_ab5ece0fcaae0e78adfa0f7b36893401eab60c58ddc0cb20cb35c655950658c0aa}{Action::ACT\_MOVETO}, \textcolor{stringliteral}{"room a"});
+290 
+291     loop\_rate.sleep();
+292 
+293     geometry\_msgs::Pose expGoal;
+294     expGoal.position.x = -5;
+295     expGoal.position.y = -11;
+296     expGoal.position.z = 0.0;
+297     expGoal.orientation.x = 0.0;
+298     expGoal.orientation.y = 0.0;
+299     expGoal.orientation.z = 0.950;
+300     expGoal.orientation.w = 0.312;
+301 
+302     geometry\_msgs::Pose actGoal = testItem.\hyperlink{classTestHelper_a095ebfa14c22f6057c1385a70f65b9b6}{pos};
+303 
+304     \textcolor{comment}{// confirm goal pose received by move\_base is expected}
+305     EXPECT\_EQ(0, std::memcmp(&expGoal, &actGoal, \textcolor{keyword}{sizeof}(expGoal)));
+306 
+307     \textcolor{comment}{// test moving to room b}
+308     act.\hyperlink{classAction_a26d6a276da57703cc18ff7f62e10f582}{execute}(\hyperlink{classAction_ab5ece0fcaae0e78adfa0f7b36893401eab60c58ddc0cb20cb35c655950658c0aa}{Action::ACT\_MOVETO}, \textcolor{stringliteral}{"room b"});
+309 
+310     loop\_rate.sleep();
+311 
+312     expGoal.position.x = 7.1;
+313     expGoal.position.y = -10.7;
+314     expGoal.position.z = 0.0;
+315     expGoal.orientation.x = 0.0;
+316     expGoal.orientation.y = 0.0;
+317     expGoal.orientation.z = -0.713;
+318     expGoal.orientation.w = 0.702;
+319 
+320     actGoal = testItem.\hyperlink{classTestHelper_a095ebfa14c22f6057c1385a70f65b9b6}{pos};
+321 
+322     \textcolor{comment}{// confirm goal pose received by move\_base is expected}
+323     EXPECT\_EQ(0, std::memcmp(&expGoal, &actGoal, \textcolor{keyword}{sizeof}(expGoal)));
+324 
+325     \textcolor{comment}{// test moving to room b}
+326     act.\hyperlink{classAction_a26d6a276da57703cc18ff7f62e10f582}{execute}(\hyperlink{classAction_ab5ece0fcaae0e78adfa0f7b36893401eab60c58ddc0cb20cb35c655950658c0aa}{Action::ACT\_MOVETO}, \textcolor{stringliteral}{"room c"});
+327 
+328     loop\_rate.sleep();
+329 
+330     expGoal.position.x = 0;
+331     expGoal.position.y = 0;
+332     expGoal.position.z = 0;
+333     expGoal.orientation.x = 0.0;
+334     expGoal.orientation.y = 0.0;
+335     expGoal.orientation.z = -0.713;
+336     expGoal.orientation.w = 0.702;
+337 
+338     actGoal = testItem.\hyperlink{classTestHelper_a095ebfa14c22f6057c1385a70f65b9b6}{pos};
+339 
+340     \textcolor{comment}{// confirm goal pose received by move\_base is expected}
+341     EXPECT\_EQ(0, std::memcmp(&expGoal, &actGoal, \textcolor{keyword}{sizeof}(expGoal)));
+342 \}
+\end{DoxyCode}
+\hypertarget{testaction_8cpp_acb7934e479c20f0ef74de844a6316e9c}{\index{testaction.\-cpp@{testaction.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testaction.cpp@{testaction.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Action}]{, }
+\item[{test\-Stop\-Moving\-To\-Action}]{}
+\end{DoxyParamCaption}
+)}}\label{testaction_8cpp_acb7934e479c20f0ef74de844a6316e9c}
+
+
+Verify stop moving to in \hyperlink{classAction}{Action} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+351                                          \{
+352     ros::NodeHandle n;
+353     \hyperlink{classTestHelper}{TestHelper} testItem;
+354     std\_msgs::String msg;
+355     \hyperlink{classAction}{Action} act;
+356 
+357     ros::Rate loop\_rate(2);
+358 
+359     ros::Subscriber subMBGoal = n.subscribe(\textcolor{stringliteral}{"/move\_base/goal"}, 1000,
+360                                       &\hyperlink{classTestHelper_a21129fa567d2c7b386928240c022f587}{TestHelper::testMoveBaseGoalCallback}
+      ,
+361                                       &testItem);
+362 
+363     ros::Subscriber subMBCancel = n.subscribe(\textcolor{stringliteral}{"/move\_base/cancel"}, 1000,
+364                                       &\hyperlink{classTestHelper_a7b581728a4a731facdcc5b672362372f}{TestHelper::testMoveBaseCancelCallback}
+      ,
+365                                       &testItem);
+366 
+367     \textcolor{comment}{// move to room a}
+368     act.\hyperlink{classAction_a26d6a276da57703cc18ff7f62e10f582}{execute}(\hyperlink{classAction_ab5ece0fcaae0e78adfa0f7b36893401eab60c58ddc0cb20cb35c655950658c0aa}{Action::ACT\_MOVETO}, \textcolor{stringliteral}{"room a"});
+369 
+370     loop\_rate.sleep();
+371 
+372     \textcolor{comment}{// test stop moving to}
+373     act.\hyperlink{classAction_a26d6a276da57703cc18ff7f62e10f582}{execute}(\hyperlink{classAction_ab5ece0fcaae0e78adfa0f7b36893401ea3a23268cc940107edb9c83aa81a70db5}{Action::ACT\_STOPMOVETO});
+374 
+375     loop\_rate.sleep();
+376 
+377     \textcolor{comment}{// expect goalID is cancelled}
+378     EXPECT\_STREQ(testItem.\hyperlink{classTestHelper_a3d1422616cebc2df38b8766f42864f43}{goalID}.c\_str(), testItem.\hyperlink{classTestHelper_afc27bc11999e9ca916e1983f2355a69e}{cancelID}.c\_str());
+379 \}
+\end{DoxyCode}
+\hypertarget{testaction_8cpp_a2f628d0df656268b12857452b5ab5fe6}{\index{testaction.\-cpp@{testaction.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testaction.cpp@{testaction.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Action}]{, }
+\item[{test\-Come\-Back\-Action}]{}
+\end{DoxyParamCaption}
+)}}\label{testaction_8cpp_a2f628d0df656268b12857452b5ab5fe6}
+
+
+Verify come back in \hyperlink{classAction}{Action} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+388                                      \{
+389     ros::NodeHandle n;
+390     \hyperlink{classTestHelper}{TestHelper} testItem;
+391     std\_msgs::String msg;
+392     \hyperlink{classAction}{Action} act;
+393 
+394     ros::Rate loop\_rate(2);
+395 
+396     ros::Subscriber subMBGoal = n.subscribe(\textcolor{stringliteral}{"/move\_base/goal"}, 1000,
+397                                       &\hyperlink{classTestHelper_a21129fa567d2c7b386928240c022f587}{TestHelper::testMoveBaseGoalCallback}
+      ,
+398                                       &testItem);
+399 
+400     ros::Subscriber subMBCancel = n.subscribe(\textcolor{stringliteral}{"/move\_base/cancel"}, 1000,
+401                                       &\hyperlink{classTestHelper_a7b581728a4a731facdcc5b672362372f}{TestHelper::testMoveBaseCancelCallback}
+      ,
+402                                       &testItem);
+403 
+404     \textcolor{comment}{// test comeback command}
+405     act.\hyperlink{classAction_a26d6a276da57703cc18ff7f62e10f582}{execute}(\hyperlink{classAction_ab5ece0fcaae0e78adfa0f7b36893401eac7ee7a0120639ce1e2c7c974d25c1fe2}{Action::ACT\_COMEBACK});
+406 
+407     loop\_rate.sleep();
+408 
+409     geometry\_msgs::Pose expGoal;
+410     expGoal.position.x = 0;
+411     expGoal.position.y = 0;
+412     expGoal.position.z = 0.0;
+413     expGoal.orientation.x = 0.0;
+414     expGoal.orientation.y = 0.0;
+415     expGoal.orientation.z = 0.0;
+416     expGoal.orientation.w = 1.0;
+417 
+418     geometry\_msgs::Pose actGoal = testItem.\hyperlink{classTestHelper_a095ebfa14c22f6057c1385a70f65b9b6}{pos};
+419 
+420     \textcolor{comment}{// confirm goal pose received by move\_base is initial pose location}
+421     EXPECT\_EQ(0, std::memcmp(&expGoal, &actGoal, \textcolor{keyword}{sizeof}(expGoal)));
+422 \}
+\end{DoxyCode}
+\hypertarget{testaction_8cpp_ac3880d777c174d4fd971cb7bb000ce77}{\index{testaction.\-cpp@{testaction.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testaction.cpp@{testaction.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Action}]{, }
+\item[{test\-Forward\-Action}]{}
+\end{DoxyParamCaption}
+)}}\label{testaction_8cpp_ac3880d777c174d4fd971cb7bb000ce77}
+
+
+Verify forward in \hyperlink{classAction}{Action} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+431                                     \{
+432     ros::NodeHandle n;
+433     \hyperlink{classTestHelper}{TestHelper} testItem;
+434     std\_msgs::String msg;
+435     \hyperlink{classAction}{Action} act;
+436 
+437     ros::Rate loop\_rate(2);
+438 
+439     act.\hyperlink{classAction_a43b331fb5dcad4544e9983cef0eb1532}{initialize}(n);
+440 
+441     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/mobile\_base/commands/velocity"}, 1000,
+442                                       &\hyperlink{classTestHelper_a5fecfcf3a265ba49f7c5ab1acb064f06}{TestHelper::testMBCmdVelocityCallback}
+      ,
+443                                       &testItem);
+444 
+445     \textcolor{comment}{// test forward action}
+446     act.\hyperlink{classAction_a26d6a276da57703cc18ff7f62e10f582}{execute}(\hyperlink{classAction_ab5ece0fcaae0e78adfa0f7b36893401eaffa6a5a97917fca484424d7f6cc62972}{Action::ACT\_FORWARD});
+447 
+448     loop\_rate.sleep();
+449 
+450     geometry\_msgs::Twist expTwist;
+451     expTwist.linear.x = 0.3;
+452     expTwist.linear.y = 0.0;
+453     expTwist.linear.z = 0.0;
+454     expTwist.angular.x = 0.0;
+455     expTwist.angular.y = 0.0;
+456     expTwist.angular.z = 0.0;
+457 
+458     geometry\_msgs::Twist actTwist = testItem.\hyperlink{classTestHelper_a78a826fd3e1a4bc10adc910cde81668d}{twist};
+459 
+460     \textcolor{comment}{// confirm forward velocity is expected}
+461     EXPECT\_EQ(0, std::memcmp(&expTwist, &actTwist, \textcolor{keyword}{sizeof}(expTwist)));
+462 \}
+\end{DoxyCode}
+\hypertarget{testaction_8cpp_a563382317e6cdaf51356c786a4443e1b}{\index{testaction.\-cpp@{testaction.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testaction.cpp@{testaction.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Action}]{, }
+\item[{test\-Backward\-Action}]{}
+\end{DoxyParamCaption}
+)}}\label{testaction_8cpp_a563382317e6cdaf51356c786a4443e1b}
+
+
+Verify backward in \hyperlink{classAction}{Action} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+471                                      \{
+472     ros::NodeHandle n;
+473     \hyperlink{classTestHelper}{TestHelper} testItem;
+474     std\_msgs::String msg;
+475     \hyperlink{classAction}{Action} act;
+476 
+477     ros::Rate loop\_rate(2);
+478 
+479     act.\hyperlink{classAction_a43b331fb5dcad4544e9983cef0eb1532}{initialize}(n);
+480 
+481     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/mobile\_base/commands/velocity"}, 1000,
+482                                       &\hyperlink{classTestHelper_a5fecfcf3a265ba49f7c5ab1acb064f06}{TestHelper::testMBCmdVelocityCallback}
+      ,
+483                                       &testItem);
+484 
+485     \textcolor{comment}{// test backward action}
+486     act.\hyperlink{classAction_a26d6a276da57703cc18ff7f62e10f582}{execute}(\hyperlink{classAction_ab5ece0fcaae0e78adfa0f7b36893401ea2c3c1230c27e63c38d5da9693d9a3337}{Action::ACT\_BACKWARD});
+487 
+488     loop\_rate.sleep();
+489 
+490     geometry\_msgs::Twist expTwist;
+491     expTwist.linear.x = -0.3;
+492     expTwist.linear.y = 0.0;
+493     expTwist.linear.z = 0.0;
+494     expTwist.angular.x = 0.0;
+495     expTwist.angular.y = 0.0;
+496     expTwist.angular.z = 0.0;
+497 
+498     geometry\_msgs::Twist actTwist = testItem.\hyperlink{classTestHelper_a78a826fd3e1a4bc10adc910cde81668d}{twist};
+499 
+500     \textcolor{comment}{// confirm backward velocity is expected}
+501     EXPECT\_EQ(0, std::memcmp(&expTwist, &actTwist, \textcolor{keyword}{sizeof}(expTwist)));
+502 \}
+\end{DoxyCode}
+\hypertarget{testaction_8cpp_a085555354a3d2406661d93489eabd631}{\index{testaction.\-cpp@{testaction.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testaction.cpp@{testaction.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Action}]{, }
+\item[{test\-Turn\-Left\-Action}]{}
+\end{DoxyParamCaption}
+)}}\label{testaction_8cpp_a085555354a3d2406661d93489eabd631}
+
+
+Verify turn left in \hyperlink{classAction}{Action} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+511                                      \{
+512     ros::NodeHandle n;
+513     \hyperlink{classTestHelper}{TestHelper} testItem;
+514     std\_msgs::String msg;
+515     \hyperlink{classAction}{Action} act;
+516 
+517     ros::Rate loop\_rate(2);
+518 
+519     act.\hyperlink{classAction_a43b331fb5dcad4544e9983cef0eb1532}{initialize}(n);
+520 
+521     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/mobile\_base/commands/velocity"}, 1000,
+522                                       &\hyperlink{classTestHelper_a5fecfcf3a265ba49f7c5ab1acb064f06}{TestHelper::testMBCmdVelocityCallback}
+      ,
+523                                       &testItem);
+524 
+525     \textcolor{comment}{// test turn left action}
+526     act.\hyperlink{classAction_a26d6a276da57703cc18ff7f62e10f582}{execute}(\hyperlink{classAction_ab5ece0fcaae0e78adfa0f7b36893401ea0a65bc73f315d27eda53fcf9064c9194}{Action::ACT\_TURNLEFT});
+527 
+528     loop\_rate.sleep();
+529 
+530     geometry\_msgs::Twist expTwist;
+531     expTwist.linear.x = 0.0;
+532     expTwist.linear.y = 0.0;
+533     expTwist.linear.z = 0.0;
+534     expTwist.angular.x = 0.0;
+535     expTwist.angular.y = 0.0;
+536     expTwist.angular.z = 0.3;
+537 
+538     geometry\_msgs::Twist actTwist = testItem.\hyperlink{classTestHelper_a78a826fd3e1a4bc10adc910cde81668d}{twist};
+539 
+540     \textcolor{comment}{// confirm turn left velocity is expected}
+541     EXPECT\_EQ(0, std::memcmp(&expTwist, &actTwist, \textcolor{keyword}{sizeof}(expTwist)));
+542 \}
+\end{DoxyCode}
+\hypertarget{testaction_8cpp_ac1f94a6541f2a5efd4ecddf736f5d293}{\index{testaction.\-cpp@{testaction.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testaction.cpp@{testaction.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Action}]{, }
+\item[{test\-Turn\-Right\-Action}]{}
+\end{DoxyParamCaption}
+)}}\label{testaction_8cpp_ac1f94a6541f2a5efd4ecddf736f5d293}
+
+
+Verify turn right in \hyperlink{classAction}{Action} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+551                                       \{
+552     ros::NodeHandle n;
+553     \hyperlink{classTestHelper}{TestHelper} testItem;
+554     std\_msgs::String msg;
+555     \hyperlink{classAction}{Action} act;
+556 
+557     ros::Rate loop\_rate(2);
+558 
+559     act.\hyperlink{classAction_a43b331fb5dcad4544e9983cef0eb1532}{initialize}(n);
+560 
+561     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/mobile\_base/commands/velocity"}, 1000,
+562                                       &\hyperlink{classTestHelper_a5fecfcf3a265ba49f7c5ab1acb064f06}{TestHelper::testMBCmdVelocityCallback}
+      ,
+563                                       &testItem);
+564 
+565     \textcolor{comment}{// test turn right action}
+566     act.\hyperlink{classAction_a26d6a276da57703cc18ff7f62e10f582}{execute}(\hyperlink{classAction_ab5ece0fcaae0e78adfa0f7b36893401ea0268f72608a5003500aa26f84a70459c}{Action::ACT\_TURNRIGHT});
+567 
+568     loop\_rate.sleep();
+569 
+570     geometry\_msgs::Twist expTwist;
+571     expTwist.linear.x = 0.0;
+572     expTwist.linear.y = 0.0;
+573     expTwist.linear.z = 0.0;
+574     expTwist.angular.x = 0.0;
+575     expTwist.angular.y = 0.0;
+576     expTwist.angular.z = -0.3;
+577 
+578     geometry\_msgs::Twist actTwist = testItem.\hyperlink{classTestHelper_a78a826fd3e1a4bc10adc910cde81668d}{twist};
+579 
+580     \textcolor{comment}{// confirm turn right velocity is expected}
+581     EXPECT\_EQ(0, std::memcmp(&expTwist, &actTwist, \textcolor{keyword}{sizeof}(expTwist)));
+582 \}
+\end{DoxyCode}
+\hypertarget{testaction_8cpp_a0e570f6c756ed4e102d50946f88479b8}{\index{testaction.\-cpp@{testaction.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testaction.cpp@{testaction.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Action}]{, }
+\item[{test\-Stop\-Move\-Action}]{}
+\end{DoxyParamCaption}
+)}}\label{testaction_8cpp_a0e570f6c756ed4e102d50946f88479b8}
+
+
+Verify stop move in \hyperlink{classAction}{Action} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+591                                      \{
+592     ros::NodeHandle n;
+593     \hyperlink{classTestHelper}{TestHelper} testItem;
+594     std\_msgs::String msg;
+595     \hyperlink{classAction}{Action} act;
+596 
+597     ros::Rate loop\_rate(2);
+598 
+599     act.\hyperlink{classAction_a43b331fb5dcad4544e9983cef0eb1532}{initialize}(n);
+600 
+601     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/mobile\_base/commands/velocity"}, 1000,
+602                                       &\hyperlink{classTestHelper_a5fecfcf3a265ba49f7c5ab1acb064f06}{TestHelper::testMBCmdVelocityCallback}
+      ,
+603                                       &testItem);
+604 
+605     \textcolor{comment}{// make robot turn right first}
+606     act.\hyperlink{classAction_a26d6a276da57703cc18ff7f62e10f582}{execute}(\hyperlink{classAction_ab5ece0fcaae0e78adfa0f7b36893401ea0268f72608a5003500aa26f84a70459c}{Action::ACT\_TURNRIGHT});
+607 
+608     loop\_rate.sleep();
+609 
+610     \textcolor{comment}{// test stop move action}
+611     act.\hyperlink{classAction_a26d6a276da57703cc18ff7f62e10f582}{execute}(\hyperlink{classAction_ab5ece0fcaae0e78adfa0f7b36893401ea6062ac2373825affaacc622fe79dc904}{Action::ACT\_STOPMOVE});
+612 
+613     loop\_rate.sleep();
+614 
+615     geometry\_msgs::Twist expTwist;
+616     expTwist.linear.x = 0.0;
+617     expTwist.linear.y = 0.0;
+618     expTwist.linear.z = 0.0;
+619     expTwist.angular.x = 0.0;
+620     expTwist.angular.y = 0.0;
+621     expTwist.angular.z = 0.0;
+622 
+623     geometry\_msgs::Twist actTwist = testItem.\hyperlink{classTestHelper_a78a826fd3e1a4bc10adc910cde81668d}{twist};
+624 
+625     \textcolor{comment}{// confirm robot receives velocity 0 to stop moving}
+626     EXPECT\_EQ(0, std::memcmp(&expTwist, &actTwist, \textcolor{keyword}{sizeof}(expTwist)));
+627 \}
+\end{DoxyCode}

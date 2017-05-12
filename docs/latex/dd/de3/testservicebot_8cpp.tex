@@ -1,0 +1,975 @@
+\hypertarget{testservicebot_8cpp}{\section{test/testservicebot.cpp File Reference}
+\label{testservicebot_8cpp}\index{test/testservicebot.\-cpp@{test/testservicebot.\-cpp}}
+}
+
+
+Implementation of unit test for R\-O\-S \hyperlink{classServiceBot}{Service\-Bot} class.  
+
+
+{\ttfamily \#include $<$ros/ros.\-h$>$}\\*
+{\ttfamily \#include $<$ros/package.\-h$>$}\\*
+{\ttfamily \#include $<$std\-\_\-msgs/\-String.\-h$>$}\\*
+{\ttfamily \#include $<$geometry\-\_\-msgs/\-Pose.\-h$>$}\\*
+{\ttfamily \#include $<$geometry\-\_\-msgs/\-Twist.\-h$>$}\\*
+{\ttfamily \#include $<$actionlib\-\_\-msgs/\-Goal\-I\-D.\-h$>$}\\*
+{\ttfamily \#include $<$gtest/gtest.\-h$>$}\\*
+{\ttfamily \#include $<$sstream$>$}\\*
+{\ttfamily \#include \char`\"{}servicebot/command\-Service.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}testhelper.\-hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}servicebot.\-hpp\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{testservicebot_8cpp_abee919b3b96d4d58ae9a6c4952b67c22}{process\-Thread} (void)
+\begin{DoxyCompactList}\small\item\em spin thread to process callbacks \end{DoxyCompactList}\item 
+\hyperlink{testservicebot_8cpp_ab03e56bdef24e2a565438cda28e5dd0b}{T\-E\-S\-T} (Test\-Service\-Bot, test\-Init)
+\begin{DoxyCompactList}\small\item\em Verify initialization in \hyperlink{classServiceBot}{Service\-Bot} class. \end{DoxyCompactList}\item 
+\hyperlink{testservicebot_8cpp_ac12cfa642b83dd2a4c1a0fb41492c69d}{T\-E\-S\-T} (Test\-Service\-Bot, test\-Command\-Service)
+\begin{DoxyCompactList}\small\item\em Verify command\-Service in \hyperlink{classServiceBot}{Service\-Bot} class. \end{DoxyCompactList}\item 
+\hyperlink{testservicebot_8cpp_ad67719fa776bffffef5ad30c02c707f2}{T\-E\-S\-T} (Test\-Service\-Bot, test\-Name\-Command)
+\begin{DoxyCompactList}\small\item\em Verify name command in \hyperlink{classServiceBot}{Service\-Bot} class. \end{DoxyCompactList}\item 
+\hyperlink{testservicebot_8cpp_a4fd56c8b7d3cf9517210f9629d460753}{T\-E\-S\-T} (Test\-Service\-Bot, test\-Time\-Command)
+\begin{DoxyCompactList}\small\item\em Verify time command in \hyperlink{classServiceBot}{Service\-Bot} class. \end{DoxyCompactList}\item 
+\hyperlink{testservicebot_8cpp_a36a33659ea052e488ecb7709e9ad37e3}{T\-E\-S\-T} (Test\-Service\-Bot, test\-Play\-Command)
+\begin{DoxyCompactList}\small\item\em Verify play command in \hyperlink{classServiceBot}{Service\-Bot} class. \end{DoxyCompactList}\item 
+\hyperlink{testservicebot_8cpp_a7054fe0038357021fb9edd6cb594da4f}{T\-E\-S\-T} (Test\-Service\-Bot, test\-Stop\-Play\-Command)
+\begin{DoxyCompactList}\small\item\em Verify stop play command in \hyperlink{classServiceBot}{Service\-Bot} class. \end{DoxyCompactList}\item 
+\hyperlink{testservicebot_8cpp_a260b68b8fc666899feaeba2bce80cad6}{T\-E\-S\-T} (Test\-Service\-Bot, test\-Move\-To\-Command)
+\begin{DoxyCompactList}\small\item\em Verify move to commands in \hyperlink{classServiceBot}{Service\-Bot} class. \end{DoxyCompactList}\item 
+\hyperlink{testservicebot_8cpp_a96dff3b0dfd986dd987673b1badb1691}{T\-E\-S\-T} (Test\-Service\-Bot, test\-Come\-Back\-Command)
+\begin{DoxyCompactList}\small\item\em Verify come back commands in \hyperlink{classServiceBot}{Service\-Bot} class. \end{DoxyCompactList}\item 
+\hyperlink{testservicebot_8cpp_aedd9d8398cbe41d1b8382d7f38c5e316}{T\-E\-S\-T} (Test\-Service\-Bot, test\-Forward\-Command)
+\begin{DoxyCompactList}\small\item\em Verify forward command in \hyperlink{classServiceBot}{Service\-Bot} class. \end{DoxyCompactList}\item 
+\hyperlink{testservicebot_8cpp_ad31b202297edd79143cab5d41631acff}{T\-E\-S\-T} (Test\-Service\-Bot, test\-Backward\-Command)
+\begin{DoxyCompactList}\small\item\em Verify backward commands in \hyperlink{classServiceBot}{Service\-Bot} class. \end{DoxyCompactList}\item 
+\hyperlink{testservicebot_8cpp_ae3628fb3096ccbe61ec8a108f3cdb32e}{T\-E\-S\-T} (Test\-Service\-Bot, test\-Turn\-Left\-Command)
+\begin{DoxyCompactList}\small\item\em Verify turn left commands in \hyperlink{classServiceBot}{Service\-Bot} class. \end{DoxyCompactList}\item 
+\hyperlink{testservicebot_8cpp_a0a60639cc9fc3f0621c526ad3317457d}{T\-E\-S\-T} (Test\-Service\-Bot, test\-Turn\-Right\-Command)
+\begin{DoxyCompactList}\small\item\em Verify turn right command in \hyperlink{classServiceBot}{Service\-Bot} class. \end{DoxyCompactList}\item 
+int \hyperlink{testservicebot_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implementation of unit test for R\-O\-S \hyperlink{classServiceBot}{Service\-Bot} class. This file contains implementation of unit test for R\-O\-S \hyperlink{classServiceBot}{Service\-Bot} class
+
+\begin{DoxyAuthor}{Author}
+Huei Tzu Tsai \par
+ Steven Gambino 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+05/06/2017 
+\end{DoxyDate}
+
+
+\subsection{Function Documentation}
+\hypertarget{testservicebot_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{\index{testservicebot.\-cpp@{testservicebot.\-cpp}!main@{main}}
+\index{main@{main}!testservicebot.cpp@{testservicebot.\-cpp}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}}\label{testservicebot_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}
+
+\begin{DoxyCode}
+731                                 \{
+732     ::testing::InitGoogleTest(&argc, argv);
+733     ros::init(argc, argv, \textcolor{stringliteral}{"testservicebot"});
+734     ros::NodeHandle nh;
+735 
+736     \textcolor{comment}{// spawn another thread}
+737     boost::thread th(\hyperlink{testservicebot_8cpp_abee919b3b96d4d58ae9a6c4952b67c22}{processThread});
+738 
+739     \textcolor{keywordtype}{int} ret = RUN\_ALL\_TESTS();
+740 
+741     ros::shutdown();
+742 
+743     \textcolor{comment}{// wait the second thread to finish}
+744     th.join();
+745 
+746     \textcolor{keywordflow}{return} ret;
+747 \}
+\end{DoxyCode}
+\hypertarget{testservicebot_8cpp_abee919b3b96d4d58ae9a6c4952b67c22}{\index{testservicebot.\-cpp@{testservicebot.\-cpp}!process\-Thread@{process\-Thread}}
+\index{process\-Thread@{process\-Thread}!testservicebot.cpp@{testservicebot.\-cpp}}
+\subsubsection[{process\-Thread}]{\setlength{\rightskip}{0pt plus 5cm}void process\-Thread (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{testservicebot_8cpp_abee919b3b96d4d58ae9a6c4952b67c22}
+
+
+spin thread to process callbacks 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+54                          \{
+55     ros::Rate loop\_rate(10);
+56 
+57     \textcolor{keywordflow}{while} (ros::ok()) \{
+58         ros::spinOnce();
+59         loop\_rate.sleep();
+60     \}
+61 \}
+\end{DoxyCode}
+\hypertarget{testservicebot_8cpp_ab03e56bdef24e2a565438cda28e5dd0b}{\index{testservicebot.\-cpp@{testservicebot.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testservicebot.cpp@{testservicebot.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Service\-Bot}]{, }
+\item[{test\-Init}]{}
+\end{DoxyParamCaption}
+)}}\label{testservicebot_8cpp_ab03e56bdef24e2a565438cda28e5dd0b}
+
+
+Verify initialization in \hyperlink{classServiceBot}{Service\-Bot} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+70                                \{
+71     ros::NodeHandle n;
+72     \hyperlink{classTestHelper}{TestHelper} testItem;
+73     std\_msgs::String msg;
+74 
+75     ros::Rate loop\_rate(1);
+76 
+77     \textcolor{comment}{// register to check number of publishers to /servicebot/command topic}
+78     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/servicebot/command"}, 1000,
+79                                       &\hyperlink{classTestHelper_a75740dcf3bb18cb57208228c3723df2a}{TestHelper::testCommandCallback},
+80                                       &testItem);
+81 
+82     \textcolor{comment}{// register to check number of subscribers to /servicebot/command}
+83     ros::Publisher pub = n.advertise<std\_msgs::String>(\textcolor{stringliteral}{"/servicebot/command"},
+84                                                        1000);
+85 
+86     loop\_rate.sleep();
+87 
+88     EXPECT\_NE(0, sub.getNumPublishers());
+89     EXPECT\_NE(0, pub.getNumSubscribers());
+90 
+91     ros::ServiceClient client =
+92         n.serviceClient<servicebot::commandService>(\textcolor{stringliteral}{"commandService"});
+93 
+94     \textcolor{comment}{// expect service to be ready in 1 second}
+95     EXPECT\_EQ(\textcolor{keyword}{true}, client.waitForExistence(ros::Duration(1)));
+96 \}
+\end{DoxyCode}
+\hypertarget{testservicebot_8cpp_ac12cfa642b83dd2a4c1a0fb41492c69d}{\index{testservicebot.\-cpp@{testservicebot.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testservicebot.cpp@{testservicebot.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Service\-Bot}]{, }
+\item[{test\-Command\-Service}]{}
+\end{DoxyParamCaption}
+)}}\label{testservicebot_8cpp_ac12cfa642b83dd2a4c1a0fb41492c69d}
+
+
+Verify command\-Service in \hyperlink{classServiceBot}{Service\-Bot} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+105                                          \{
+106     ros::NodeHandle n;
+107     \hyperlink{classTestHelper}{TestHelper} testItem;
+108 
+109     ros::Rate loop\_rate(2);
+110 
+111     \textcolor{comment}{// Subscribe topic serviceCommand from master to receive messages published}
+112     \textcolor{comment}{// on this topic}
+113     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/servicebot/command"}, 1000,
+114                                       &\hyperlink{classTestHelper_a75740dcf3bb18cb57208228c3723df2a}{TestHelper::testCommandCallback},
+115                                       &testItem);
+116 
+117     \textcolor{comment}{// allow callback to process}
+118     loop\_rate.sleep();
+119 
+120     \textcolor{comment}{// Register client with the master}
+121     ros::ServiceClient client =
+122         n.serviceClient<servicebot::commandService>(\textcolor{stringliteral}{"commandService"});
+123 
+124     \textcolor{comment}{// expect service to be ready in 1 second}
+125     EXPECT\_TRUE(client.waitForExistence(ros::Duration(1)));
+126 
+127     \textcolor{comment}{// Create request & response objects}
+128     servicebot::commandService::Request req;
+129     servicebot::commandService::Response resp;
+130 
+131     \textcolor{comment}{// Fill in request data}
+132     req.command = \textcolor{stringliteral}{"test"};
+133     req.args = \textcolor{stringliteral}{""};
+134 
+135     \textcolor{comment}{// Call service, expect return TRUE}
+136     EXPECT\_TRUE(client.call(req, resp));
+137 
+138     \textcolor{comment}{// Expect response is OK}
+139     EXPECT\_STREQ(\textcolor{stringliteral}{"OK"}, resp.resp.c\_str());
+140 
+141     \textcolor{comment}{// allow callback to process}
+142     loop\_rate.sleep();
+143 
+144     \textcolor{comment}{// Expect test received on /servicebot/command}
+145     EXPECT\_STREQ(\textcolor{stringliteral}{"test"}, testItem.\hyperlink{classTestHelper_ad5acc4b246653a6c073c6dc100344a86}{cmd}.c\_str());
+146 \}
+\end{DoxyCode}
+\hypertarget{testservicebot_8cpp_ad67719fa776bffffef5ad30c02c707f2}{\index{testservicebot.\-cpp@{testservicebot.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testservicebot.cpp@{testservicebot.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Service\-Bot}]{, }
+\item[{test\-Name\-Command}]{}
+\end{DoxyParamCaption}
+)}}\label{testservicebot_8cpp_ad67719fa776bffffef5ad30c02c707f2}
+
+
+Verify name command in \hyperlink{classServiceBot}{Service\-Bot} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+155                                       \{
+156     ros::NodeHandle n;
+157     \hyperlink{classTestHelper}{TestHelper} testItem;
+158     std\_msgs::String msg;
+159 
+160     ros::Rate loop\_rate(2);
+161 
+162     \textcolor{comment}{// Register to publish topic}
+163     ros::Publisher pub = n.advertise<std\_msgs::String>(\textcolor{stringliteral}{"/servicebot/command"},
+164                                                        1000);
+165 
+166     \textcolor{comment}{// Subscribe topic /robotsound to verify name command}
+167     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/robotsound"}, 1000,
+168                                       &\hyperlink{classTestHelper_ac1ffd4f4c1e2668f817a229212a8c904}{TestHelper::testRobotSoundCallback}
+      ,
+169                                       &testItem);
+170     loop\_rate.sleep();
+171 
+172     \textcolor{comment}{// test name command}
+173     msg.data = \textcolor{stringliteral}{"your name,"};
+174     pub.publish(msg);
+175 
+176     loop\_rate.sleep();
+177 
+178     \textcolor{comment}{// confirm sound commands received on /robotsound are correct}
+179     EXPECT\_EQ(sound\_play::SoundRequest::SAY, testItem.\hyperlink{classTestHelper_a299ac5a385d8e910a22980601f9ad4c4}{snd});
+180     EXPECT\_EQ(sound\_play::SoundRequest::PLAY\_ONCE, testItem.\hyperlink{classTestHelper_ab91e5c0bcd313b9e629b389bbecabb90}{sndCmd});
+181     EXPECT\_STREQ(\textcolor{stringliteral}{"my name is servicebot"}, testItem.\hyperlink{classTestHelper_ad5acc4b246653a6c073c6dc100344a86}{cmd}.c\_str());
+182 \}
+\end{DoxyCode}
+\hypertarget{testservicebot_8cpp_a4fd56c8b7d3cf9517210f9629d460753}{\index{testservicebot.\-cpp@{testservicebot.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testservicebot.cpp@{testservicebot.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Service\-Bot}]{, }
+\item[{test\-Time\-Command}]{}
+\end{DoxyParamCaption}
+)}}\label{testservicebot_8cpp_a4fd56c8b7d3cf9517210f9629d460753}
+
+
+Verify time command in \hyperlink{classServiceBot}{Service\-Bot} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+191                                       \{
+192     ros::NodeHandle n;
+193     \hyperlink{classTestHelper}{TestHelper} testItem;
+194     std\_msgs::String msg;
+195 
+196     ros::Rate loop\_rate(2);
+197 
+198     \textcolor{comment}{// Register to publish topic}
+199     ros::Publisher pub = n.advertise<std\_msgs::String>(\textcolor{stringliteral}{"/servicebot/command"},
+200                                                        1000);
+201 
+202     \textcolor{comment}{// Subscribe topic /robotsound to verify time command}
+203     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/robotsound"}, 1000,
+204                                       &\hyperlink{classTestHelper_ac1ffd4f4c1e2668f817a229212a8c904}{TestHelper::testRobotSoundCallback}
+      ,
+205                                       &testItem);
+206     loop\_rate.sleep();
+207 
+208     \textcolor{comment}{// test time command}
+209     msg.data = \textcolor{stringliteral}{"what time,"};
+210     pub.publish(msg);
+211 
+212     loop\_rate.sleep();
+213 
+214     \textcolor{comment}{// confirm sound commands received on /robotsound are correct}
+215     EXPECT\_EQ(sound\_play::SoundRequest::SAY, testItem.\hyperlink{classTestHelper_a299ac5a385d8e910a22980601f9ad4c4}{snd});
+216     EXPECT\_EQ(sound\_play::SoundRequest::PLAY\_ONCE, testItem.\hyperlink{classTestHelper_ab91e5c0bcd313b9e629b389bbecabb90}{sndCmd});
+217     EXPECT\_EQ(\textcolor{keyword}{true}, testItem.\hyperlink{classTestHelper_ad5acc4b246653a6c073c6dc100344a86}{cmd}.find(\textcolor{stringliteral}{"time now is"}) != std::string::npos);
+218 \}
+\end{DoxyCode}
+\hypertarget{testservicebot_8cpp_a36a33659ea052e488ecb7709e9ad37e3}{\index{testservicebot.\-cpp@{testservicebot.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testservicebot.cpp@{testservicebot.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Service\-Bot}]{, }
+\item[{test\-Play\-Command}]{}
+\end{DoxyParamCaption}
+)}}\label{testservicebot_8cpp_a36a33659ea052e488ecb7709e9ad37e3}
+
+
+Verify play command in \hyperlink{classServiceBot}{Service\-Bot} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+227                                       \{
+228     ros::NodeHandle n;
+229     \hyperlink{classTestHelper}{TestHelper} testItem;
+230     std\_msgs::String msg;
+231     std::string demoMusic = \hyperlink{soundcontrol_8hpp_a4fe2c7a9c857ffb699946aa401599b75}{DEMO\_MUSIC};
+232 
+233     ros::Rate loop\_rate(2);
+234 
+235     \textcolor{comment}{// Register to publish topic}
+236     ros::Publisher pub = n.advertise<std\_msgs::String>(\textcolor{stringliteral}{"/servicebot/command"},
+237                                                        1000);
+238 
+239     \textcolor{comment}{// Subscribe topic /robotsound to verify play music command}
+240     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/robotsound"}, 1000,
+241                                       &\hyperlink{classTestHelper_ac1ffd4f4c1e2668f817a229212a8c904}{TestHelper::testRobotSoundCallback}
+      ,
+242                                       &testItem);
+243 
+244     loop\_rate.sleep();
+245 
+246     \textcolor{comment}{// play music without arguments (should play default demo music)}
+247     msg.data = \textcolor{stringliteral}{"play music"};
+248     pub.publish(msg);
+249 
+250     loop\_rate.sleep();
+251 
+252     \textcolor{comment}{// confirm sound commands received on /robotsound are correct}
+253     EXPECT\_EQ(sound\_play::SoundRequest::PLAY\_FILE, testItem.\hyperlink{classTestHelper_a299ac5a385d8e910a22980601f9ad4c4}{snd});
+254     EXPECT\_EQ(sound\_play::SoundRequest::PLAY\_ONCE, testItem.\hyperlink{classTestHelper_ab91e5c0bcd313b9e629b389bbecabb90}{sndCmd});
+255     EXPECT\_STREQ(demoMusic.c\_str(), testItem.\hyperlink{classTestHelper_ad5acc4b246653a6c073c6dc100344a86}{cmd}.c\_str());
+256 
+257     \textcolor{comment}{// play music by specifying music file path}
+258     std::stringstream musicPath;
+259     std::stringstream command;
+260     std::string path = ros::package::getPath(\textcolor{stringliteral}{"servicebot"});
+261     musicPath << path << \hyperlink{soundcontrol_8hpp_a4fe2c7a9c857ffb699946aa401599b75}{DEMO\_MUSIC};
+262     command << \textcolor{stringliteral}{"play music,"} << musicPath.str();
+263 
+264     msg.data = command.str();
+265     pub.publish(msg);
+266 
+267     loop\_rate.sleep();
+268 
+269     \textcolor{comment}{// confirm sound commands received on /robotsound are correct}
+270     EXPECT\_EQ(sound\_play::SoundRequest::PLAY\_FILE, testItem.\hyperlink{classTestHelper_a299ac5a385d8e910a22980601f9ad4c4}{snd});
+271     EXPECT\_EQ(sound\_play::SoundRequest::PLAY\_ONCE, testItem.\hyperlink{classTestHelper_ab91e5c0bcd313b9e629b389bbecabb90}{sndCmd});
+272     EXPECT\_STRCASEEQ(musicPath.str().c\_str(), testItem.\hyperlink{classTestHelper_ad5acc4b246653a6c073c6dc100344a86}{cmd}.c\_str());
+273 \}
+\end{DoxyCode}
+\hypertarget{testservicebot_8cpp_a7054fe0038357021fb9edd6cb594da4f}{\index{testservicebot.\-cpp@{testservicebot.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testservicebot.cpp@{testservicebot.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Service\-Bot}]{, }
+\item[{test\-Stop\-Play\-Command}]{}
+\end{DoxyParamCaption}
+)}}\label{testservicebot_8cpp_a7054fe0038357021fb9edd6cb594da4f}
+
+
+Verify stop play command in \hyperlink{classServiceBot}{Service\-Bot} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+282                                           \{
+283     ros::NodeHandle n;
+284     \hyperlink{classTestHelper}{TestHelper} testItem;
+285     std\_msgs::String msg;
+286 
+287     ros::Rate loop\_rate(2);
+288 
+289     \textcolor{comment}{// Register to publish topic}
+290     ros::Publisher pub = n.advertise<std\_msgs::String>(\textcolor{stringliteral}{"/servicebot/command"},
+291                                                        1000);
+292 
+293     \textcolor{comment}{// Subscribe topic /robotsound to verify stop play music command}
+294     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/robotsound"}, 1000,
+295                                       &\hyperlink{classTestHelper_ac1ffd4f4c1e2668f817a229212a8c904}{TestHelper::testRobotSoundCallback}
+      ,
+296                                       &testItem);
+297     loop\_rate.sleep();
+298 
+299     \textcolor{comment}{// play music first}
+300     msg.data = \textcolor{stringliteral}{"play music"};
+301     pub.publish(msg);
+302 
+303     loop\_rate.sleep();
+304 
+305     \textcolor{comment}{// test stop music command}
+306     msg.data = \textcolor{stringliteral}{"stop music"};
+307     pub.publish(msg);
+308 
+309     loop\_rate.sleep();
+310 
+311     \textcolor{comment}{// confirm sound command received on /robotsound is correct}
+312     EXPECT\_EQ(sound\_play::SoundRequest::PLAY\_STOP, testItem.\hyperlink{classTestHelper_ab91e5c0bcd313b9e629b389bbecabb90}{sndCmd});
+313 \}
+\end{DoxyCode}
+\hypertarget{testservicebot_8cpp_a260b68b8fc666899feaeba2bce80cad6}{\index{testservicebot.\-cpp@{testservicebot.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testservicebot.cpp@{testservicebot.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Service\-Bot}]{, }
+\item[{test\-Move\-To\-Command}]{}
+\end{DoxyParamCaption}
+)}}\label{testservicebot_8cpp_a260b68b8fc666899feaeba2bce80cad6}
+
+
+Verify move to commands in \hyperlink{classServiceBot}{Service\-Bot} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+322                                         \{
+323     ros::NodeHandle n;
+324     \hyperlink{classTestHelper}{TestHelper} testItem;
+325     std\_msgs::String msg;
+326 
+327     ros::Rate loop\_rate(2);
+328 
+329     \textcolor{comment}{// Register to publish topic}
+330     ros::Publisher pub = n.advertise<std\_msgs::String>(\textcolor{stringliteral}{"/servicebot/command"},
+331                                                        1000);
+332 
+333     \textcolor{comment}{// Subscribe to check goal and cancel commands received by movebase}
+334     ros::Subscriber subMBGoal = n.subscribe(\textcolor{stringliteral}{"/move\_base/goal"}, 1000,
+335                                       &\hyperlink{classTestHelper_a21129fa567d2c7b386928240c022f587}{TestHelper::testMoveBaseGoalCallback}
+      ,
+336                                       &testItem);
+337 
+338     ros::Subscriber subMBCancel = n.subscribe(\textcolor{stringliteral}{"/move\_base/cancel"}, 1000,
+339                                       &\hyperlink{classTestHelper_a7b581728a4a731facdcc5b672362372f}{TestHelper::testMoveBaseCancelCallback}
+      ,
+340                                       &testItem);
+341 
+342     loop\_rate.sleep();
+343 
+344     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"subMBGoal: number of publisher = "}
+345                      << subMBGoal.getNumPublishers());
+346     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"subMBCancel: number of publisher = "}
+347                      << subMBCancel.getNumPublishers());
+348 
+349     \textcolor{comment}{// test move to room a}
+350     msg.data = \textcolor{stringliteral}{"move to,room a"};
+351     pub.publish(msg);
+352 
+353     loop\_rate.sleep();
+354 
+355     geometry\_msgs::Pose expGoal;
+356     expGoal.position.x = -5;
+357     expGoal.position.y = -11;
+358     expGoal.position.z = 0.0;
+359     expGoal.orientation.x = 0.0;
+360     expGoal.orientation.y = 0.0;
+361     expGoal.orientation.z = 0.950;
+362     expGoal.orientation.w = 0.312;
+363 
+364     geometry\_msgs::Pose actGoal = testItem.\hyperlink{classTestHelper_a095ebfa14c22f6057c1385a70f65b9b6}{pos};
+365 
+366     \textcolor{comment}{// confirm goal pose is expected}
+367     EXPECT\_EQ(0, std::memcmp(&expGoal, &actGoal, \textcolor{keyword}{sizeof}(expGoal)));
+368 
+369     \textcolor{comment}{// test cancel command}
+370     msg.data = \textcolor{stringliteral}{"cancel,"};
+371     pub.publish(msg);
+372 
+373     loop\_rate.sleep();
+374 
+375     \textcolor{comment}{// confirm goal ID is cancelled}
+376     EXPECT\_STREQ(testItem.\hyperlink{classTestHelper_a3d1422616cebc2df38b8766f42864f43}{goalID}.c\_str(), testItem.\hyperlink{classTestHelper_afc27bc11999e9ca916e1983f2355a69e}{cancelID}.c\_str());
+377 
+378     \textcolor{comment}{// test move to room b}
+379     msg.data = \textcolor{stringliteral}{"move to,room b"};
+380     pub.publish(msg);
+381 
+382     loop\_rate.sleep();
+383 
+384     expGoal.position.x = 7.1;
+385     expGoal.position.y = -10.7;
+386     expGoal.position.z = 0.0;
+387     expGoal.orientation.x = 0.0;
+388     expGoal.orientation.y = 0.0;
+389     expGoal.orientation.z = -0.713;
+390     expGoal.orientation.w = 0.702;
+391 
+392     actGoal = testItem.\hyperlink{classTestHelper_a095ebfa14c22f6057c1385a70f65b9b6}{pos};
+393 
+394     \textcolor{comment}{// confirm goal pose is expected}
+395     EXPECT\_EQ(0, std::memcmp(&expGoal, &actGoal, \textcolor{keyword}{sizeof}(expGoal)));
+396 
+397     \textcolor{comment}{// test abort command}
+398     msg.data = \textcolor{stringliteral}{"abort,"};
+399     pub.publish(msg);
+400 
+401     loop\_rate.sleep();
+402 
+403     \textcolor{comment}{// confirm goal ID is cancelled}
+404     EXPECT\_STREQ(testItem.\hyperlink{classTestHelper_a3d1422616cebc2df38b8766f42864f43}{goalID}.c\_str(), testItem.\hyperlink{classTestHelper_afc27bc11999e9ca916e1983f2355a69e}{cancelID}.c\_str());
+405 
+406     \textcolor{comment}{// test go to room c}
+407     msg.data = \textcolor{stringliteral}{"go to,room c"};
+408     pub.publish(msg);
+409 
+410     loop\_rate.sleep();
+411 
+412     expGoal.position.x = 0;
+413     expGoal.position.y = 0;
+414     expGoal.position.z = 0;
+415     expGoal.orientation.x = 0.0;
+416     expGoal.orientation.y = 0.0;
+417     expGoal.orientation.z = -0.713;
+418     expGoal.orientation.w = 0.702;
+419 
+420     actGoal = testItem.\hyperlink{classTestHelper_a095ebfa14c22f6057c1385a70f65b9b6}{pos};
+421 
+422     \textcolor{comment}{// confirm goal pose is expected}
+423     EXPECT\_EQ(0, std::memcmp(&expGoal, &actGoal, \textcolor{keyword}{sizeof}(expGoal)));
+424 
+425     msg.data = \textcolor{stringliteral}{"stop moving,"};
+426     pub.publish(msg);
+427 
+428     loop\_rate.sleep();
+429 
+430     \textcolor{comment}{// confirm goal ID is cancelled}
+431     EXPECT\_STREQ(testItem.\hyperlink{classTestHelper_a3d1422616cebc2df38b8766f42864f43}{goalID}.c\_str(), testItem.\hyperlink{classTestHelper_afc27bc11999e9ca916e1983f2355a69e}{cancelID}.c\_str());
+432 \}
+\end{DoxyCode}
+\hypertarget{testservicebot_8cpp_a96dff3b0dfd986dd987673b1badb1691}{\index{testservicebot.\-cpp@{testservicebot.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testservicebot.cpp@{testservicebot.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Service\-Bot}]{, }
+\item[{test\-Come\-Back\-Command}]{}
+\end{DoxyParamCaption}
+)}}\label{testservicebot_8cpp_a96dff3b0dfd986dd987673b1badb1691}
+
+
+Verify come back commands in \hyperlink{classServiceBot}{Service\-Bot} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+441                                           \{
+442     ros::NodeHandle n;
+443     \hyperlink{classTestHelper}{TestHelper} testItem;
+444     std\_msgs::String msg;
+445 
+446     ros::Rate loop\_rate(2);
+447 
+448     \textcolor{comment}{// Register to publish topic}
+449     ros::Publisher pub = n.advertise<std\_msgs::String>(\textcolor{stringliteral}{"/servicebot/command"},
+450                                                        1000);
+451 
+452     \textcolor{comment}{// Subscribe to check goal and cancel commands received by movebase}
+453     ros::Subscriber subMBGoal = n.subscribe(\textcolor{stringliteral}{"/move\_base/goal"}, 1000,
+454                                       &\hyperlink{classTestHelper_a21129fa567d2c7b386928240c022f587}{TestHelper::testMoveBaseGoalCallback}
+      ,
+455                                       &testItem);
+456 
+457     ros::Subscriber subMBCancel = n.subscribe(\textcolor{stringliteral}{"/move\_base/cancel"}, 1000,
+458                                       &\hyperlink{classTestHelper_a7b581728a4a731facdcc5b672362372f}{TestHelper::testMoveBaseCancelCallback}
+      ,
+459                                       &testItem);
+460 
+461     loop\_rate.sleep();
+462 
+463     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"subMBGoal: number of publisher = "}
+464                      << subMBGoal.getNumPublishers());
+465     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"subMBCancel: number of publisher = "}
+466                      << subMBCancel.getNumPublishers());
+467 
+468     \textcolor{comment}{// test come back command}
+469     msg.data = \textcolor{stringliteral}{"come back,"};
+470     pub.publish(msg);
+471 
+472     loop\_rate.sleep();
+473 
+474     geometry\_msgs::Pose expGoal;
+475     expGoal.position.x = 0;
+476     expGoal.position.y = 0;
+477     expGoal.position.z = 0.0;
+478     expGoal.orientation.x = 0.0;
+479     expGoal.orientation.y = 0.0;
+480     expGoal.orientation.z = 0.0;
+481     expGoal.orientation.w = 1.0;
+482 
+483     geometry\_msgs::Pose actGoal = testItem.\hyperlink{classTestHelper_a095ebfa14c22f6057c1385a70f65b9b6}{pos};
+484 
+485     \textcolor{comment}{// confirm goal pose is initial pose}
+486     EXPECT\_EQ(0, std::memcmp(&expGoal, &actGoal, \textcolor{keyword}{sizeof}(expGoal)));
+487 
+488     msg.data = \textcolor{stringliteral}{"cancel"};
+489     pub.publish(msg);
+490 
+491     loop\_rate.sleep();
+492 
+493     EXPECT\_STREQ(testItem.\hyperlink{classTestHelper_a3d1422616cebc2df38b8766f42864f43}{goalID}.c\_str(), testItem.\hyperlink{classTestHelper_afc27bc11999e9ca916e1983f2355a69e}{cancelID}.c\_str());
+494 \}
+\end{DoxyCode}
+\hypertarget{testservicebot_8cpp_aedd9d8398cbe41d1b8382d7f38c5e316}{\index{testservicebot.\-cpp@{testservicebot.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testservicebot.cpp@{testservicebot.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Service\-Bot}]{, }
+\item[{test\-Forward\-Command}]{}
+\end{DoxyParamCaption}
+)}}\label{testservicebot_8cpp_aedd9d8398cbe41d1b8382d7f38c5e316}
+
+
+Verify forward command in \hyperlink{classServiceBot}{Service\-Bot} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+503                                          \{
+504     \hyperlink{classTestHelper}{TestHelper} testItem;
+505     ros::NodeHandle n;
+506     std\_msgs::String msg;
+507 
+508     ros::Rate loop\_rate(2);
+509 
+510     \textcolor{comment}{// Register to publish topic}
+511     ros::Publisher pub = n.advertise<std\_msgs::String>(\textcolor{stringliteral}{"/servicebot/command"},
+512                                                        1000);
+513 
+514     \textcolor{comment}{// Subscribe to check velocity commands received by mobile\_base}
+515     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/mobile\_base/commands/velocity"}, 1000,
+516                                       &\hyperlink{classTestHelper_a5fecfcf3a265ba49f7c5ab1acb064f06}{TestHelper::testMBCmdVelocityCallback}
+      ,
+517                                       &testItem);
+518 
+519     loop\_rate.sleep();
+520 
+521     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"sub: number of publisher = "} << sub.getNumPublishers());
+522 
+523     \textcolor{comment}{// test move forward}
+524     msg.data = \textcolor{stringliteral}{"forward,"};
+525     pub.publish(msg);
+526 
+527     loop\_rate.sleep();
+528 
+529     geometry\_msgs::Twist expTwist;
+530     expTwist.linear.x = 0.3;
+531     expTwist.linear.y = 0.0;
+532     expTwist.linear.z = 0.0;
+533     expTwist.angular.x = 0.0;
+534     expTwist.angular.y = 0.0;
+535     expTwist.angular.z = 0.0;
+536 
+537     geometry\_msgs::Twist actTwist = testItem.\hyperlink{classTestHelper_a78a826fd3e1a4bc10adc910cde81668d}{twist};
+538 
+539     \textcolor{comment}{// confirm velocity is expected}
+540     EXPECT\_EQ(0, std::memcmp(&expTwist, &actTwist, \textcolor{keyword}{sizeof}(expTwist)));
+541 
+542     msg.data = \textcolor{stringliteral}{"stop,"};
+543     pub.publish(msg);
+544 
+545     loop\_rate.sleep();
+546 
+547     expTwist.linear.x = 0.0;
+548     actTwist = testItem.\hyperlink{classTestHelper_a78a826fd3e1a4bc10adc910cde81668d}{twist};
+549 
+550     EXPECT\_EQ(0, std::memcmp(&expTwist, &actTwist, \textcolor{keyword}{sizeof}(expTwist)));
+551 \}
+\end{DoxyCode}
+\hypertarget{testservicebot_8cpp_ad31b202297edd79143cab5d41631acff}{\index{testservicebot.\-cpp@{testservicebot.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testservicebot.cpp@{testservicebot.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Service\-Bot}]{, }
+\item[{test\-Backward\-Command}]{}
+\end{DoxyParamCaption}
+)}}\label{testservicebot_8cpp_ad31b202297edd79143cab5d41631acff}
+
+
+Verify backward commands in \hyperlink{classServiceBot}{Service\-Bot} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+560                                           \{
+561     ros::NodeHandle n;
+562     \hyperlink{classTestHelper}{TestHelper} testItem;
+563     std\_msgs::String msg;
+564 
+565     ros::Rate loop\_rate(2);
+566 
+567     \textcolor{comment}{// Register to publish topic}
+568     ros::Publisher pub = n.advertise<std\_msgs::String>(\textcolor{stringliteral}{"/servicebot/command"},
+569                                                        1000);
+570 
+571     \textcolor{comment}{// Subscribe to check velocity commands received by mobile\_base}
+572     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/mobile\_base/commands/velocity"}, 1000,
+573                                       &\hyperlink{classTestHelper_a5fecfcf3a265ba49f7c5ab1acb064f06}{TestHelper::testMBCmdVelocityCallback}
+      ,
+574                                       &testItem);
+575 
+576     loop\_rate.sleep();
+577 
+578     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"sub: number of publisher = "} << sub.getNumPublishers());
+579 
+580     \textcolor{comment}{// test backward command}
+581     msg.data = \textcolor{stringliteral}{"backward,"};
+582     pub.publish(msg);
+583 
+584     loop\_rate.sleep();
+585 
+586     geometry\_msgs::Twist expTwist;
+587     expTwist.linear.x = -0.3;
+588     expTwist.linear.y = 0.0;
+589     expTwist.linear.z = 0.0;
+590     expTwist.angular.x = 0.0;
+591     expTwist.angular.y = 0.0;
+592     expTwist.angular.z = 0.0;
+593 
+594     geometry\_msgs::Twist actTwist = testItem.\hyperlink{classTestHelper_a78a826fd3e1a4bc10adc910cde81668d}{twist};
+595 
+596     \textcolor{comment}{// confirm velocity is expected}
+597     EXPECT\_EQ(0, std::memcmp(&expTwist, &actTwist, \textcolor{keyword}{sizeof}(expTwist)));
+598 
+599     msg.data = \textcolor{stringliteral}{"stop,"};
+600     pub.publish(msg);
+601 
+602     loop\_rate.sleep();
+603 
+604     expTwist.linear.x = 0.0;
+605     actTwist = testItem.\hyperlink{classTestHelper_a78a826fd3e1a4bc10adc910cde81668d}{twist};
+606 
+607     EXPECT\_EQ(0, std::memcmp(&expTwist, &actTwist, \textcolor{keyword}{sizeof}(expTwist)));
+608 \}
+\end{DoxyCode}
+\hypertarget{testservicebot_8cpp_ae3628fb3096ccbe61ec8a108f3cdb32e}{\index{testservicebot.\-cpp@{testservicebot.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testservicebot.cpp@{testservicebot.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Service\-Bot}]{, }
+\item[{test\-Turn\-Left\-Command}]{}
+\end{DoxyParamCaption}
+)}}\label{testservicebot_8cpp_ae3628fb3096ccbe61ec8a108f3cdb32e}
+
+
+Verify turn left commands in \hyperlink{classServiceBot}{Service\-Bot} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+617                                           \{
+618     ros::NodeHandle n;
+619     \hyperlink{classTestHelper}{TestHelper} testItem;
+620     std\_msgs::String msg;
+621 
+622     ros::Rate loop\_rate(2);
+623 
+624     \textcolor{comment}{// Register to publish topic}
+625     ros::Publisher pub = n.advertise<std\_msgs::String>(\textcolor{stringliteral}{"/servicebot/command"},
+626                                                        1000);
+627 
+628     \textcolor{comment}{// Subscribe to check velocity commands received by mobile\_base}
+629     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/mobile\_base/commands/velocity"}, 1000,
+630                                       &\hyperlink{classTestHelper_a5fecfcf3a265ba49f7c5ab1acb064f06}{TestHelper::testMBCmdVelocityCallback}
+      ,
+631                                       &testItem);
+632 
+633     loop\_rate.sleep();
+634 
+635     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"sub: number of publisher = "} << sub.getNumPublishers());
+636 
+637     \textcolor{comment}{// test turn left command}
+638     msg.data = \textcolor{stringliteral}{"turn left,"};
+639     pub.publish(msg);
+640 
+641     loop\_rate.sleep();
+642 
+643     geometry\_msgs::Twist expTwist;
+644     expTwist.linear.x = 0.0;
+645     expTwist.linear.y = 0.0;
+646     expTwist.linear.z = 0.0;
+647     expTwist.angular.x = 0.0;
+648     expTwist.angular.y = 0.0;
+649     expTwist.angular.z = 0.3;
+650 
+651     geometry\_msgs::Twist actTwist = testItem.\hyperlink{classTestHelper_a78a826fd3e1a4bc10adc910cde81668d}{twist};
+652 
+653     \textcolor{comment}{// confirm velocity is expected}
+654     EXPECT\_EQ(0, std::memcmp(&expTwist, &actTwist, \textcolor{keyword}{sizeof}(expTwist)));
+655 
+656     msg.data = \textcolor{stringliteral}{"stop,"};
+657     pub.publish(msg);
+658 
+659     loop\_rate.sleep();
+660 
+661     expTwist.angular.z = 0.0;
+662     actTwist = testItem.\hyperlink{classTestHelper_a78a826fd3e1a4bc10adc910cde81668d}{twist};
+663 
+664     EXPECT\_EQ(0, std::memcmp(&expTwist, &actTwist, \textcolor{keyword}{sizeof}(expTwist)));
+665 \}
+\end{DoxyCode}
+\hypertarget{testservicebot_8cpp_a0a60639cc9fc3f0621c526ad3317457d}{\index{testservicebot.\-cpp@{testservicebot.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testservicebot.cpp@{testservicebot.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Service\-Bot}]{, }
+\item[{test\-Turn\-Right\-Command}]{}
+\end{DoxyParamCaption}
+)}}\label{testservicebot_8cpp_a0a60639cc9fc3f0621c526ad3317457d}
+
+
+Verify turn right command in \hyperlink{classServiceBot}{Service\-Bot} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+674                                            \{
+675     ros::NodeHandle n;
+676     \hyperlink{classTestHelper}{TestHelper} testItem;
+677     std\_msgs::String msg;
+678 
+679     ros::Rate loop\_rate(2);
+680 
+681     ros::Publisher pub = n.advertise<std\_msgs::String>(\textcolor{stringliteral}{"/servicebot/command"},
+682                                                        1000);
+683 
+684     \textcolor{comment}{// Subscribe to check velocity commands received by mobile\_base}
+685     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/mobile\_base/commands/velocity"}, 1000,
+686                                       &\hyperlink{classTestHelper_a5fecfcf3a265ba49f7c5ab1acb064f06}{TestHelper::testMBCmdVelocityCallback}
+      ,
+687                                       &testItem);
+688 
+689     loop\_rate.sleep();
+690 
+691     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"sub: number of publisher = "} << sub.getNumPublishers());
+692 
+693     \textcolor{comment}{// test turn right command}
+694     msg.data = \textcolor{stringliteral}{"turn right,"};
+695     pub.publish(msg);
+696 
+697     loop\_rate.sleep();
+698 
+699     geometry\_msgs::Twist expTwist;
+700     expTwist.linear.x = 0.0;
+701     expTwist.linear.y = 0.0;
+702     expTwist.linear.z = 0.0;
+703     expTwist.angular.x = 0.0;
+704     expTwist.angular.y = 0.0;
+705     expTwist.angular.z = -0.3;
+706 
+707     geometry\_msgs::Twist actTwist = testItem.\hyperlink{classTestHelper_a78a826fd3e1a4bc10adc910cde81668d}{twist};
+708 
+709     \textcolor{comment}{// confirm velocity is expected}
+710     EXPECT\_EQ(0, std::memcmp(&expTwist, &actTwist, \textcolor{keyword}{sizeof}(expTwist)));
+711 
+712     msg.data = \textcolor{stringliteral}{"stop,"};
+713     pub.publish(msg);
+714 
+715     loop\_rate.sleep();
+716 
+717     expTwist.angular.z = 0.0;
+718     actTwist = testItem.\hyperlink{classTestHelper_a78a826fd3e1a4bc10adc910cde81668d}{twist};
+719 
+720     EXPECT\_EQ(0, std::memcmp(&expTwist, &actTwist, \textcolor{keyword}{sizeof}(expTwist)));
+721 \}
+\end{DoxyCode}

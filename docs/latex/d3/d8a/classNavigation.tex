@@ -1,0 +1,293 @@
+\hypertarget{classNavigation}{\section{Navigation Class Reference}
+\label{classNavigation}\index{Navigation@{Navigation}}
+}
+
+
+Class definition of \hyperlink{classNavigation}{Navigation} class.  
+
+
+
+
+{\ttfamily \#include $<$navigation.\-hpp$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{classNavigation_a915856c77bca3a74827b950283998811}{dir} \{ \\*
+\hyperlink{classNavigation_a915856c77bca3a74827b950283998811adabee5af68507259e5aa7b289ae74db5}{D\-I\-R\-\_\-\-I\-D\-L\-E}, 
+\hyperlink{classNavigation_a915856c77bca3a74827b950283998811a00c690a21e4de5edfbb5bb203e01493b}{D\-I\-R\-\_\-\-F\-O\-R\-W\-A\-R\-D}, 
+\hyperlink{classNavigation_a915856c77bca3a74827b950283998811aadbb73a5f4b2b1963678f83fe6b748f7}{D\-I\-R\-\_\-\-B\-A\-C\-K\-W\-A\-R\-D}, 
+\hyperlink{classNavigation_a915856c77bca3a74827b950283998811ac94586183176f40036b370f2a39b3a63}{D\-I\-R\-\_\-\-T\-U\-R\-N\-L\-E\-F\-T}, 
+\\*
+\hyperlink{classNavigation_a915856c77bca3a74827b950283998811a6ad8ee097f6b0e87ee22897aa8dc659a}{D\-I\-R\-\_\-\-T\-U\-R\-N\-R\-I\-G\-H\-T}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classNavigation_a81fdffdefe46340da5fa6c570066b42b}{Navigation} ()
+\begin{DoxyCompactList}\small\item\em Constructor of \hyperlink{classNavigation}{Navigation} class. \end{DoxyCompactList}\item 
+\hyperlink{classNavigation_addd4022d716df48f4e55a1db69361ba7}{$\sim$\-Navigation} ()
+\begin{DoxyCompactList}\small\item\em Deconstructor of \hyperlink{classNavigation}{Navigation} class. \end{DoxyCompactList}\item 
+void \hyperlink{classNavigation_a216797e927d980c6ae3616894dd5cc22}{initialize} (ros\-::\-Node\-Handle \&)
+\begin{DoxyCompactList}\small\item\em Initialize \hyperlink{classNavigation}{Navigation} class. \end{DoxyCompactList}\item 
+void \hyperlink{classNavigation_a4a7991879f730a28e63a8cdd4a3f7689}{move\-To} (geometry\-\_\-msgs\-::\-Pose \&)
+\begin{DoxyCompactList}\small\item\em Send goal to movebase to navigate robot to goal location. \end{DoxyCompactList}\item 
+void \hyperlink{classNavigation_a658e2b394bd862802c7ea0ef3a6b34e1}{cancel\-Move} (void)
+\begin{DoxyCompactList}\small\item\em Cancel movebase goal to abort navigation. \end{DoxyCompactList}\item 
+void \hyperlink{classNavigation_a5b2dca2ac010096b68146dcb00c7259c}{forward} (void)
+\begin{DoxyCompactList}\small\item\em Start timer to publish velocity commands to move robot forward. \end{DoxyCompactList}\item 
+void \hyperlink{classNavigation_a44dda6e7326e9ac378d8af5eb9a4ff49}{backward} (void)
+\begin{DoxyCompactList}\small\item\em Start timer to publish velocity commands to move robot backward. \end{DoxyCompactList}\item 
+void \hyperlink{classNavigation_ab0f6a2a6c5835df96c242182026d43b8}{turn\-Left} (void)
+\begin{DoxyCompactList}\small\item\em Start timer to publish velocity commands to make robot turn left by 90 degrees. \end{DoxyCompactList}\item 
+void \hyperlink{classNavigation_a8ed07aa7844ee0b7cb2724531666725e}{turn\-Right} (void)
+\begin{DoxyCompactList}\small\item\em Start timer to publish velocity commands to make robot turn right by 90 degrees. \end{DoxyCompactList}\item 
+void \hyperlink{classNavigation_acf42139316bfa03b2750effa63f6bcd0}{stop} (void)
+\begin{DoxyCompactList}\small\item\em Stop timer to stop sending velocity command. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class definition of \hyperlink{classNavigation}{Navigation} class. 
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{classNavigation_a915856c77bca3a74827b950283998811}{\index{Navigation@{Navigation}!dir@{dir}}
+\index{dir@{dir}!Navigation@{Navigation}}
+\subsubsection[{dir}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Navigation\-::dir}}}\label{classNavigation_a915856c77bca3a74827b950283998811}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{D\-I\-R\-\_\-\-I\-D\-L\-E@{D\-I\-R\-\_\-\-I\-D\-L\-E}!Navigation@{Navigation}}\index{Navigation@{Navigation}!D\-I\-R\-\_\-\-I\-D\-L\-E@{D\-I\-R\-\_\-\-I\-D\-L\-E}}\item[{\em 
+\hypertarget{classNavigation_a915856c77bca3a74827b950283998811adabee5af68507259e5aa7b289ae74db5}{D\-I\-R\-\_\-\-I\-D\-L\-E}\label{classNavigation_a915856c77bca3a74827b950283998811adabee5af68507259e5aa7b289ae74db5}
+}]idle \index{D\-I\-R\-\_\-\-F\-O\-R\-W\-A\-R\-D@{D\-I\-R\-\_\-\-F\-O\-R\-W\-A\-R\-D}!Navigation@{Navigation}}\index{Navigation@{Navigation}!D\-I\-R\-\_\-\-F\-O\-R\-W\-A\-R\-D@{D\-I\-R\-\_\-\-F\-O\-R\-W\-A\-R\-D}}\item[{\em 
+\hypertarget{classNavigation_a915856c77bca3a74827b950283998811a00c690a21e4de5edfbb5bb203e01493b}{D\-I\-R\-\_\-\-F\-O\-R\-W\-A\-R\-D}\label{classNavigation_a915856c77bca3a74827b950283998811a00c690a21e4de5edfbb5bb203e01493b}
+}]move foward \index{D\-I\-R\-\_\-\-B\-A\-C\-K\-W\-A\-R\-D@{D\-I\-R\-\_\-\-B\-A\-C\-K\-W\-A\-R\-D}!Navigation@{Navigation}}\index{Navigation@{Navigation}!D\-I\-R\-\_\-\-B\-A\-C\-K\-W\-A\-R\-D@{D\-I\-R\-\_\-\-B\-A\-C\-K\-W\-A\-R\-D}}\item[{\em 
+\hypertarget{classNavigation_a915856c77bca3a74827b950283998811aadbb73a5f4b2b1963678f83fe6b748f7}{D\-I\-R\-\_\-\-B\-A\-C\-K\-W\-A\-R\-D}\label{classNavigation_a915856c77bca3a74827b950283998811aadbb73a5f4b2b1963678f83fe6b748f7}
+}]move backward \index{D\-I\-R\-\_\-\-T\-U\-R\-N\-L\-E\-F\-T@{D\-I\-R\-\_\-\-T\-U\-R\-N\-L\-E\-F\-T}!Navigation@{Navigation}}\index{Navigation@{Navigation}!D\-I\-R\-\_\-\-T\-U\-R\-N\-L\-E\-F\-T@{D\-I\-R\-\_\-\-T\-U\-R\-N\-L\-E\-F\-T}}\item[{\em 
+\hypertarget{classNavigation_a915856c77bca3a74827b950283998811ac94586183176f40036b370f2a39b3a63}{D\-I\-R\-\_\-\-T\-U\-R\-N\-L\-E\-F\-T}\label{classNavigation_a915856c77bca3a74827b950283998811ac94586183176f40036b370f2a39b3a63}
+}]turn left \index{D\-I\-R\-\_\-\-T\-U\-R\-N\-R\-I\-G\-H\-T@{D\-I\-R\-\_\-\-T\-U\-R\-N\-R\-I\-G\-H\-T}!Navigation@{Navigation}}\index{Navigation@{Navigation}!D\-I\-R\-\_\-\-T\-U\-R\-N\-R\-I\-G\-H\-T@{D\-I\-R\-\_\-\-T\-U\-R\-N\-R\-I\-G\-H\-T}}\item[{\em 
+\hypertarget{classNavigation_a915856c77bca3a74827b950283998811a6ad8ee097f6b0e87ee22897aa8dc659a}{D\-I\-R\-\_\-\-T\-U\-R\-N\-R\-I\-G\-H\-T}\label{classNavigation_a915856c77bca3a74827b950283998811a6ad8ee097f6b0e87ee22897aa8dc659a}
+}]turn right \end{description}
+\end{Desc}
+
+\begin{DoxyCode}
+65               \{
+66          \hyperlink{classNavigation_a915856c77bca3a74827b950283998811adabee5af68507259e5aa7b289ae74db5}{DIR\_IDLE},              
+67          \hyperlink{classNavigation_a915856c77bca3a74827b950283998811a00c690a21e4de5edfbb5bb203e01493b}{DIR\_FORWARD},           
+68          \hyperlink{classNavigation_a915856c77bca3a74827b950283998811aadbb73a5f4b2b1963678f83fe6b748f7}{DIR\_BACKWARD},          
+69          \hyperlink{classNavigation_a915856c77bca3a74827b950283998811ac94586183176f40036b370f2a39b3a63}{DIR\_TURNLEFT},          
+70          \hyperlink{classNavigation_a915856c77bca3a74827b950283998811a6ad8ee097f6b0e87ee22897aa8dc659a}{DIR\_TURNRIGHT},         
+71      \};
+\end{DoxyCode}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classNavigation_a81fdffdefe46340da5fa6c570066b42b}{\index{Navigation@{Navigation}!Navigation@{Navigation}}
+\index{Navigation@{Navigation}!Navigation@{Navigation}}
+\subsubsection[{Navigation}]{\setlength{\rightskip}{0pt plus 5cm}Navigation\-::\-Navigation (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classNavigation_a81fdffdefe46340da5fa6c570066b42b}
+
+
+Constructor of \hyperlink{classNavigation}{Navigation} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+80                   : mbClient(\textcolor{stringliteral}{"move\_base"}, \textcolor{keyword}{true}),
+81                     direction(0),
+82                     angle(0),
+83                     startAngle(0) \{\}
+\end{DoxyCode}
+\hypertarget{classNavigation_addd4022d716df48f4e55a1db69361ba7}{\index{Navigation@{Navigation}!$\sim$\-Navigation@{$\sim$\-Navigation}}
+\index{$\sim$\-Navigation@{$\sim$\-Navigation}!Navigation@{Navigation}}
+\subsubsection[{$\sim$\-Navigation}]{\setlength{\rightskip}{0pt plus 5cm}Navigation\-::$\sim$\-Navigation (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classNavigation_addd4022d716df48f4e55a1db69361ba7}
+
+
+Deconstructor of \hyperlink{classNavigation}{Navigation} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+92 \{\}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classNavigation_a44dda6e7326e9ac378d8af5eb9a4ff49}{\index{Navigation@{Navigation}!backward@{backward}}
+\index{backward@{backward}!Navigation@{Navigation}}
+\subsubsection[{backward}]{\setlength{\rightskip}{0pt plus 5cm}void Navigation\-::backward (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{classNavigation_a44dda6e7326e9ac378d8af5eb9a4ff49}
+
+
+Start timer to publish velocity commands to move robot backward. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+\hypertarget{classNavigation_a658e2b394bd862802c7ea0ef3a6b34e1}{\index{Navigation@{Navigation}!cancel\-Move@{cancel\-Move}}
+\index{cancel\-Move@{cancel\-Move}!Navigation@{Navigation}}
+\subsubsection[{cancel\-Move}]{\setlength{\rightskip}{0pt plus 5cm}void Navigation\-::cancel\-Move (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{classNavigation_a658e2b394bd862802c7ea0ef3a6b34e1}
+
+
+Cancel movebase goal to abort navigation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+\hypertarget{classNavigation_a5b2dca2ac010096b68146dcb00c7259c}{\index{Navigation@{Navigation}!forward@{forward}}
+\index{forward@{forward}!Navigation@{Navigation}}
+\subsubsection[{forward}]{\setlength{\rightskip}{0pt plus 5cm}void Navigation\-::forward (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{classNavigation_a5b2dca2ac010096b68146dcb00c7259c}
+
+
+Start timer to publish velocity commands to move robot forward. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+\hypertarget{classNavigation_a216797e927d980c6ae3616894dd5cc22}{\index{Navigation@{Navigation}!initialize@{initialize}}
+\index{initialize@{initialize}!Navigation@{Navigation}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}void Navigation\-::initialize (
+\begin{DoxyParamCaption}
+\item[{ros\-::\-Node\-Handle \&}]{}
+\end{DoxyParamCaption}
+)}}\label{classNavigation_a216797e927d980c6ae3616894dd5cc22}
+
+
+Initialize \hyperlink{classNavigation}{Navigation} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ros} & node handle \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+\hypertarget{classNavigation_a4a7991879f730a28e63a8cdd4a3f7689}{\index{Navigation@{Navigation}!move\-To@{move\-To}}
+\index{move\-To@{move\-To}!Navigation@{Navigation}}
+\subsubsection[{move\-To}]{\setlength{\rightskip}{0pt plus 5cm}void Navigation\-::move\-To (
+\begin{DoxyParamCaption}
+\item[{geometry\-\_\-msgs\-::\-Pose \&}]{}
+\end{DoxyParamCaption}
+)}}\label{classNavigation_a4a7991879f730a28e63a8cdd4a3f7689}
+
+
+Send goal to movebase to navigate robot to goal location. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em goal} & location in geometry\-\_\-msgs\-::\-Pose \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+\hypertarget{classNavigation_acf42139316bfa03b2750effa63f6bcd0}{\index{Navigation@{Navigation}!stop@{stop}}
+\index{stop@{stop}!Navigation@{Navigation}}
+\subsubsection[{stop}]{\setlength{\rightskip}{0pt plus 5cm}void Navigation\-::stop (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{classNavigation_acf42139316bfa03b2750effa63f6bcd0}
+
+
+Stop timer to stop sending velocity command. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+\hypertarget{classNavigation_ab0f6a2a6c5835df96c242182026d43b8}{\index{Navigation@{Navigation}!turn\-Left@{turn\-Left}}
+\index{turn\-Left@{turn\-Left}!Navigation@{Navigation}}
+\subsubsection[{turn\-Left}]{\setlength{\rightskip}{0pt plus 5cm}void Navigation\-::turn\-Left (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{classNavigation_ab0f6a2a6c5835df96c242182026d43b8}
+
+
+Start timer to publish velocity commands to make robot turn left by 90 degrees. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+\hypertarget{classNavigation_a8ed07aa7844ee0b7cb2724531666725e}{\index{Navigation@{Navigation}!turn\-Right@{turn\-Right}}
+\index{turn\-Right@{turn\-Right}!Navigation@{Navigation}}
+\subsubsection[{turn\-Right}]{\setlength{\rightskip}{0pt plus 5cm}void Navigation\-::turn\-Right (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{classNavigation_a8ed07aa7844ee0b7cb2724531666725e}
+
+
+Start timer to publish velocity commands to make robot turn right by 90 degrees. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{navigation_8hpp}{navigation.\-hpp}\end{DoxyCompactItemize}

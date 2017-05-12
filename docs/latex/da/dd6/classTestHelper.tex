@@ -1,0 +1,279 @@
+\hypertarget{classTestHelper}{\section{Test\-Helper Class Reference}
+\label{classTestHelper}\index{Test\-Helper@{Test\-Helper}}
+}
+
+
+Class definition of \hyperlink{classTestHelper}{Test\-Helper} class.  
+
+
+
+
+{\ttfamily \#include $<$testhelper.\-hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classTestHelper_a75740dcf3bb18cb57208228c3723df2a}{test\-Command\-Callback} (const std\-\_\-msgs\-::\-String\-::\-Const\-Ptr \&)
+\begin{DoxyCompactList}\small\item\em Callback function to receive string messages. \end{DoxyCompactList}\item 
+void \hyperlink{classTestHelper_ac1ffd4f4c1e2668f817a229212a8c904}{test\-Robot\-Sound\-Callback} (const sound\-\_\-play\-::\-Sound\-Request\-::\-Const\-Ptr \&)
+\begin{DoxyCompactList}\small\item\em Callback function to receive Sound\-Request messages to /robotsound. \end{DoxyCompactList}\item 
+void \hyperlink{classTestHelper_a21129fa567d2c7b386928240c022f587}{test\-Move\-Base\-Goal\-Callback} (const move\-\_\-base\-\_\-msgs\-::\-Move\-Base\-Action\-Goal\-::\-Const\-Ptr \&)
+\begin{DoxyCompactList}\small\item\em Callback function to receive goal messages sent to movebase. \end{DoxyCompactList}\item 
+void \hyperlink{classTestHelper_a7b581728a4a731facdcc5b672362372f}{test\-Move\-Base\-Cancel\-Callback} (const actionlib\-\_\-msgs\-::\-Goal\-I\-D\-::\-Const\-Ptr \&)
+\begin{DoxyCompactList}\small\item\em Callback function to receive cancel messages sent to movebase. \end{DoxyCompactList}\item 
+void \hyperlink{classTestHelper_a5fecfcf3a265ba49f7c5ab1acb064f06}{test\-M\-B\-Cmd\-Velocity\-Callback} (const geometry\-\_\-msgs\-::\-Twist\-::\-Const\-Ptr \&)
+\begin{DoxyCompactList}\small\item\em Callback function to receive command velocity messages sent to mobilebase\-\_\-command\-\_\-velocity to move robot. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int8\-\_\-t \hyperlink{classTestHelper_a299ac5a385d8e910a22980601f9ad4c4}{snd}
+\begin{DoxyCompactList}\small\item\em sound to play \end{DoxyCompactList}\item 
+int8\-\_\-t \hyperlink{classTestHelper_ab91e5c0bcd313b9e629b389bbecabb90}{snd\-Cmd}
+\begin{DoxyCompactList}\small\item\em indicates what to do with the sound \end{DoxyCompactList}\item 
+std\-::string \hyperlink{classTestHelper_ad5acc4b246653a6c073c6dc100344a86}{cmd}
+\begin{DoxyCompactList}\small\item\em command string \end{DoxyCompactList}\item 
+std\-::string \hyperlink{classTestHelper_a7ab9b6d8f65899ab6c99dfa1538bad30}{args}
+\begin{DoxyCompactList}\small\item\em arguments string \end{DoxyCompactList}\item 
+geometry\-\_\-msgs\-::\-Pose \hyperlink{classTestHelper_a095ebfa14c22f6057c1385a70f65b9b6}{pos}
+\begin{DoxyCompactList}\small\item\em position \end{DoxyCompactList}\item 
+std\-::string \hyperlink{classTestHelper_a3d1422616cebc2df38b8766f42864f43}{goal\-I\-D}
+\begin{DoxyCompactList}\small\item\em goal I\-D \end{DoxyCompactList}\item 
+std\-::string \hyperlink{classTestHelper_afc27bc11999e9ca916e1983f2355a69e}{cancel\-I\-D}
+\begin{DoxyCompactList}\small\item\em goal I\-D to be cancelled \end{DoxyCompactList}\item 
+geometry\-\_\-msgs\-::\-Twist \hyperlink{classTestHelper_a78a826fd3e1a4bc10adc910cde81668d}{twist}
+\begin{DoxyCompactList}\small\item\em command velocity \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class definition of \hyperlink{classTestHelper}{Test\-Helper} class. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classTestHelper_a75740dcf3bb18cb57208228c3723df2a}{\index{Test\-Helper@{Test\-Helper}!test\-Command\-Callback@{test\-Command\-Callback}}
+\index{test\-Command\-Callback@{test\-Command\-Callback}!TestHelper@{Test\-Helper}}
+\subsubsection[{test\-Command\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}void Test\-Helper\-::test\-Command\-Callback (
+\begin{DoxyParamCaption}
+\item[{const std\-\_\-msgs\-::\-String\-::\-Const\-Ptr \&}]{msg}
+\end{DoxyParamCaption}
+)}}\label{classTestHelper_a75740dcf3bb18cb57208228c3723df2a}
+
+
+Callback function to receive string messages. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em string} & messages in std\-\_\-msgs\-::\-String \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+46                                                                       \{
+47     std::istringstream lineStream(msg->data.c\_str());
+48 
+49     getline(lineStream, \hyperlink{classTestHelper_ad5acc4b246653a6c073c6dc100344a86}{cmd}, \textcolor{charliteral}{','});
+50     getline(lineStream, \hyperlink{classTestHelper_a7ab9b6d8f65899ab6c99dfa1538bad30}{args}, \textcolor{charliteral}{','});
+51 
+52     \textcolor{comment}{// convert command and args to lower case}
+53     std::transform(\hyperlink{classTestHelper_ad5acc4b246653a6c073c6dc100344a86}{cmd}.begin(), \hyperlink{classTestHelper_ad5acc4b246653a6c073c6dc100344a86}{cmd}.end(), \hyperlink{classTestHelper_ad5acc4b246653a6c073c6dc100344a86}{cmd}.begin(), ::tolower);
+54     std::transform(\hyperlink{classTestHelper_a7ab9b6d8f65899ab6c99dfa1538bad30}{args}.begin(), \hyperlink{classTestHelper_a7ab9b6d8f65899ab6c99dfa1538bad30}{args}.end(), \hyperlink{classTestHelper_a7ab9b6d8f65899ab6c99dfa1538bad30}{args}.begin(), ::tolower);
+55 
+56     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"TestHelper::testCommandCallback cmd="}
+57                      << \hyperlink{classTestHelper_ad5acc4b246653a6c073c6dc100344a86}{cmd} << \textcolor{stringliteral}{" args="} << \hyperlink{classTestHelper_a7ab9b6d8f65899ab6c99dfa1538bad30}{args});
+58     \textcolor{keywordflow}{return};
+59 \}
+\end{DoxyCode}
+\hypertarget{classTestHelper_a5fecfcf3a265ba49f7c5ab1acb064f06}{\index{Test\-Helper@{Test\-Helper}!test\-M\-B\-Cmd\-Velocity\-Callback@{test\-M\-B\-Cmd\-Velocity\-Callback}}
+\index{test\-M\-B\-Cmd\-Velocity\-Callback@{test\-M\-B\-Cmd\-Velocity\-Callback}!TestHelper@{Test\-Helper}}
+\subsubsection[{test\-M\-B\-Cmd\-Velocity\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}void Test\-Helper\-::test\-M\-B\-Cmd\-Velocity\-Callback (
+\begin{DoxyParamCaption}
+\item[{const geometry\-\_\-msgs\-::\-Twist\-::\-Const\-Ptr \&}]{msg}
+\end{DoxyParamCaption}
+)}}\label{classTestHelper_a5fecfcf3a265ba49f7c5ab1acb064f06}
+
+
+Callback function to receive command velocity messages sent to mobilebase\-\_\-command\-\_\-velocity to move robot. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em velocity} & command messages in geometry\-\_\-msgs\-::\-Twist \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+105                                            \{
+106     \hyperlink{classTestHelper_a78a826fd3e1a4bc10adc910cde81668d}{twist} = *msg;
+107 
+108     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"twist.linear.x = "} << \hyperlink{classTestHelper_a78a826fd3e1a4bc10adc910cde81668d}{twist}.linear.x);
+109     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"twist.angular.z = "} << \hyperlink{classTestHelper_a78a826fd3e1a4bc10adc910cde81668d}{twist}.angular.z);
+110     \textcolor{keywordflow}{return};
+111 \}
+\end{DoxyCode}
+\hypertarget{classTestHelper_a7b581728a4a731facdcc5b672362372f}{\index{Test\-Helper@{Test\-Helper}!test\-Move\-Base\-Cancel\-Callback@{test\-Move\-Base\-Cancel\-Callback}}
+\index{test\-Move\-Base\-Cancel\-Callback@{test\-Move\-Base\-Cancel\-Callback}!TestHelper@{Test\-Helper}}
+\subsubsection[{test\-Move\-Base\-Cancel\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}void Test\-Helper\-::test\-Move\-Base\-Cancel\-Callback (
+\begin{DoxyParamCaption}
+\item[{const actionlib\-\_\-msgs\-::\-Goal\-I\-D\-::\-Const\-Ptr \&}]{msg}
+\end{DoxyParamCaption}
+)}}\label{classTestHelper_a7b581728a4a731facdcc5b672362372f}
+
+
+Callback function to receive cancel messages sent to movebase. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cancel} & messages in move\-\_\-base\-\_\-msgs\-::\-Move\-Base\-Action\-Goal \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+96                                              \{
+97     \hyperlink{classTestHelper_afc27bc11999e9ca916e1983f2355a69e}{cancelID} = msg->id;
+98 
+99     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"cancelID = "} << \hyperlink{classTestHelper_afc27bc11999e9ca916e1983f2355a69e}{cancelID});
+100     \textcolor{keywordflow}{return};
+101 \}
+\end{DoxyCode}
+\hypertarget{classTestHelper_a21129fa567d2c7b386928240c022f587}{\index{Test\-Helper@{Test\-Helper}!test\-Move\-Base\-Goal\-Callback@{test\-Move\-Base\-Goal\-Callback}}
+\index{test\-Move\-Base\-Goal\-Callback@{test\-Move\-Base\-Goal\-Callback}!TestHelper@{Test\-Helper}}
+\subsubsection[{test\-Move\-Base\-Goal\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}void Test\-Helper\-::test\-Move\-Base\-Goal\-Callback (
+\begin{DoxyParamCaption}
+\item[{const move\-\_\-base\-\_\-msgs\-::\-Move\-Base\-Action\-Goal\-::\-Const\-Ptr \&}]{msg}
+\end{DoxyParamCaption}
+)}}\label{classTestHelper_a21129fa567d2c7b386928240c022f587}
+
+
+Callback function to receive goal messages sent to movebase. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em goal} & messages in move\-\_\-base\-\_\-msgs\-::\-Move\-Base\-Action\-Goal \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+78                                                          \{
+79     \hyperlink{classTestHelper_a3d1422616cebc2df38b8766f42864f43}{goalID} = msg->goal\_id.id;
+80     \hyperlink{classTestHelper_a095ebfa14c22f6057c1385a70f65b9b6}{pos} = msg->goal.target\_pose.pose;
+81 
+82     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"position"});
+83     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"x "} << \hyperlink{classTestHelper_a095ebfa14c22f6057c1385a70f65b9b6}{pos}.position.x);
+84     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"y "} << \hyperlink{classTestHelper_a095ebfa14c22f6057c1385a70f65b9b6}{pos}.position.y);
+85     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"z "} << \hyperlink{classTestHelper_a095ebfa14c22f6057c1385a70f65b9b6}{pos}.position.z);
+86     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"orientation"});
+87     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"x "} << \hyperlink{classTestHelper_a095ebfa14c22f6057c1385a70f65b9b6}{pos}.orientation.x);
+88     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"y "} << \hyperlink{classTestHelper_a095ebfa14c22f6057c1385a70f65b9b6}{pos}.orientation.y);
+89     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"z "} << \hyperlink{classTestHelper_a095ebfa14c22f6057c1385a70f65b9b6}{pos}.orientation.z);
+90     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"w "} << \hyperlink{classTestHelper_a095ebfa14c22f6057c1385a70f65b9b6}{pos}.orientation.w);
+91     \textcolor{keywordflow}{return};
+92 \}
+\end{DoxyCode}
+\hypertarget{classTestHelper_ac1ffd4f4c1e2668f817a229212a8c904}{\index{Test\-Helper@{Test\-Helper}!test\-Robot\-Sound\-Callback@{test\-Robot\-Sound\-Callback}}
+\index{test\-Robot\-Sound\-Callback@{test\-Robot\-Sound\-Callback}!TestHelper@{Test\-Helper}}
+\subsubsection[{test\-Robot\-Sound\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}void Test\-Helper\-::test\-Robot\-Sound\-Callback (
+\begin{DoxyParamCaption}
+\item[{const sound\-\_\-play\-::\-Sound\-Request\-::\-Const\-Ptr \&}]{msg}
+\end{DoxyParamCaption}
+)}}\label{classTestHelper_ac1ffd4f4c1e2668f817a229212a8c904}
+
+
+Callback function to receive Sound\-Request messages to /robotsound. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sound} & request messages in sound\-\_\-play\-::\-Sound\-Request \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+63                                                \{
+64     \hyperlink{classTestHelper_a299ac5a385d8e910a22980601f9ad4c4}{snd} = msg->sound;
+65     \hyperlink{classTestHelper_ab91e5c0bcd313b9e629b389bbecabb90}{sndCmd} = msg->command;
+66     \hyperlink{classTestHelper_ad5acc4b246653a6c073c6dc100344a86}{cmd} = msg->arg;
+67 
+68     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"sound = "} <<  (\textcolor{keywordtype}{int}) \hyperlink{classTestHelper_a299ac5a385d8e910a22980601f9ad4c4}{snd});
+69     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"command = "} << (\textcolor{keywordtype}{int}) \hyperlink{classTestHelper_ab91e5c0bcd313b9e629b389bbecabb90}{sndCmd});
+70     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"arg = "} << \hyperlink{classTestHelper_ad5acc4b246653a6c073c6dc100344a86}{cmd});
+71     ROS\_DEBUG\_STREAM(\textcolor{stringliteral}{"arg2 = "} << msg->arg2);
+72 
+73     \textcolor{keywordflow}{return};
+74 \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classTestHelper_a7ab9b6d8f65899ab6c99dfa1538bad30}{\index{Test\-Helper@{Test\-Helper}!args@{args}}
+\index{args@{args}!TestHelper@{Test\-Helper}}
+\subsubsection[{args}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Test\-Helper\-::args}}\label{classTestHelper_a7ab9b6d8f65899ab6c99dfa1538bad30}
+
+
+arguments string 
+
+\hypertarget{classTestHelper_afc27bc11999e9ca916e1983f2355a69e}{\index{Test\-Helper@{Test\-Helper}!cancel\-I\-D@{cancel\-I\-D}}
+\index{cancel\-I\-D@{cancel\-I\-D}!TestHelper@{Test\-Helper}}
+\subsubsection[{cancel\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Test\-Helper\-::cancel\-I\-D}}\label{classTestHelper_afc27bc11999e9ca916e1983f2355a69e}
+
+
+goal I\-D to be cancelled 
+
+\hypertarget{classTestHelper_ad5acc4b246653a6c073c6dc100344a86}{\index{Test\-Helper@{Test\-Helper}!cmd@{cmd}}
+\index{cmd@{cmd}!TestHelper@{Test\-Helper}}
+\subsubsection[{cmd}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Test\-Helper\-::cmd}}\label{classTestHelper_ad5acc4b246653a6c073c6dc100344a86}
+
+
+command string 
+
+\hypertarget{classTestHelper_a3d1422616cebc2df38b8766f42864f43}{\index{Test\-Helper@{Test\-Helper}!goal\-I\-D@{goal\-I\-D}}
+\index{goal\-I\-D@{goal\-I\-D}!TestHelper@{Test\-Helper}}
+\subsubsection[{goal\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Test\-Helper\-::goal\-I\-D}}\label{classTestHelper_a3d1422616cebc2df38b8766f42864f43}
+
+
+goal I\-D 
+
+\hypertarget{classTestHelper_a095ebfa14c22f6057c1385a70f65b9b6}{\index{Test\-Helper@{Test\-Helper}!pos@{pos}}
+\index{pos@{pos}!TestHelper@{Test\-Helper}}
+\subsubsection[{pos}]{\setlength{\rightskip}{0pt plus 5cm}geometry\-\_\-msgs\-::\-Pose Test\-Helper\-::pos}}\label{classTestHelper_a095ebfa14c22f6057c1385a70f65b9b6}
+
+
+position 
+
+\hypertarget{classTestHelper_a299ac5a385d8e910a22980601f9ad4c4}{\index{Test\-Helper@{Test\-Helper}!snd@{snd}}
+\index{snd@{snd}!TestHelper@{Test\-Helper}}
+\subsubsection[{snd}]{\setlength{\rightskip}{0pt plus 5cm}int8\-\_\-t Test\-Helper\-::snd}}\label{classTestHelper_a299ac5a385d8e910a22980601f9ad4c4}
+
+
+sound to play 
+
+\hypertarget{classTestHelper_ab91e5c0bcd313b9e629b389bbecabb90}{\index{Test\-Helper@{Test\-Helper}!snd\-Cmd@{snd\-Cmd}}
+\index{snd\-Cmd@{snd\-Cmd}!TestHelper@{Test\-Helper}}
+\subsubsection[{snd\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}int8\-\_\-t Test\-Helper\-::snd\-Cmd}}\label{classTestHelper_ab91e5c0bcd313b9e629b389bbecabb90}
+
+
+indicates what to do with the sound 
+
+\hypertarget{classTestHelper_a78a826fd3e1a4bc10adc910cde81668d}{\index{Test\-Helper@{Test\-Helper}!twist@{twist}}
+\index{twist@{twist}!TestHelper@{Test\-Helper}}
+\subsubsection[{twist}]{\setlength{\rightskip}{0pt plus 5cm}geometry\-\_\-msgs\-::\-Twist Test\-Helper\-::twist}}\label{classTestHelper_a78a826fd3e1a4bc10adc910cde81668d}
+
+
+command velocity 
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+test/\hyperlink{testhelper_8hpp}{testhelper.\-hpp}\item 
+test/\hyperlink{testhelper_8cpp}{testhelper.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,442 @@
+\hypertarget{testsoundcontrol_8cpp}{\section{test/testsoundcontrol.cpp File Reference}
+\label{testsoundcontrol_8cpp}\index{test/testsoundcontrol.\-cpp@{test/testsoundcontrol.\-cpp}}
+}
+
+
+Implementation of unit test for \hyperlink{classSoundControl}{Sound\-Control} class.  
+
+
+{\ttfamily \#include $<$ros/ros.\-h$>$}\\*
+{\ttfamily \#include $<$ros/package.\-h$>$}\\*
+{\ttfamily \#include $<$std\-\_\-msgs/\-String.\-h$>$}\\*
+{\ttfamily \#include $<$sound\-\_\-play/\-Sound\-Request.\-h$>$}\\*
+{\ttfamily \#include $<$gtest/gtest.\-h$>$}\\*
+{\ttfamily \#include $<$sstream$>$}\\*
+{\ttfamily \#include \char`\"{}testhelper.\-hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}soundcontrol.\-hpp\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{testsoundcontrol_8cpp_aa186896de32162c2bc40f9323e652280}{spin\-Thread} (void)
+\begin{DoxyCompactList}\small\item\em spin thread to process callbacks \end{DoxyCompactList}\item 
+\hyperlink{testsoundcontrol_8cpp_a03be15659754e04f0734226709b93348}{T\-E\-S\-T} (Test\-Sound\-Control, test\-Init)
+\begin{DoxyCompactList}\small\item\em Verify initialize in \hyperlink{classSoundControl}{Sound\-Control} class. \end{DoxyCompactList}\item 
+\hyperlink{testsoundcontrol_8cpp_a78b321e9a24697c1ad069ea9f31c06c1}{T\-E\-S\-T} (Test\-Sound\-Control, test\-Speech\-Callback)
+\begin{DoxyCompactList}\small\item\em Verify speech\-Callback in \hyperlink{classSoundControl}{Sound\-Control} class. \end{DoxyCompactList}\item 
+\hyperlink{testsoundcontrol_8cpp_a9a3b9c4c110b658b0a85f2861333214d}{T\-E\-S\-T} (Test\-Sound\-Control, test\-Say\-Func)
+\begin{DoxyCompactList}\small\item\em Verify say function in \hyperlink{classSoundControl}{Sound\-Control} class. \end{DoxyCompactList}\item 
+\hyperlink{testsoundcontrol_8cpp_abab1b012cb23646fcb8fef831a60fb74}{T\-E\-S\-T} (Test\-Sound\-Control, test\-Stop\-Saying\-Func)
+\begin{DoxyCompactList}\small\item\em Verify stop\-Saying function in \hyperlink{classSoundControl}{Sound\-Control} class. \end{DoxyCompactList}\item 
+\hyperlink{testsoundcontrol_8cpp_abd458b90fc234d8d91d29df32e08d070}{T\-E\-S\-T} (Test\-Sound\-Control, test\-Play\-Func)
+\begin{DoxyCompactList}\small\item\em Verify play function in \hyperlink{classSoundControl}{Sound\-Control} class. \end{DoxyCompactList}\item 
+\hyperlink{testsoundcontrol_8cpp_a749500ea2d7a0acb0a0fbeb67ab24f50}{T\-E\-S\-T} (Test\-Sound\-Control, test\-Play\-Wave\-From\-Pkg\-Func)
+\begin{DoxyCompactList}\small\item\em Verify play\-Wave\-From\-Pkg function in \hyperlink{classSoundControl}{Sound\-Control} class. \end{DoxyCompactList}\item 
+\hyperlink{testsoundcontrol_8cpp_ae5ccb7f73f8890fdb98336ea6686e097}{T\-E\-S\-T} (Test\-Sound\-Control, test\-Stop\-All\-Func)
+\begin{DoxyCompactList}\small\item\em Verify stop\-All function in \hyperlink{classSoundControl}{Sound\-Control} class. \end{DoxyCompactList}\item 
+int \hyperlink{testsoundcontrol_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implementation of unit test for \hyperlink{classSoundControl}{Sound\-Control} class. This file contains implementation of unit test for \hyperlink{classSoundControl}{Sound\-Control} class
+
+\begin{DoxyAuthor}{Author}
+Huei Tzu Tsai \par
+ Steven Gambino 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+05/05/2017 
+\end{DoxyDate}
+
+
+\subsection{Function Documentation}
+\hypertarget{testsoundcontrol_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{\index{testsoundcontrol.\-cpp@{testsoundcontrol.\-cpp}!main@{main}}
+\index{main@{main}!testsoundcontrol.cpp@{testsoundcontrol.\-cpp}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}}\label{testsoundcontrol_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}
+
+\begin{DoxyCode}
+290                                 \{
+291     ::testing::InitGoogleTest(&argc, argv);
+292     ros::init(argc, argv, \textcolor{stringliteral}{"testsoundcontrol"});
+293     ros::NodeHandle nh;
+294 
+295     \textcolor{comment}{// spawn another thread}
+296     boost::thread th(\hyperlink{testsoundcontrol_8cpp_aa186896de32162c2bc40f9323e652280}{spinThread});
+297 
+298     \textcolor{keywordtype}{int} ret = RUN\_ALL\_TESTS();
+299 
+300     ros::shutdown();
+301 
+302     \textcolor{comment}{// wait the second thread to finish}
+303     th.join();
+304 
+305     \textcolor{keywordflow}{return} ret;
+306 \}
+\end{DoxyCode}
+\hypertarget{testsoundcontrol_8cpp_aa186896de32162c2bc40f9323e652280}{\index{testsoundcontrol.\-cpp@{testsoundcontrol.\-cpp}!spin\-Thread@{spin\-Thread}}
+\index{spin\-Thread@{spin\-Thread}!testsoundcontrol.cpp@{testsoundcontrol.\-cpp}}
+\subsubsection[{spin\-Thread}]{\setlength{\rightskip}{0pt plus 5cm}void spin\-Thread (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{testsoundcontrol_8cpp_aa186896de32162c2bc40f9323e652280}
+
+
+spin thread to process callbacks 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+52                       \{
+53     ros::Rate loop\_rate(10);
+54 
+55     \textcolor{keywordflow}{while} (ros::ok()) \{
+56         ros::spinOnce();
+57         loop\_rate.sleep();
+58     \}
+59 \}
+\end{DoxyCode}
+\hypertarget{testsoundcontrol_8cpp_a03be15659754e04f0734226709b93348}{\index{testsoundcontrol.\-cpp@{testsoundcontrol.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testsoundcontrol.cpp@{testsoundcontrol.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Sound\-Control}]{, }
+\item[{test\-Init}]{}
+\end{DoxyParamCaption}
+)}}\label{testsoundcontrol_8cpp_a03be15659754e04f0734226709b93348}
+
+
+Verify initialize in \hyperlink{classSoundControl}{Sound\-Control} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+68                                  \{
+69     ros::NodeHandle n;
+70     \hyperlink{classTestHelper}{TestHelper} testItem;
+71     std\_msgs::String msg;
+72     \hyperlink{classSoundControl}{SoundControl} soundCtl;
+73 
+74     ros::Rate loop\_rate(2);
+75 
+76     soundCtl.\hyperlink{classSoundControl_a37fa780f0ad8d88f7f8acd6c401f982a}{initialize}(n);
+77 
+78     \textcolor{comment}{// register to check number of publishers to /servicebot/command topic}
+79     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/servicebot/command"}, 1000,
+80                                   &\hyperlink{classTestHelper_a75740dcf3bb18cb57208228c3723df2a}{TestHelper::testCommandCallback}, &
+      testItem);
+81 
+82     \textcolor{comment}{// register to check number of subscribers to /recognizer/output topic}
+83     ros::Publisher pub = n.advertise<std\_msgs::String>(\textcolor{stringliteral}{"/recognizer/output"},
+84                                                        1000);
+85 
+86     loop\_rate.sleep();
+87 
+88     EXPECT\_EQ(1, sub.getNumPublishers());
+89     EXPECT\_EQ(1, pub.getNumSubscribers());
+90 \}
+\end{DoxyCode}
+\hypertarget{testsoundcontrol_8cpp_a78b321e9a24697c1ad069ea9f31c06c1}{\index{testsoundcontrol.\-cpp@{testsoundcontrol.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testsoundcontrol.cpp@{testsoundcontrol.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Sound\-Control}]{, }
+\item[{test\-Speech\-Callback}]{}
+\end{DoxyParamCaption}
+)}}\label{testsoundcontrol_8cpp_a78b321e9a24697c1ad069ea9f31c06c1}
+
+
+Verify speech\-Callback in \hyperlink{classSoundControl}{Sound\-Control} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+99                                            \{
+100     ros::NodeHandle n;
+101     \hyperlink{classTestHelper}{TestHelper} testItem;
+102     std\_msgs::String msg;
+103     \hyperlink{classSoundControl}{SoundControl} soundCtl;
+104 
+105     ros::Rate loop\_rate(2);
+106 
+107     soundCtl.\hyperlink{classSoundControl_a37fa780f0ad8d88f7f8acd6c401f982a}{initialize}(n);
+108 
+109     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/servicebot/command"}, 1000,
+110                                       &\hyperlink{classTestHelper_a75740dcf3bb18cb57208228c3723df2a}{TestHelper::testCommandCallback},
+111                                       &testItem);
+112 
+113     \textcolor{comment}{// register to publish topic on /recognizer/output to test speechCallback}
+114     \textcolor{comment}{// in SoundControl class}
+115     ros::Publisher pub = n.advertise<std\_msgs::String>(\textcolor{stringliteral}{"/recognizer/output"},
+116                                                        1000);
+117 
+118     msg.data = \textcolor{stringliteral}{"test"};
+119     pub.publish(msg);
+120 
+121     loop\_rate.sleep();
+122 
+123     \textcolor{comment}{// Expect response is test}
+124     EXPECT\_STREQ(msg.data.c\_str(), testItem.\hyperlink{classTestHelper_ad5acc4b246653a6c073c6dc100344a86}{cmd}.c\_str());
+125 \}
+\end{DoxyCode}
+\hypertarget{testsoundcontrol_8cpp_a9a3b9c4c110b658b0a85f2861333214d}{\index{testsoundcontrol.\-cpp@{testsoundcontrol.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testsoundcontrol.cpp@{testsoundcontrol.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Sound\-Control}]{, }
+\item[{test\-Say\-Func}]{}
+\end{DoxyParamCaption}
+)}}\label{testsoundcontrol_8cpp_a9a3b9c4c110b658b0a85f2861333214d}
+
+
+Verify say function in \hyperlink{classSoundControl}{Sound\-Control} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+134                                     \{
+135     ros::NodeHandle n;
+136     \hyperlink{classTestHelper}{TestHelper} testItem;
+137     \hyperlink{classSoundControl}{SoundControl} soundCtl;
+138     std::string testPhrase = \textcolor{stringliteral}{"test"};
+139 
+140     ros::Rate loop\_rate(2);
+141 
+142     \textcolor{comment}{// register to check say command published on /robotsound topic}
+143     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/robotsound"}, 1000,
+144                                       &\hyperlink{classTestHelper_ac1ffd4f4c1e2668f817a229212a8c904}{TestHelper::testRobotSoundCallback}
+      ,
+145                                       &testItem);
+146 
+147     \textcolor{comment}{// say a test phrase}
+148     soundCtl.\hyperlink{classSoundControl_af4f08053a3f8761033891aa31634b2cf}{say}(testPhrase);
+149 
+150     loop\_rate.sleep();
+151 
+152     \textcolor{comment}{// verify sound command and test phase is received by /robotsound}
+153     EXPECT\_EQ(sound\_play::SoundRequest::SAY, testItem.\hyperlink{classTestHelper_a299ac5a385d8e910a22980601f9ad4c4}{snd});
+154     EXPECT\_EQ(sound\_play::SoundRequest::PLAY\_ONCE, testItem.\hyperlink{classTestHelper_ab91e5c0bcd313b9e629b389bbecabb90}{sndCmd});
+155     EXPECT\_STREQ(testPhrase.c\_str(), testItem.\hyperlink{classTestHelper_ad5acc4b246653a6c073c6dc100344a86}{cmd}.c\_str());
+156 \}
+\end{DoxyCode}
+\hypertarget{testsoundcontrol_8cpp_abab1b012cb23646fcb8fef831a60fb74}{\index{testsoundcontrol.\-cpp@{testsoundcontrol.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testsoundcontrol.cpp@{testsoundcontrol.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Sound\-Control}]{, }
+\item[{test\-Stop\-Saying\-Func}]{}
+\end{DoxyParamCaption}
+)}}\label{testsoundcontrol_8cpp_abab1b012cb23646fcb8fef831a60fb74}
+
+
+Verify stop\-Saying function in \hyperlink{classSoundControl}{Sound\-Control} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+165                                            \{
+166     ros::NodeHandle n;
+167     \hyperlink{classTestHelper}{TestHelper} testItem;
+168     \hyperlink{classSoundControl}{SoundControl} soundCtl;
+169     std::string testPhrase = \textcolor{stringliteral}{"test"};
+170 
+171     ros::Rate loop\_rate(2);
+172 
+173     \textcolor{comment}{// register to check stop saying command published on /robotsound topic}
+174     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/robotsound"}, 1000,
+175                                       &\hyperlink{classTestHelper_ac1ffd4f4c1e2668f817a229212a8c904}{TestHelper::testRobotSoundCallback}
+      ,
+176                                       &testItem);
+177 
+178     \textcolor{comment}{// say a test phrase}
+179     soundCtl.\hyperlink{classSoundControl_af4f08053a3f8761033891aa31634b2cf}{say}(testPhrase);
+180 
+181     loop\_rate.sleep();
+182 
+183     \textcolor{comment}{// test stop saying}
+184     soundCtl.\hyperlink{classSoundControl_a7229f0bbed5c5e3f8ceeaff53e7ea456}{stopSaying}(testPhrase);
+185 
+186     loop\_rate.sleep();
+187 
+188     \textcolor{comment}{// verify stop saying command is received}
+189     EXPECT\_EQ(sound\_play::SoundRequest::PLAY\_STOP, testItem.\hyperlink{classTestHelper_ab91e5c0bcd313b9e629b389bbecabb90}{sndCmd});
+190 \}
+\end{DoxyCode}
+\hypertarget{testsoundcontrol_8cpp_abd458b90fc234d8d91d29df32e08d070}{\index{testsoundcontrol.\-cpp@{testsoundcontrol.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testsoundcontrol.cpp@{testsoundcontrol.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Sound\-Control}]{, }
+\item[{test\-Play\-Func}]{}
+\end{DoxyParamCaption}
+)}}\label{testsoundcontrol_8cpp_abd458b90fc234d8d91d29df32e08d070}
+
+
+Verify play function in \hyperlink{classSoundControl}{Sound\-Control} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+199                                      \{
+200     ros::NodeHandle n;
+201     \hyperlink{classTestHelper}{TestHelper} testItem;
+202     \hyperlink{classSoundControl}{SoundControl} soundCtl;
+203 
+204     ros::Rate loop\_rate(2);
+205 
+206     \textcolor{comment}{// register to check play command published on /robotsound topic}
+207     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/robotsound"}, 1000,
+208                                       &\hyperlink{classTestHelper_ac1ffd4f4c1e2668f817a229212a8c904}{TestHelper::testRobotSoundCallback}
+      ,
+209                                       &testItem);
+210 
+211     \textcolor{comment}{// get absolute path for music file}
+212     std::string path = ros::package::getPath(\textcolor{stringliteral}{"servicebot"});
+213     std::stringstream musicPath;
+214     musicPath << path << \hyperlink{soundcontrol_8hpp_a4fe2c7a9c857ffb699946aa401599b75}{DEMO\_MUSIC};
+215 
+216     ROS\_INFO\_STREAM(\textcolor{stringliteral}{"music path = "} << musicPath.str());
+217 
+218     soundCtl.\hyperlink{classSoundControl_aa671d94195bd249de07cac3052def4f1}{play}(musicPath.str());
+219 
+220     loop\_rate.sleep();
+221 
+222     EXPECT\_EQ(sound\_play::SoundRequest::PLAY\_FILE, testItem.\hyperlink{classTestHelper_a299ac5a385d8e910a22980601f9ad4c4}{snd});
+223     EXPECT\_EQ(sound\_play::SoundRequest::PLAY\_ONCE, testItem.\hyperlink{classTestHelper_ab91e5c0bcd313b9e629b389bbecabb90}{sndCmd});
+224     EXPECT\_STREQ(musicPath.str().c\_str(), testItem.\hyperlink{classTestHelper_ad5acc4b246653a6c073c6dc100344a86}{cmd}.c\_str());
+225 \}
+\end{DoxyCode}
+\hypertarget{testsoundcontrol_8cpp_a749500ea2d7a0acb0a0fbeb67ab24f50}{\index{testsoundcontrol.\-cpp@{testsoundcontrol.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testsoundcontrol.cpp@{testsoundcontrol.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Sound\-Control}]{, }
+\item[{test\-Play\-Wave\-From\-Pkg\-Func}]{}
+\end{DoxyParamCaption}
+)}}\label{testsoundcontrol_8cpp_a749500ea2d7a0acb0a0fbeb67ab24f50}
+
+
+Verify play\-Wave\-From\-Pkg function in \hyperlink{classSoundControl}{Sound\-Control} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+234                                                 \{
+235     ros::NodeHandle n;
+236     \hyperlink{classTestHelper}{TestHelper} testItem;
+237     \hyperlink{classSoundControl}{SoundControl} soundCtl;
+238 
+239     ros::Rate loop\_rate(2);
+240 
+241     \textcolor{comment}{// register to check play from package command published on /robotsound}
+242     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/robotsound"}, 1000,
+243                                       &\hyperlink{classTestHelper_ac1ffd4f4c1e2668f817a229212a8c904}{TestHelper::testRobotSoundCallback}
+      ,
+244                                       &testItem);
+245 
+246     soundCtl.\hyperlink{classSoundControl_aeeb65821eb30e64788c735340f7bc356}{playWaveFromPkg}(\hyperlink{soundcontrol_8hpp_a4fe2c7a9c857ffb699946aa401599b75}{DEMO\_MUSIC});
+247 
+248     loop\_rate.sleep();
+249 
+250     EXPECT\_EQ(sound\_play::SoundRequest::PLAY\_FILE, testItem.\hyperlink{classTestHelper_a299ac5a385d8e910a22980601f9ad4c4}{snd});
+251     EXPECT\_EQ(sound\_play::SoundRequest::PLAY\_ONCE, testItem.\hyperlink{classTestHelper_ab91e5c0bcd313b9e629b389bbecabb90}{sndCmd});
+252     EXPECT\_STREQ(\hyperlink{soundcontrol_8hpp_a4fe2c7a9c857ffb699946aa401599b75}{DEMO\_MUSIC}, testItem.\hyperlink{classTestHelper_ad5acc4b246653a6c073c6dc100344a86}{cmd}.c\_str());
+253 \}
+\end{DoxyCode}
+\hypertarget{testsoundcontrol_8cpp_ae5ccb7f73f8890fdb98336ea6686e097}{\index{testsoundcontrol.\-cpp@{testsoundcontrol.\-cpp}!T\-E\-S\-T@{T\-E\-S\-T}}
+\index{T\-E\-S\-T@{T\-E\-S\-T}!testsoundcontrol.cpp@{testsoundcontrol.\-cpp}}
+\subsubsection[{T\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T (
+\begin{DoxyParamCaption}
+\item[{Test\-Sound\-Control}]{, }
+\item[{test\-Stop\-All\-Func}]{}
+\end{DoxyParamCaption}
+)}}\label{testsoundcontrol_8cpp_ae5ccb7f73f8890fdb98336ea6686e097}
+
+
+Verify stop\-All function in \hyperlink{classSoundControl}{Sound\-Control} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+262                                         \{
+263     ros::NodeHandle n;
+264     \hyperlink{classTestHelper}{TestHelper} testItem;
+265     \hyperlink{classSoundControl}{SoundControl} soundCtl;
+266 
+267     ros::Rate loop\_rate(2);
+268 
+269     \textcolor{comment}{// register to check stop all command published on /robotsound topic}
+270     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"/robotsound"}, 1000,
+271                                       &\hyperlink{classTestHelper_ac1ffd4f4c1e2668f817a229212a8c904}{TestHelper::testRobotSoundCallback}
+      ,
+272                                       &testItem);
+273 
+274     soundCtl.\hyperlink{classSoundControl_ab025d4236961081327c483ff5fddb4bd}{stopAll}();
+275 
+276     loop\_rate.sleep();
+277 
+278     \textcolor{comment}{// Expect PLAY\_STOP for stopping all playback}
+279     EXPECT\_EQ(sound\_play::SoundRequest::PLAY\_STOP, testItem.\hyperlink{classTestHelper_ab91e5c0bcd313b9e629b389bbecabb90}{sndCmd});
+280 \}
+\end{DoxyCode}
