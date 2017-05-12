@@ -10,13 +10,15 @@ This is an indoor service robot project which can take simple voice commands fro
 - Huei-Tzu (Jane) Tsai
 
 ## License
-MIT open-source license, see LICENSE.TXT
+MIT open-source license, see [LICENSE.TXT](https://github.com/StevieG47/Service-Robot/blob/master/LICENSE.txt)
+
+The plugin for the global planner was based on the tutorial seen [here](http://wiki.ros.org/navigation/Tutorials/Writing%20A%20Global%20Path%20Planner%20As%20Plugin%20in%20ROS), which is under GNU GPL license. The planner was edited for this project.
 
 ## Link to AIP Sheet
 [Team Agile Iterative Process](https://docs.google.com/spreadsheets/d/1iFT3fMAvNtwBAL32Rg6VP-Avbg5zfWhtl9Rwo7dgiHw/edit#gid=1455614482)
 
 ## Link to notes
-[Spring Planning Notes and Review](https://docs.google.com/document/d/1rKvWalXGmUbCn-tPqvxoK4kGyR2MJIU4lqQ_D-8Y_HA/edit)
+[Sprint Planning Notes and Review](https://docs.google.com/document/d/1rKvWalXGmUbCn-tPqvxoK4kGyR2MJIU4lqQ_D-8Y_HA/edit)
 
 ## Link to presentation
 [Presentation slides](https://docs.google.com/presentation/d/1fSIc1fDiJS7xrZlfU-FcvuNDmx4tRF_PqWEDvJAnYNs/edit#slide=id.p)
@@ -39,6 +41,8 @@ MIT open-source license, see LICENSE.TXT
     - nav_core
     - base_local_planner
     - tf
+    - rostest
+    - rosbag
 
 ## Build
 
