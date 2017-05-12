@@ -489,8 +489,8 @@ void RAstarPlannerROS::addNeighborCellToOpenList(multiset<cells> & OPL,
  int neighborCell, int goalCell, float g_score[]) {
         cells CP;
         CP.currentCell = neighborCell;  // insert the neighbor cell
-        CP.fCost = g_score[neighborCell]+0;
-        //  Control Heurisitc Here: x*calculateHCost(neighborCell,goalCell);
+        CP.fCost = g_score[neighborCell]+
+                  .2*calculateHCost(neighborCell,goalCell);
         //  Add to previous line Cp.fCost = ...
         OPL.insert(CP);
 }
