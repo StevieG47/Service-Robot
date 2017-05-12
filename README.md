@@ -18,6 +18,9 @@ MIT open-source license, see LICENSE.TXT
 ## Link to notes
 [Spring Planning Notes and Review](https://docs.google.com/document/d/1rKvWalXGmUbCn-tPqvxoK4kGyR2MJIU4lqQ_D-8Y_HA/edit)
 
+## Link to presentation
+[Presentation slides](https://docs.google.com/presentation/d/1fSIc1fDiJS7xrZlfU-FcvuNDmx4tRF_PqWEDvJAnYNs/edit#slide=id.p)
+
 ## Dependencies
 - Ubuntu 14.04
 - ROS indigo
@@ -227,6 +230,40 @@ You will get the best speech recognition results using a headset microphone.
 
         Output:
         You should see turtlebot in Gazebo moving forward, backward, turn left, turn right, or stop as requested.
+
+
+## Test - rostest
+
+Level 1/2 test implemented can be run as follow:
+
+To build and run the test:
+
+```bash
+cd ~/catkin_ws
+source ./devel/setup.bash
+catkin_make run_tests_servicebot
+```
+
+
+## Record - rosbag
+
+Servicebot launch file supports recording topics in Gazebo simulation (except /camera/*).  This can be
+done by specifying "enable_record" argument. By default, recording is disabled.
+
+To enable rosbag recording:
+
+```bash
+cd ~/catkin_ws
+source ./devel/setup.bash
+roslaunch servicebot servicebot_demo.launch enable_record:=true
+```
+
+To inspect rosbag recording result:
+
+```bash
+cd ~/.ros/
+rosbag info session.bag
+```
 
 ## Known Issues
 
