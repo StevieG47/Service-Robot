@@ -1,0 +1,23 @@
+Done processing ./test/testnavigation.cpp
+Done processing ./test/testsoundcontrol.cpp
+Done processing ./test/testhelper.hpp
+Done processing ./test/Astartest.cpp
+Done processing ./test/testaction.cpp
+Done processing ./test/testservicebot.cpp
+Done processing ./test/testhelper.cpp
+./src/RAstar_ros.cpp:141:  Lines should be <= 80 characters long  [whitespace/line_length] [2]
+./src/RAstar_ros.cpp:152:  Lines should be <= 80 characters long  [whitespace/line_length] [2]
+./src/RAstar_ros.cpp:315:  Lines should be <= 80 characters long  [whitespace/line_length] [2]
+./src/RAstar_ros.cpp:334:  Lines should be <= 80 characters long  [whitespace/line_length] [2]
+./src/RAstar_ros.cpp:337:  Lines should be <= 80 characters long  [whitespace/line_length] [2]
+Done processing ./src/RAstar_ros.cpp
+Done processing ./src/action.cpp
+Done processing ./src/navigation.cpp
+Done processing ./src/soundcontrol.cpp
+Done processing ./src/servicebot.cpp
+Done processing ./src/main.cpp
+Done processing ./include/action.hpp
+Done processing ./include/soundcontrol.hpp
+Done processing ./include/navigation.hpp
+Done processing ./include/servicebot.hpp
+Total errors found: 5

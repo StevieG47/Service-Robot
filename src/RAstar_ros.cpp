@@ -540,7 +540,7 @@ bool RAstarPlannerROS::isStartAndGoalCellsValid(int startCell, int goalCell) {
     bool isvalid = true;
     bool isFreeStartCell = isFree(startCell);
     bool isFreeGoalCell = isFree(goalCell);
-    if (startCell == goalCell) {    
+    if (startCell == goalCell) {
     isvalid = false;
     } else  {
       if (!isFreeStartCell && !isFreeGoalCell) {
